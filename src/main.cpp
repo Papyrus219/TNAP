@@ -5,11 +5,9 @@ int main()
     auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "TNAP");
     window.setFramerateLimit(144);
 
-    shape.setFillColor(sf::Color(100, 250, 50));
-
     while (window.isOpen())
     {
-        while (const std::optional event = window.pollEvent())
+        while (const std::optional event = window.pollEvent()) //Hello
         {
             if (event->is<sf::Event::Closed>())
             {
