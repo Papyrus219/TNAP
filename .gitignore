@@ -4,5 +4,5 @@ out
 .idea
 .vs
 .vscode
-*.kdev4
-*.kdev
+.kdev4
+.kdev
