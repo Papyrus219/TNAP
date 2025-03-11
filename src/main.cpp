@@ -2,7 +2,7 @@
 
 int main()
 {
-    auto window = sf::RenderWindow(sf::VideoMode({1920u, 1080u}), "TNAP");
+    sf::Window window(sf::VideoMode({800,600}),"TNAP");
     window.setFramerateLimit(144);
 
     while (window.isOpen())
@@ -15,7 +15,6 @@ int main()
             }
         }
 
-        window.clear();
         window.display();
     }
 }
