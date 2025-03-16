@@ -5,7 +5,7 @@
 
 class Light: public AnimatronT
 {
-    void Move() override;
+    void Move() override {};
 };
 
 #endif // LIGHT_H

@@ -7,7 +7,7 @@
 class Mememan: public AnimatronT
 {
 public:
-    void Move() override;
+    void Move() override {};
 
 private:
     MememanButtonT button;

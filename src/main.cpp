@@ -3,19 +3,19 @@
 
 int main()
 {
-    sf::Window window(sf::VideoMode({800,600}),"TNAP");
-    window.setFramerateLimit(144);
 
-    while (window.isOpen())
+    OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/door/door.png", "../../img/button/button.png", "", 2, 2, {{30,300}, {1020,300}}, {{200,400}, {980,400}}, {0,0}};
+
+    while (office.window.isOpen())
     {
-        while (const std::optional event = window.pollEvent()) //Hello
+        while (const std::optional event = office.window.pollEvent()) //Hello
         {
             if (event->is<sf::Event::Closed>())
             {
-                window.close();
+                office.window.close();
             }
         }
 
-        window.display();
+        office.Render();
     }
 }

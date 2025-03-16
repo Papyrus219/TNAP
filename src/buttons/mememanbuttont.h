@@ -5,7 +5,10 @@
 
 class MememanButtonT: public ButtonT
 {
-    bool Clicked() override;
+public:
+    MememanButtonT(std::string path, std::pair<int,int> size, std::pair<int,int> possition);
+
+    bool Clicked() override {return true;};
 };
 
 #endif // MEMEMANBUTTONT_H

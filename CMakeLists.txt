@@ -10,6 +10,7 @@ FetchContent_Declare(SFML
     GIT_SHALLOW ON)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(TNAP src/main.cpp)
+file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
+add_executable(TNAP ${SOURCES})
 target_compile_features(TNAP PRIVATE cxx_std_17)
 target_link_libraries(TNAP PRIVATE SFML::Graphics)

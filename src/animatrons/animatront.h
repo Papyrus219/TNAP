@@ -8,7 +8,7 @@ public:
 
     bool Move_check(int x) //We check if we can move.
     {return x <= dificulty;}
-    virtual void Move(){};
+    virtual void Move() = 0;
 
 protected:
     int dificulty;

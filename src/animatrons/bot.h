@@ -6,7 +6,7 @@
 class Bot: public AnimatronT
 {
 public:
-    void Move() override;
+    void Move() override {};
 };
 
 #endif // BOT_H

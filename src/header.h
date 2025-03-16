@@ -13,6 +13,6 @@
 #include"animatrons/brush.h"
 #include"animatrons/papyrus.h"
 #include"animatrons/light.h"
-
+#include"officet.h"
 
 #endif

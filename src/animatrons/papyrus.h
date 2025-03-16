@@ -5,7 +5,7 @@
 
 class Papyrus: public AnimatronT
 {
-    void Move() override;
+    void Move() override {};
 };
 
 #endif // PAPYRUS_H

@@ -5,7 +5,7 @@
 
 class Brush: public AnimatronT
 {
-    void Move() override;
+    void Move() override{};
 };
 
 #endif // BRUSH_H
