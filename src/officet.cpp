@@ -57,12 +57,12 @@ void OfficeT::Scroll()
     if(Scroll_Hitbox[0].getGlobalBounds().contains(x))
     {
         if(view.getCenter().x > 300)
-            view.move({-1,0});
+            view.move({-0.1,0});
     }
     else if(Scroll_Hitbox[1].getGlobalBounds().contains(x))
     {
         if(view.getCenter().x<900)
-            view.move({1,0});
+            view.move({0.1,0});
     }
 }
 

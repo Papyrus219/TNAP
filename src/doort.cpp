@@ -27,12 +27,13 @@ DoorT::DoorT(const DoorT & other)
     std::cout << "Mam cie!\n";
     texture = other.texture;
 
-    sprite.setTexture(texture,true);
-    sprite.setPosition(possition);
-
     for(auto el : other.Sprites_variants)
         Sprites_variants.push_back(el);
     for(int i=0;i<3;i++)
         Used_variants[i] = &Sprites_variants[i];
+
+    sprite.setTexture(texture,true);
+    sprite.setTextureRect(*Used_variants[0]);
+    sprite.setPosition(possition);
 }
 
