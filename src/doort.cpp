@@ -1,34 +1,38 @@
 #include "doort.h"
+#include<iostream>
 
-DoorT::DoorT(std::string path, std::pair<int, int> poss, int sprite_amount, std::pair<int, int> se): size{se}, possition{poss}
+DoorT::DoorT(std::string path, sf::Vector2f poss, int sprite_amount, std::pair<int, int> se): size{se}, possition{poss}
 {
-    texture.loadFromFile(path);
+    if(!texture.loadFromFile(path))
+    {
+        std::cout << "Error!  Cant load texture of door\n";
+    }
 
     for(int i=0;i<sprite_amount;i++)
     {
-        Sprites.push_back(sf::Sprite(texture));
-        Sprites[i].setTextureRect(sf::IntRect({i*size.first, 0}, {size.first, size.second}));
+        Sprites_variants.push_back(sf::IntRect({size.first*i, 0}, {size.first, size.second}));
     }
 
     for(int i=0;i<3;i++)
-        Sprites_Used[i] = &Sprites[i];
+        Used_variants[i] = &Sprites_variants[i];
 
-    actual_sprite = Sprites_Used[0];
+    sprite.setTexture(texture, true);
+    sprite.setTextureRect(*Used_variants[0]);
 }
 
-DoorT::DoorT(DoorT && other)
+DoorT::DoorT(const DoorT & other)
 {
-    actual_sprite = other.actual_sprite;
     size = other.size;
     possition = other.possition;
+    std::cout << "Mam cie!\n";
     texture = other.texture;
-    for(auto el : other.Sprites)
-        Sprites.push_back(el);
-    for(int i=0;i<3;i++)
-        Sprites_Used[i] = other.Sprites_Used[i];
 
-    other.actual_sprite = nullptr;
-    for(auto el : other.Sprites_Used)
-        el = nullptr;
+    sprite.setTexture(texture,true);
+    sprite.setPosition(possition);
+
+    for(auto el : other.Sprites_variants)
+        Sprites_variants.push_back(el);
+    for(int i=0;i<3;i++)
+        Used_variants[i] = &Sprites_variants[i];
 }
 
