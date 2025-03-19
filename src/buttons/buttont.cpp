@@ -1,27 +1,43 @@
 #include "buttont.h"
+#include<iostream>
 
-ButtonT::ButtonT(std::string path, std::pair<int,int> pos, std::pair<int,int> se): possition{pos}, size{se}
+ButtonT::ButtonT(std::string path, sf::Vector2f pos, std::pair<int,int> se = {28,50}): possition{pos}, size{se}
 {
-    texture.loadFromFile(path);
+    if(!texture.loadFromFile(path))
+        std::cout << "Error! Fail to load texture of button.\n";
 
     for(int i=0;i<2;i++)
     {
-        Sprites[i].setTexture(texture);
-        Sprites[i].setTextureRect(sf::IntRect({i*size.first, 0}, {size.first, size.second}));
+        Sprites_Variants[i] = sf::IntRect({i*size.first, 0}, {size.first, size.second});
     }
 
-    actual_sprite = &Sprites[0];
+    sprite.setTexture(texture,true);
+    sprite.setTextureRect(Sprites_Variants[0]);
+    sprite.setPosition(possition);
 }
 
-ButtonT::ButtonT(ButtonT && other)
+ButtonT::ButtonT(ButtonT & other)
 {
-    actual_sprite = other.actual_sprite;
     possition = other.possition;
     size = other.size;
     texture = other.texture;
     for(int i=0;i<2;i++)
-        Sprites[i] = other.Sprites[i];
+        Sprites_Variants[i] = other.Sprites_Variants[i];
 
-    other.actual_sprite = nullptr;
+    sprite.setTexture(texture,true);
+    sprite.setTextureRect(Sprites_Variants[0]);
+    sprite.setPosition(possition);
 }
 
+ButtonT::ButtonT(ButtonT && other)
+{
+    possition = other.possition;
+    size = other.size;
+    texture = other.texture;
+    for(int i=0;i<2;i++)
+        Sprites_Variants[i] = other.Sprites_Variants[i];
+
+    sprite.setTexture(texture,true);
+    sprite.setTextureRect(Sprites_Variants[0]);
+    sprite.setPosition(possition);
+}

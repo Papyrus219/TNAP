@@ -11,21 +11,22 @@
 class ButtonT
 {
 public:
-    ButtonT(std::string path, std::pair<int,int> poss, std::pair<int,int> se = {50,50}); //Standart constructor for button.
+    ButtonT(std::string path, sf::Vector2f poss, std::pair<int,int> se); //Standart constructor for button.
     ButtonT(ButtonT &); //Copy constructor
-    ButtonT(ButtonT &&); //MOve constructor
+    ButtonT(ButtonT &&); //Copy constructor
 
-    sf::Sprite *actual_sprite{};
+    sf::Sprite sprite{texture};
 
-    virtual bool Clicked() {return false;}; //Standart virtual fuction. This is abstract class so its empty;
+    virtual bool Clicked(sf::Vector2f x) {return false;}; //Standart virtual fuction. This is abstract class so its empty;
 
     virtual ~ButtonT(){};
 
 protected:
-    std::pair<int,int> possition {}; //Actual possition.
+    sf::Vector2f possition {}; //Actual possition.
     std::pair<int,int> size {}; //Actual size;
     sf::Texture texture {}; //Two textures:: of and on.
-    sf::Sprite Sprites[2]{sf::Sprite(texture),sf::Sprite(texture)}; //Sprites wich we gonna show in screen.
+    sf::IntRect Sprites_Variants[2]{}; //Sprites wich we gonna show in screen.
+    bool status{};
 };
 
 #endif // BUTTONT_H

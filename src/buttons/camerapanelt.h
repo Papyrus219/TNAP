@@ -8,9 +8,9 @@
 class CameraPanelT : public ButtonT
 {
 public:
-    CameraPanelT(std::string path, std::pair<int,int> size, std::pair<int,int> possition, int hit_box_amount); //Normal constructor.
+    CameraPanelT(std::string path, sf::Vector2f possition, std::pair<int,int> size, int hit_box_amount); //Normal constructor.
 
-    virtual bool Clicked() override {return true;};
+    virtual bool Clicked(sf::Vector2f x) override {return true;};
 
     ~CameraPanelT(){};
 

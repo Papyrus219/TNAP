@@ -1,6 +1,8 @@
 #ifndef HEADER_H
 #define HEADER_H
 
+#include <SFML/Graphics.hpp>
+
 #include"buttons/buttont.h"
 #include"buttons/light_buttont.h"
 #include"buttons/door_buttont.h"

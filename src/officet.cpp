@@ -1,7 +1,7 @@
 #include "officet.h"
 #include<iostream>
 
-OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<std::pair<int, int>> Buttons_possition, std::pair<int, int> camera_button_possition) : Door_status{}, power_usage{1}
+OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : Door_status{}, power_usage{1}
 {
     window = new sf::RenderWindow;
     window->create(sf::VideoMode(window_size), window_name);
@@ -10,8 +10,8 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
         Doors.push_back(DoorT {door_path, Door_possition[i], 5});
     for(int i=0;i<buttons_amount;i++)
     {
-        Buttons.push_back(Door_ButtonT {button_path, Buttons_possition[i]});
-        Buttons.push_back(Light_ButtonT {button_path, {Buttons_possition[i].first,Buttons_possition[i].second+100}});
+        Door_Buttons.push_back(Door_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y},&Doors[i]});
+        Light_Buttons.push_back(Light_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y+100},&Doors[i]});
     }
 
     float x{static_cast<float>((40.0/100.0)*window_size.x)};
@@ -32,6 +32,48 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
     view = sf::View{{static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)*0.5f} , {static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)}};
 }
 
+void OfficeT::Scroll()
+{
+    sf::Vector2f x{sf::Mouse::getPosition(*window)};
+
+    if(Scroll_Hitbox[0].getGlobalBounds().contains(x))
+    {
+        if(view.getCenter().x > 300)
+            view.move({-0.4,0});
+    }
+    else if(Scroll_Hitbox[1].getGlobalBounds().contains(x))
+    {
+        if(view.getCenter().x<900)
+            view.move({0.4,0});
+    }
+}
+
+void OfficeT::Clicked()
+{
+    window->setView(view);
+    sf::Vector2f MousePos{window->mapPixelToCoords(sf::Mouse::getPosition(*window))};
+
+    for(int i=0;i<Light_Buttons.size();i++)
+    {
+        if(Light_Buttons[i].Clicked(MousePos))
+        {
+            return;
+        }
+    }
+
+    for(int i=0;i<Door_Buttons.size();i++)
+    {
+        if(Door_Buttons[i].Clicked(MousePos))
+        {
+            Door_status[i] = Doors[i].Get_if_close();
+            return;
+        }
+    }
+
+    window->setView(window->getDefaultView());
+}
+
+
 void OfficeT::Render()
 {
     window->clear();
@@ -40,8 +82,10 @@ void OfficeT::Render()
     window->draw(sprite);
     for(int i=0;i<Doors.size();i++)
         window->draw(Doors[i].sprite);
-    //for(int i=0;i<Buttons.size();i++)
-        //window->draw(*Buttons[i].actual_sprite);
+    for(int i=0;i<Light_Buttons.size();i++)
+        window->draw(Light_Buttons[i].sprite);
+    for(int i=0;i<Door_Buttons.size();i++)
+        window->draw(Door_Buttons[i].sprite);
 
     window->setView(window->getDefaultView());
     for(int i=0;i<2;i++)
@@ -50,25 +94,7 @@ void OfficeT::Render()
     window->display();
 }
 
-void OfficeT::Scroll()
-{
-    sf::Vector2f x{sf::Mouse::getPosition(*window)};
-
-    if(Scroll_Hitbox[0].getGlobalBounds().contains(x))
-    {
-        if(view.getCenter().x > 300)
-            view.move({-0.1,0});
-    }
-    else if(Scroll_Hitbox[1].getGlobalBounds().contains(x))
-    {
-        if(view.getCenter().x<900)
-            view.move({0.1,0});
-    }
-}
-
-
 OfficeT::~OfficeT()
-
 {
     delete window;
 }

@@ -1,14 +1,21 @@
 #ifndef DOOR_BUTTONT_H
 #define DOOR_BUTTONT_H
 
+#include<SFML/Graphics.hpp>
 #include "buttont.h"
+#include "../doort.h"
 
 class Door_ButtonT : public ButtonT
 {
 public:
-    virtual bool Clicked() override {return false;}; //Overdrive function wich will be called when button was clicked.
+    Door_ButtonT(std::string path, sf::Vector2f possition, DoorT* con ,std::pair<int,int> se = {28,50}); //Constructor.(Onlhy to call one from ButtonT).
+    Door_ButtonT(Door_ButtonT &);
+    Door_ButtonT(Door_ButtonT &&);
 
-    Door_ButtonT(std::string path, std::pair<int,int> possition, std::pair<int,int> se = {50,50}); //Constructor.(Onlhy to call one from ButtonT).
+    virtual bool Clicked(sf::Vector2f x) override; //Overdrive function wich will be called when button was clicked.
+
+private:
+    DoorT *connection{}; //Pointer to door wich button suposse to close.
 };
 
 #endif // DOOR_BUTTONT_H

@@ -1,4 +1,4 @@
 #include "mememanbuttont.h"
 
-MememanButtonT::MememanButtonT(std::string path, std::pair<int,int> size, std::pair<int,int> possition): ButtonT(path,size,possition)
+MememanButtonT::MememanButtonT(std::string path, sf::Vector2f possition ,std::pair<int,int> size): ButtonT(path,possition,size)
 {}
