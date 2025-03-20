@@ -4,6 +4,7 @@
 int main()
 {
     OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/door/door.png", "../../img/button/button.png", "", 2, 2, {{30,300}, {1020,300}}, {{200,400}, {960,400}}, {0,0}};
+    ParametersT par{100,2};
 
     while (office.window->isOpen())
     {
@@ -22,6 +23,7 @@ int main()
             }
         }
 
-        office.Render();
+        office.Render(par);
+        par.Tic();
     }
 }

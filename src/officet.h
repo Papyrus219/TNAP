@@ -5,6 +5,7 @@
 #include"doort.h"
 #include"buttons/light_buttont.h"
 #include"buttons/door_buttont.h"
+#include"parameterst.h"
 
 class OfficeT
 {
@@ -19,7 +20,8 @@ public:
     void Scroll();
     bool Door_status_check(int which) //When animatron ask if door is open.
     {return Door_status[which];}
-    void Render(); //To show all office on screen.
+    void Render(ParametersT &x); //To show all office on screen.
+    void Render_Stats(ParametersT &x); //Render Statistic on screen.
 
     ~OfficeT(); //Destructor.
 

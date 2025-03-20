@@ -74,7 +74,7 @@ void OfficeT::Clicked()
 }
 
 
-void OfficeT::Render()
+void OfficeT::Render(ParametersT &x)
 {
     window->clear();
 
@@ -91,8 +91,34 @@ void OfficeT::Render()
     for(int i=0;i<2;i++)
         window->draw(Scroll_Hitbox[i]);
 
+    Render_Stats(x);
+
     window->display();
 }
+
+void OfficeT::Render_Stats(ParametersT &x)
+{
+    sf::Font comic_sans;
+    if(!comic_sans.openFromFile("../../img/fonts/Comic Sans MS.ttf"))
+    {
+        std::cout << "Error! Fail to load font!\n";
+    }
+
+    sf::Text Battery_txt{comic_sans};
+    sf::Text Hour_txt{comic_sans};
+
+    Battery_txt.setString("Power: " + std::to_string(x.Send_Energy()) + "%");
+    Battery_txt.setPosition({1000,10});
+    Battery_txt.setFillColor(sf::Color::Blue);
+
+    Hour_txt.setString(std::to_string(x.Send_Hour()) + " AM");
+    Hour_txt.setPosition({20,10});
+    Hour_txt.setFillColor(sf::Color::Blue);
+
+    window->draw(Battery_txt);
+    window->draw(Hour_txt);
+}
+
 
 OfficeT::~OfficeT()
 {
