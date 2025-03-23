@@ -7,24 +7,25 @@
 class CamerasT
 {
 public:
-    CamerasT(std::string path, int camera_acount, int textures_acount); //Standart constructor.
-    CamerasT(const CamerasT& other); //Copy constructor.
+    CamerasT(std::string path, std::string panel_path, std::pair<int,int> se, sf::Vector2f hit_box_size, int camera_acount, int textures_acount, std::vector<int> separation, std::vector<sf::Vector2f> hit_box_possitions); //Standart constructor.
 
-    void Render(){}; //We draw actual camera on screen.
-    void Open(){}; //Alocate new window.
-    void close(){}; //We close window and free memory.
+     sf::RenderWindow *camera_window{}; //Pointer to our window. (Its pointer to we can dinamic allocate it.
+
+    void Render(); //We draw actual camera on screen.
+    void Open(); //Alocate new window.
+    void Close(); //We close window and free memory.
     void Animatron_Update(){}; //Chancge used textures to one with animatron.
-    void Camera_change(int act_cam) //We change camera to one player choose.
-    {*actual_sprite = *used_Sprites[act_cam];}
+    void Camera_change(); //We change camera to one player choose.
+
+    ~CamerasT(){}; //Destructor. (We need to free memory)
 
 private:
-    CameraPanelT camera_panel {"",{10,10},{10,10},1};
-    sf::RenderWindow *camera_window; //Pointer to our window. (Its pointer to we can dinamic allocate it.
-    sf::Sprite *Sprites; //Pointer to Sprites. We will in future alocate with it array of Sprites. (total)
-    sf::Sprite* *used_Sprites; //Pointer to pointer to Sprites. We will in future alocate with it array of pointer to Sprites. (only used ones)
-    sf::Sprite* actual_sprite; //Pointer to actual used sprite.
-
-     ~CamerasT(){}; //Destructor. (We need to free memory)
+    std::pair<int,int> size{};
+    sf::Texture texture{};
+    sf::Sprite sprite{texture};
+    std::vector<sf::IntRect> used_Variants{}; //Pointer to pointer to Sprites. We will in future alocate with it array of pointer to Sprites. (only used ones)
+    std::vector<std::vector<sf::IntRect>> Variants{}; //Pointer to actual used sprite.
+    CameraPanelT camera_panel;
 };
 
 #endif // CAMERAST_H

@@ -8,14 +8,16 @@
 class CameraPanelT : public ButtonT
 {
 public:
-    CameraPanelT(std::string path, sf::Vector2f possition, std::pair<int,int> size, int hit_box_amount); //Normal constructor.
+    CameraPanelT(std::string path, sf::Vector2f possition, std::pair<int,int> size, sf::Vector2f hitbox_size, std::vector<sf::Vector2f> hitboxes); //Normal constructor.
+
+    std::vector<sf::RectangleShape> Hit_box{};
 
     virtual bool Clicked(sf::Vector2f x) override {return true;};
 
     ~CameraPanelT(){};
 
 private:
-    sf::RectangleShape *Hit_boxy{};
+
 
 };
 

@@ -6,6 +6,13 @@
 #include"buttons/light_buttont.h"
 #include"buttons/door_buttont.h"
 #include"parameterst.h"
+#include"buttons/camera_buttont.h"
+#include"camerast.h"
+
+/*
+ * This class is managment for main window of game. Its open it, storage,
+ * Its also have all obejcts of things that are render in window.
+ */
 
 class OfficeT
 {
@@ -17,10 +24,11 @@ public:
 
     void Show_Tittle_Board(); //To show on begining of each night.
     void Clicked(); //When screen is clicked we will check some options.
-    void Scroll();
+    void Scroll(); //Function that check if cursor is in scroll area.
+    bool Camera_Open(CamerasT &x);
     bool Door_status_check(int which) //When animatron ask if door is open.
     {return Door_status[which];}
-    void Render(ParametersT &x); //To show all office on screen.
+    void Render(ParametersT &x,CamerasT &y); //To show all office on screen.
     void Render_Stats(ParametersT &x); //Render Statistic on screen.
 
     ~OfficeT(); //Destructor.
@@ -35,6 +43,7 @@ private:
     sf::Texture texture; //Texture of office.
     sf::View view; //View. (For scroll effect.
     sf::Sprite sprite{texture}; //Sprite. This is what we will show on screen.
+    Camera_ButtonT cam_button;
 };
 
 #endif // OFFICET_H

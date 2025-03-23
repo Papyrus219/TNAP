@@ -1,10 +1,13 @@
 #ifndef ANIMATRONT_H
 #define ANIMATRONT_H
 
+#include<iostream>
+#include<vector>
+
 class AnimatronT
 {
 public:
-    AnimatronT(int dif,int way_tmp);
+    AnimatronT(int dif,std::vector<std::pair<int,int>> way);
 
     bool Move_check(int x) //We check if we can move.
     {return x <= dificulty;}

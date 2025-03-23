@@ -1,7 +1,7 @@
 #include "officet.h"
 #include<iostream>
 
-OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : Door_status{}, power_usage{1}
+OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : Door_status{}, power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}}
 {
     window = new sf::RenderWindow;
     window->create(sf::VideoMode(window_size), window_name);
@@ -48,6 +48,19 @@ void OfficeT::Scroll()
     }
 }
 
+bool OfficeT::Camera_Open(CamerasT &x)
+{
+    sf::Vector2f MousePos{sf::Mouse::getPosition(*window)};
+
+    if(cam_button.sprite.getGlobalBounds().contains(MousePos))
+    {
+        x.Open();
+        return true;
+    }
+
+    return false;
+}
+
 void OfficeT::Clicked()
 {
     window->setView(view);
@@ -74,7 +87,7 @@ void OfficeT::Clicked()
 }
 
 
-void OfficeT::Render(ParametersT &x)
+void OfficeT::Render(ParametersT &x, CamerasT &y)
 {
     window->clear();
 
@@ -90,6 +103,9 @@ void OfficeT::Render(ParametersT &x)
     window->setView(window->getDefaultView());
     for(int i=0;i<2;i++)
         window->draw(Scroll_Hitbox[i]);
+
+    if(y.camera_window==nullptr)
+        window->draw(cam_button.sprite);
 
     Render_Stats(x);
 
