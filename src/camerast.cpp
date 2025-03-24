@@ -42,11 +42,13 @@ void CamerasT::Open()
     camera_window->create(sf::VideoMode({1000,667}), "Cameras");
 }
 
-void CamerasT::Close()
+int CamerasT::Close()
 {
     camera_window->close();
     delete camera_window;
     camera_window = nullptr;
+
+    return -3;
 }
 
 void CamerasT::Render()

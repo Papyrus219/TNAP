@@ -13,7 +13,7 @@ public:
 
     void Render(); //We draw actual camera on screen.
     void Open(); //Alocate new window.
-    void Close(); //We close window and free memory.
+    int Close(); //We close window and free memory.
     void Animatron_Update(){}; //Chancge used textures to one with animatron.
     void Camera_change(); //We change camera to one player choose.
 

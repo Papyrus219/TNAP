@@ -2,6 +2,7 @@
 #define PARAMETERST_H
 
 #include<SFML/System.hpp>
+#include<iostream>
 
 /*
  * So this class is for managment of basic varebles.
@@ -24,7 +25,7 @@ public:
 
     void Update_Power_Ussage(int x); //This function update energy used when for example door closed.
     void Update_Energy() //This function change the energy every tic.
-    {energy-=power_ussage;}
+    {std::cerr << (energy-=power_ussage) << '\n';}
 
     void Hour_Passed()
     {actual_hour++;}
@@ -35,7 +36,7 @@ public:
     bool Tic();
 
 private:
-    int power_ussage{10};
+    int power_ussage{1};
     int energy;
     int actual_hour{};
     int actual_night;

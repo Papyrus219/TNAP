@@ -32,7 +32,10 @@ public:
     {return Doors[which].Get_if_close();}
     void Render(ParametersT &x,CamerasT &y); //To show all office on screen.
     void Render_Stats(ParametersT &x); //Render Statistic on screen.
-
+    int Send_Power_Ussage()
+    {return power_usage;}
+    void Update_power_ussage(int x)
+    {power_usage+=x;}
     ~OfficeT(); //Destructor.
 
 private:
@@ -49,6 +52,7 @@ private:
 
     friend class Papyrus;
     friend class Light;
+
 };
 
 #endif // OFFICET_H

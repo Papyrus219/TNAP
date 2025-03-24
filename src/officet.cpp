@@ -55,6 +55,7 @@ bool OfficeT::Camera_Open(CamerasT &x)
     if(cam_button.sprite.getGlobalBounds().contains(MousePos))
     {
         x.Open();
+        power_usage+=3;
         return true;
     }
 
@@ -70,6 +71,10 @@ void OfficeT::Clicked()
     {
         if(Light_Buttons[i].Clicked(MousePos))
         {
+            if(Door_light_check(i))
+                power_usage+=2;
+            else
+                power_usage-=2;
             return;
         }
     }
@@ -79,6 +84,12 @@ void OfficeT::Clicked()
         if(Door_Buttons[i].Clicked(MousePos))
         {
             Door_status[i] = Doors[i].Get_if_close();
+
+            if(Door_status[i])
+                power_usage+=4;
+            else
+                power_usage-=4;
+
             return;
         }
     }
@@ -125,7 +136,7 @@ void OfficeT::Render_Stats(ParametersT &x)
     sf::Text Battery_txt{comic_sans};
     sf::Text Hour_txt{comic_sans};
 
-    Battery_txt.setString("Power: " + std::to_string(x.Send_Energy()) + "%");
+    Battery_txt.setString("Power: " + std::to_string(static_cast<int>(x.Send_Energy() * 0.2)) + "%");
     Battery_txt.setPosition({1000,10});
     Battery_txt.setFillColor(sf::Color::Blue);
 
