@@ -12,10 +12,16 @@
 class Mememan: public AnimatronT
 {
 public:
-    void Move(CamerasT &x, OfficeT &y) override {};
+    Mememan(int dif, int way_leng, std::string button_path, std::pair<int,int> button_size);
 
-private:
+    void Move(CamerasT &x, OfficeT &y) override;
+    void Clicked(sf::Vector2i x);
+    void Change_sprite(int x)
+    {button.Change_sprite(x);}
+
     MememanButtonT button;
+
+    friend class CamerasT;
 };
 
 #endif // MEMEMAN_H

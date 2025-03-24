@@ -11,6 +11,10 @@ class AnimatronT
 public:
     AnimatronT(int dif, int way_leng, std::vector<std::pair<int,int>> waya);
 
+
+
+    int Send_Possition()
+    {return actual_possition;}
     bool Move_check(int x) //We check if we can move.
     {return x <= dificulty;}
     virtual void Move(CamerasT &x, OfficeT &y) = 0;

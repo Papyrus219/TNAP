@@ -7,6 +7,7 @@
 #include "animatrons/light.h"
 #include "animatrons/bot.h"
 #include "animatrons/brush.h"
+#include "animatrons/mememan.h"
 
 int main()
 {
@@ -19,12 +20,14 @@ int main()
     Light light{10,6,{{0,0},{5,1},{8,1},{6,1},{8,1},{10,1}}};
     Bot bot{3,5,{{3,0},{3,1},{3,2},{3,3},{3,4}}};
     Brush brush{8,6};
+    Mememan meme{9,2,"../../img/cameras/meme_man_button.png", {300,150}};
 
     std::vector<AnimatronT*> anim{};
     anim.push_back(&pap);
     anim.push_back(&bot);
     anim.push_back(&light);
     anim.push_back(&brush);
+    anim.push_back(&meme);
 
     while(office.window->isOpen())
     {
@@ -49,7 +52,11 @@ int main()
 
         if(cameras.camera_window != nullptr)
         {
+            cameras.camera_window->clear();
             cameras.Render();
+            if(cameras.act_camera==3 && meme.Send_Possition()==1)
+                cameras.camera_window->draw(meme.button.sprite);
+            cameras.camera_window->display();
 
             if(const std::optional event = cameras.camera_window->pollEvent())
             {
@@ -59,7 +66,16 @@ int main()
                 }
                 else if(event->is<sf::Event::MouseButtonPressed>())
                 {
+                    sf::Vector2i MousePos = sf::Mouse::getPosition(*cameras.camera_window);
                     cameras.Camera_change();
+
+                    /*
+                         meme.button.sprite.setTextureRect(meme.button.Sprites_Variants[1]);
+                     else
+                         meme.button.sprite.setTextureRect(meme.button.Sprites_Variants[0]);*/
+
+                    if(meme.Send_Possition()==1)
+                        meme.Clicked(MousePos);
                 }
             }
         }

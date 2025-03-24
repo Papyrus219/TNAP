@@ -53,16 +53,12 @@ int CamerasT::Close()
 
 void CamerasT::Render()
 {
-    camera_window->clear();
-
     camera_window->draw(sprite);
     camera_window->draw(camera_panel.sprite);
     for(int i=0;i<camera_panel.Hit_box.size();i++)
         camera_window->draw(camera_panel.Hit_box[i]);
 
     sprite.setTextureRect(used_Variants[act_camera]);
-
-    camera_window->display();
 }
 
 void CamerasT::Camera_change()
