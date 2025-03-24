@@ -5,7 +5,10 @@
 
 class Light: public AnimatronT
 {
-    void Move() override {};
+public:
+    Light(int dif, int way_len, std::vector<std::pair<int,int>> waya);
+
+    void Move(CamerasT &x, OfficeT &y) override;
 };
 
 #endif // LIGHT_H

@@ -12,7 +12,7 @@
 class Mememan: public AnimatronT
 {
 public:
-    void Move() override {};
+    void Move(CamerasT &x, OfficeT &y) override {};
 
 private:
     MememanButtonT button;

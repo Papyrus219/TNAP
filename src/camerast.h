@@ -23,9 +23,16 @@ private:
     std::pair<int,int> size{};
     sf::Texture texture{};
     sf::Sprite sprite{texture};
+    int act_camera{};
     std::vector<sf::IntRect> used_Variants{}; //Pointer to pointer to Sprites. We will in future alocate with it array of pointer to Sprites. (only used ones)
     std::vector<std::vector<sf::IntRect>> Variants{}; //Pointer to actual used sprite.
     CameraPanelT camera_panel;
+
+    friend class Papyrus;
+    friend class Bot;
+    friend class Mememan;
+    friend class Brush;
+    friend class Light;
 };
 
 #endif // CAMERAST_H

@@ -5,7 +5,9 @@
 
 class Brush: public AnimatronT
 {
-    void Move() override{};
+public:
+    Brush(int dif, int way_len);
+    void Move(CamerasT &x, OfficeT &y) override;
 };
 
 #endif // BRUSH_H

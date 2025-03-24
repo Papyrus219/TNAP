@@ -94,7 +94,9 @@ void OfficeT::Render(ParametersT &x, CamerasT &y)
     window->setView(view);
     window->draw(sprite);
     for(int i=0;i<Doors.size();i++)
+    {
         window->draw(Doors[i].sprite);
+    }
     for(int i=0;i<Light_Buttons.size();i++)
         window->draw(Light_Buttons[i].sprite);
     for(int i=0;i<Door_Buttons.size();i++)

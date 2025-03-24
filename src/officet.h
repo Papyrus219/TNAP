@@ -26,8 +26,10 @@ public:
     void Clicked(); //When screen is clicked we will check some options.
     void Scroll(); //Function that check if cursor is in scroll area.
     bool Camera_Open(CamerasT &x);
+    bool Door_light_check(int which)
+    {return Doors[which].Get_if_Light();}
     bool Door_status_check(int which) //When animatron ask if door is open.
-    {return Door_status[which];}
+    {return Doors[which].Get_if_close();}
     void Render(ParametersT &x,CamerasT &y); //To show all office on screen.
     void Render_Stats(ParametersT &x); //Render Statistic on screen.
 
@@ -44,6 +46,9 @@ private:
     sf::View view; //View. (For scroll effect.
     sf::Sprite sprite{texture}; //Sprite. This is what we will show on screen.
     Camera_ButtonT cam_button;
+
+    friend class Papyrus;
+    friend class Light;
 };
 
 #endif // OFFICET_H

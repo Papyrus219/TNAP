@@ -58,6 +58,8 @@ void CamerasT::Render()
     for(int i=0;i<camera_panel.Hit_box.size();i++)
         camera_window->draw(camera_panel.Hit_box[i]);
 
+    sprite.setTextureRect(used_Variants[act_camera]);
+
     camera_window->display();
 }
 
@@ -70,6 +72,8 @@ void CamerasT::Camera_change()
         if(camera_panel.Hit_box[i].getGlobalBounds().contains(MousePos))
         {
             sprite.setTextureRect(used_Variants[i]);
+            act_camera = i;
+            break;
         }
     }
 }

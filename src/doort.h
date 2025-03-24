@@ -10,6 +10,8 @@ public:
     DoorT(const DoorT &); //Copy constructor.
 
     sf::Sprite sprite{texture}; //Sprite to show on screen.
+    std::vector<sf::IntRect> Sprites_variants{}; //Vector to Sprite.
+    sf::IntRect *Used_variants[3]{}; // Array to pointer. (used ones)
 
     void Close(); //Function to call when door is close.
     void Open(); //Fuction to call when door is open.
@@ -25,8 +27,7 @@ private:
     std::pair<int,int> size; //Actual size.
     sf::Vector2f possition; //Actual size.
     sf::Texture texture{};
-    std::vector<sf::IntRect> Sprites_variants{}; //Vector to Sprite.
-    sf::IntRect *Used_variants[3]{}; // Array to pointer. (used ones)
+    int status{};
     bool Power_status{};
     bool Light_status{};
 };
