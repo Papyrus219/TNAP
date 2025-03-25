@@ -45,10 +45,7 @@ private:
     sf::Texture texture; //Texture of office.
     sf::View view; //View. (For scroll effect.
     sf::Sprite sprite{texture}; //Sprite. This is what we will show on screen.
-    Camera_ButtonT cam_button;
-
-    friend class Papyrus;
-    friend class Light;
+    Camera_ButtonT cam_button; //Button to open camera.
 };
 
 #endif // OFFICET_H

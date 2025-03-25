@@ -15,7 +15,7 @@ public:
     virtual bool Clicked(sf::Vector2f x) override; //Overdrive function wich will be called when button was clicked.
 
 private:
-    DoorT *connection{}; //Pointer to door wich button suposse to close.
+    DoorT *connection{}; //Pointer to door wich button suposse to close/open.
 };
 
 #endif // DOOR_BUTTONT_H

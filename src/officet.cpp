@@ -1,144 +1,145 @@
 #include "officet.h"
 #include<iostream>
 
-OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : Door_status{}, power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}}
+OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : Door_status{}, power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
 {
-    window = new sf::RenderWindow;
-    window->create(sf::VideoMode(window_size), window_name);
+    window = new sf::RenderWindow; //We alocate memory to render window.
+    window->create(sf::VideoMode(window_size), window_name); //We name window, and define its size.
 
-    for(int i=0;i<doors_amount;i++)
-        Doors.push_back(DoorT {door_path, Door_possition[i], 5});
-    for(int i=0;i<buttons_amount;i++)
+    for(int i=0;i<doors_amount;i++) //For value of argument we push to vector coresponding amount of doors.
+        Doors.push_back(DoorT {door_path, Door_possition[i], 5}); //We push back to vector.
+    for(int i=0;i<buttons_amount;i++) //For value of buttons amount we also make door_button and light_button.
     {
         Door_Buttons.push_back(Door_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y},&Doors[i]});
         Light_Buttons.push_back(Light_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y+100},&Doors[i]});
     }
 
-    float x{static_cast<float>((40.0/100.0)*window_size.x)};
-    float y{static_cast<float>(window_size.y)};
+    float x{static_cast<float>((40.0/100.0)*window_size.x)}; //We calculate 40% od screen x size and convert it to float.
+    float y{static_cast<float>(window_size.y)}; //We convert screen y size to float.
 
-    Scroll_Hitbox[0] = sf::RectangleShape({x,y});
-    Scroll_Hitbox[0].setFillColor(sf::Color::Transparent);
-    Scroll_Hitbox[0].setPosition({0,0});
+    Scroll_Hitbox[0] = sf::RectangleShape({x,y}); //We make 2 hitboxes, which our calculated values.
+    Scroll_Hitbox[0].setFillColor(sf::Color::Transparent); //We make them Transparent.
+    Scroll_Hitbox[0].setPosition({0,0}); //And position in coresponding place.
     Scroll_Hitbox[1] = sf::RectangleShape({x,y});
     Scroll_Hitbox[1].setFillColor(sf::Color::Transparent);
     Scroll_Hitbox[1].setPosition({static_cast<int>(window_size.x)-x,0});
 
-    if(!texture.loadFromFile(office_path))
+    if(!texture.loadFromFile(office_path)) //We load texture of office.
         std::cout << "Failed to load texture of office.\n";
 
-    sprite.setTexture(texture,true);
+    sprite.setTexture(texture,true); //We set texture to office sprite (We gonna draw on screen this one.
 
     view = sf::View{{static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)*0.5f} , {static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)}};
+    //We make view, to can do scroll effect.
 }
 
-void OfficeT::Scroll()
+void OfficeT::Scroll() //Scroll function.
 {
-    sf::Vector2f x{sf::Mouse::getPosition(*window)};
+    sf::Vector2f x{sf::Mouse::getPosition(*window)}; //We get mouse possition from office window.
 
-    if(Scroll_Hitbox[0].getGlobalBounds().contains(x))
+    if(Scroll_Hitbox[0].getGlobalBounds().contains(x)) //We check if mouse is in first scroll hitbox:
     {
-        if(view.getCenter().x > 300)
-            view.move({-0.4,0});
+        if(view.getCenter().x > 300) //If yes and its not on border:
+            view.move({-0.4,0}); //We scroll.
     }
-    else if(Scroll_Hitbox[1].getGlobalBounds().contains(x))
+    else if(Scroll_Hitbox[1].getGlobalBounds().contains(x)) //We check if mouse is in second scroll hitbox.
     {
-        if(view.getCenter().x<900)
-            view.move({0.4,0});
+        if(view.getCenter().x<900) //If yes and its not on border:
+            view.move({0.4,0}); //We scroll.
     }
 }
 
-bool OfficeT::Camera_Open(CamerasT &x)
+bool OfficeT::Camera_Open(CamerasT &x) //Function to open camera.
 {
-    sf::Vector2f MousePos{sf::Mouse::getPosition(*window)};
+    sf::Vector2f MousePos{sf::Mouse::getPosition(*window)}; //We get mouse possition on window screen.
 
-    if(cam_button.sprite.getGlobalBounds().contains(MousePos))
+    if(cam_button.sprite.getGlobalBounds().contains(MousePos)) //If mouse is in camera button sprite.
     {
-        x.Open();
-        return true;
+        x.Open(); //If yes we open cameras.
+        return true; //and we return true, that we sucess to open camera.
     }
 
-    return false;
+    return false; //If its not in camera button sprite we return false.
 }
 
-void OfficeT::Clicked()
+void OfficeT::Clicked() //Function that check wich button (Or nose, was Clicked).
 {
-    window->setView(view);
-    sf::Vector2f MousePos{window->mapPixelToCoords(sf::Mouse::getPosition(*window))};
+    window->setView(view); //We set view, to hitboxes was check right.
+    sf::Vector2f MousePos{window->mapPixelToCoords(sf::Mouse::getPosition(*window))}; //We get mouse possition, from office screen (including view change).
 
-    for(int i=0;i<Light_Buttons.size();i++)
+    for(int i=0;i<Light_Buttons.size();i++) //We check each of light_button:
     {
-        if(Light_Buttons[i].Clicked(MousePos))
+        if(Light_Buttons[i].Clicked(MousePos)) //If one of it was clicked:
         {
-            return;
+            return; //we end function.
         }
     }
 
     for(int i=0;i<Door_Buttons.size();i++)
     {
-        if(Door_Buttons[i].Clicked(MousePos))
+        if(Door_Buttons[i].Clicked(MousePos)) //If one of it was clicked:
         {
-            Door_status[i] = Doors[i].Get_if_close();
-            return;
+            Door_status[i] = Doors[i].Get_if_close(); //And update door status.
+            return; //we end function.
         }
     }
 
-    window->setView(window->getDefaultView());
+    window->setView(window->getDefaultView()); //We return to default view. (Just in case.)
 }
 
 
-void OfficeT::Render(ParametersT &x, CamerasT &y)
+void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everything in office window.
 {
-    window->clear();
+    window->clear(); //We clear window.
 
-    window->setView(view);
-    window->draw(sprite);
-    for(int i=0;i<Doors.size();i++)
+    window->setView(view); //We set view, to draw things that should scroll:
+    window->draw(sprite); //We draw background.
+    for(int i=0;i<Doors.size();i++) //We draw each door.
     {
         window->draw(Doors[i].sprite);
     }
-    for(int i=0;i<Light_Buttons.size();i++)
+    for(int i=0;i<Light_Buttons.size();i++) //We draw each light_button.
         window->draw(Light_Buttons[i].sprite);
-    for(int i=0;i<Door_Buttons.size();i++)
+    for(int i=0;i<Door_Buttons.size();i++) //We draw each door_button.
         window->draw(Door_Buttons[i].sprite);
 
-    window->setView(window->getDefaultView());
+    window->setView(window->getDefaultView()); //We set back default view to draw interface.
     for(int i=0;i<2;i++)
-        window->draw(Scroll_Hitbox[i]);
+        window->draw(Scroll_Hitbox[i]); //We draw each scroll hitbox.
 
-    if(y.camera_window==nullptr)
-        window->draw(cam_button.sprite);
+    if(y.camera_window==nullptr) //If camera is close:
+        window->draw(cam_button.sprite); //We draw camera button.
 
-    Render_Stats(x);
+    Render_Stats(x); //We call function that draw all stats (energy, hour, etc...).
 
-    window->display();
+    window->display(); //We display everything we draw.
 }
 
-void OfficeT::Render_Stats(ParametersT &x)
+void OfficeT::Render_Stats(ParametersT &x) //Funtion that draw all stats on screen (energy, hour, etc...).
 {
-    sf::Font comic_sans;
-    if(!comic_sans.openFromFile("../../img/fonts/Comic Sans MS.ttf"))
+    sf::Font comic_sans; //We define font.
+    if(!comic_sans.openFromFile("../../img/fonts/Comic Sans MS.ttf")) //We open font from files.
     {
         std::cout << "Error! Fail to load font!\n";
     }
 
-    sf::Text Battery_txt{comic_sans};
-    sf::Text Hour_txt{comic_sans};
+    sf::Text Battery_txt{comic_sans}; //We set font to battery text.
+    sf::Text Hour_txt{comic_sans}; //We set font to Hour text.
 
-    Battery_txt.setString("Power: " + std::to_string(x.Send_Energy()) + "%");
-    Battery_txt.setPosition({1000,10});
-    Battery_txt.setFillColor(sf::Color::Blue);
+    Battery_txt.setString("Power: " + std::to_string(x.Send_Energy()) + "%"); //We set string to Battery text. (We take value from parametersT.
+    Battery_txt.setPosition({1000,10}); //We set possition of it.
+    Battery_txt.setFillColor(sf::Color::Blue); //And color.
 
-    Hour_txt.setString(std::to_string(x.Send_Hour()) + " AM");
-    Hour_txt.setPosition({20,10});
-    Hour_txt.setFillColor(sf::Color::Blue);
+    Hour_txt.setString(std::to_string(x.Send_Hour()) + " AM"); //We set string to Hour text. (We take value from parametersT.
+    Hour_txt.setPosition({20,10}); //We set possition of it.
+    Hour_txt.setFillColor(sf::Color::Blue); //And color.
 
-    window->draw(Battery_txt);
+    window->draw(Battery_txt); //Finaly we draw both texts on screen.
     window->draw(Hour_txt);
 }
 
 
-OfficeT::~OfficeT()
+OfficeT::~OfficeT() //Destructor, its free memory.
 {
     delete window;
 }

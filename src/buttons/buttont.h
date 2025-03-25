@@ -15,7 +15,7 @@ public:
     ButtonT(ButtonT &); //Copy constructor
     ButtonT(ButtonT &&); //Copy constructor
 
-    sf::Sprite sprite{texture};
+    sf::Sprite sprite{texture}; //Sprite of button.
 
     virtual bool Clicked(sf::Vector2f x) {return false;}; //Standart virtual fuction. This is abstract class so its empty;
 
@@ -26,7 +26,7 @@ protected:
     std::pair<int,int> size {}; //Actual size;
     sf::Texture texture {}; //Two textures:: of and on.
     sf::IntRect Sprites_Variants[2]{}; //Sprites wich we gonna show in screen.
-    bool status{};
+    bool status{}; //Boolian that storage if button is cliced or not.
 };
 
 #endif // BUTTONT_H
