@@ -35,7 +35,7 @@ public:
     bool Tic();
 
 private:
-    int power_ussage{10};
+    int power_ussage{1};
     int energy;
     int actual_hour{};
     int actual_night;

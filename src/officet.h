@@ -25,6 +25,8 @@ public:
     void Show_Tittle_Board(); //To show on begining of each night.
     void Clicked(); //When screen is clicked we will check some options.
     void Scroll(); //Function that check if cursor is in scroll area.
+    void Update_Energy_Usage(int x)
+    {power_usage += x;}
     bool Camera_Open(CamerasT &x);
     bool Door_light_check(int which)
     {return Doors[which].Get_if_Light();}
@@ -40,7 +42,8 @@ private:
     std::vector<Door_ButtonT> Door_Buttons{}; //Vector of buttons.
     std::vector<Light_ButtonT> Light_Buttons{}; //Vector of buttons.
     sf::RectangleShape Scroll_Hitbox[2]; //Hitbox of scroll area.
-    bool Door_status[2]{}; //Status of doors.
+    bool Door_close_status[2]{}; //Status of if doors are closed.
+    bool Door_light_status[2]{}; //Status of if doors are lighted.
     int power_usage; //Actual power_usage of office.
     sf::Texture texture; //Texture of office.
     sf::View view; //View. (For scroll effect.
