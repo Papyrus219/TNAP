@@ -1,7 +1,7 @@
 #include "officet.h"
 #include<iostream>
 
-OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : Door_status{}, power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
+OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
 {
     window = new sf::RenderWindow; //We alocate memory to render window.
     window->create(sf::VideoMode(window_size), window_name); //We name window, and define its size.
@@ -71,20 +71,39 @@ void OfficeT::Clicked() //Function that check wich button (Or nose, was Clicked)
     {
         if(Light_Buttons[i].Clicked(MousePos)) //If one of it was clicked:
         {
-            return; //we end function.
+            Door_light_status[i] = Doors[i].Get_if_Light(); //We update door status.
+
+            if(Door_light_status[i]) //We update power usage after ligtning up/down door.
+                Update_Energy_Usage(2);
+            else
+                Update_Energy_Usage(-2);
+
+            return; //And end function.
         }
     }
 
-    for(int i=0;i<Door_Buttons.size();i++)
+    for(int i=0;i<Door_Buttons.size();i++) //We check each of door_button:
     {
         if(Door_Buttons[i].Clicked(MousePos)) //If one of it was clicked:
         {
-            Door_status[i] = Doors[i].Get_if_close(); //And update door status.
-            return; //we end function.
+            Door_close_status[i] = Doors[i].Get_if_close(); //We update door status.
+
+            if(Door_close_status[i]) //We update power usage after closing/opening door.
+                Update_Energy_Usage(4);
+            else
+                Update_Energy_Usage(-4);
+
+            return; //And we end function.
         }
     }
 
     window->setView(window->getDefaultView()); //We return to default view. (Just in case.)
+}
+
+void OfficeT::Update_Door_texture()
+{
+    for(int i=0;i<2;i++)
+        Doors[i].sprite.setTextureRect(Doors[i].Used_variants[Doors[i].Get_texure()]);
 }
 
 
@@ -94,6 +113,8 @@ void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everythin
 
     window->setView(view); //We set view, to draw things that should scroll:
     window->draw(sprite); //We draw background.
+
+    Update_Door_texture();
     for(int i=0;i<Doors.size();i++) //We draw each door.
     {
         window->draw(Doors[i].sprite);
@@ -126,7 +147,7 @@ void OfficeT::Render_Stats(ParametersT &x) //Funtion that draw all stats on scre
     sf::Text Battery_txt{comic_sans}; //We set font to battery text.
     sf::Text Hour_txt{comic_sans}; //We set font to Hour text.
 
-    Battery_txt.setString("Power: " + std::to_string(x.Send_Energy()) + "%"); //We set string to Battery text. (We take value from parametersT.
+    Battery_txt.setString("Power: " + std::to_string(x.Send_Energy()/7) + "%"); //We set string to Battery text. (We take value from parametersT.
     Battery_txt.setPosition({1000,10}); //We set possition of it.
     Battery_txt.setFillColor(sf::Color::Blue); //And color.
 

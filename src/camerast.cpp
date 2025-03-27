@@ -1,4 +1,5 @@
 #include "camerast.h"
+#include "animatrons/mememan.h"
 #include <iostream>
 
 CamerasT::CamerasT(std::string path, std::string panel_path, std::pair<int,int> se, sf::Vector2f hit_box_size, int camera_acount, int textures_acount, std::vector<int> separator, std::vector<sf::Vector2f> hit_box_possitions): size{se}, camera_panel{panel_path,{10,10},{300,300},hit_box_size,hit_box_possitions} //Standart constructor.
@@ -49,23 +50,37 @@ void CamerasT::Close() //Function closing camera window.
     camera_window = nullptr; //We set window pointer to nullptr. (For safety)
 }
 
-void CamerasT::Render() //Function that draw everything in camera window.
+void CamerasT::Render(Mememan &x) //Function that draw everything in camera window.
 {
     camera_window->clear(); //We clear camera window.
+
+    if(act_camera == 4 && x.actual_possition == 1)
+        x.button.sprite.setTextureRect(x.button.Sprites_Variants[1]);
+    else
+        x.button.sprite.setTextureRect(x.button.Sprites_Variants[0]);
 
     camera_window->draw(sprite); //We draw sprite of camrea.
     camera_window->draw(camera_panel.sprite); //We draw camera panel.
     for(int i=0;i<camera_panel.Hit_box.size();i++) //We draw hit boxes of camera panel. (To can change actual camera)
         camera_window->draw(camera_panel.Hit_box[i]);
 
+    camera_window->draw(x.button.sprite);
     sprite.setTextureRect(used_Variants[act_camera]); //We set sprite rectangle to actual used variant, to refresh screen if animatron move.
 
     camera_window->display(); //We display all this on screen.
 }
 
-void CamerasT::Camera_change() //Fuction that check if player click camera change hitbox and change camera.
+void CamerasT::Camera_change(Mememan &x) //Fuction that check if player click camera change hitbox and change camera.
 {
     sf::Vector2f MousePos{sf::Mouse::getPosition(*camera_window)}; //We get mouse possition from camera window.
+
+    if(act_camera == 4 && x.actual_possition == 1)
+        if(x.button.sprite.getGlobalBounds().contains(MousePos))
+        {
+            x.actual_possition--;
+            used_Variants[4] = Variants[4][0];
+            return;
+        }
 
     for(int i=0;i<camera_panel.Hit_box.size();i++) //We check if any hitbox was clicked:
     {
@@ -73,8 +88,19 @@ void CamerasT::Camera_change() //Fuction that check if player click camera chang
         {
             sprite.setTextureRect(used_Variants[i]); //If yes we change camera tp coresponding one variant.
             act_camera = i; //We update number of actual camera.
-            break;
+
+            return;
         }
     }
 }
+
+void CamerasT::Animatron_Move(std::vector<int> x)
+{
+    if(x.size()==4)
+    {
+        if(x[1] != -1) used_Variants[x[0]] = Variants[x[0]][x[1]];
+        if(x[3] != -1) used_Variants[x[2]] = Variants[x[2]][x[3]];
+    }
+}
+
 

@@ -6,9 +6,11 @@
 class Light: public AnimatronT
 {
 public:
-    Light(int dif, int way_len, std::vector<std::pair<int,int>> waya);
+    Light(int dif, int way_len, std::vector<int> waya);
 
-    void Move(CamerasT &x, OfficeT &y) override;
+    bool under_door{};
+
+    std::vector<int> Move(OfficeT &x) override;
 };
 
 #endif // LIGHT_H

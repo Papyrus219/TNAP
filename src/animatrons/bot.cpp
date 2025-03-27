@@ -1,3 +1,42 @@
 #include "bot.h"
 
+Bot::Bot(int dif, int way_len, std::vector<int> waya): AnimatronT{dif, way_len, waya}
+{
+    AnimatronT::Possitions[waya[4]]+=5;
+}
 
+std::vector<int> Bot::Move(OfficeT &x)
+{
+    std::srand(time(NULL));
+    std::vector<int> tmp{};
+
+    if(Move_check(rand()%20))
+    {
+        actual_possition++;
+
+        if(actual_possition == 5)
+        {
+            if(!x.Door_status_check(0))
+            {
+                error a;
+                throw(a);
+                std::cerr << "Bot jumpscare!\n";
+            }
+
+            actual_possition = 1;
+        }
+
+        if(x.actual_camera_on != 3)
+        {
+            std::cerr << "Bot moved!\n";
+
+            tmp.push_back(3);
+            tmp.push_back(actual_possition);
+            tmp.push_back(-1);
+            tmp.push_back(-1);
+        }
+
+    }
+
+    return tmp;
+}

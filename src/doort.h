@@ -20,6 +20,7 @@ public:
     void Animatron_ahead();
     bool Get_if_close(){return Power_status;};
     bool Get_if_Light(){return Light_status;};
+    int Get_texure(){return Texture_status;};
 
     ~DoorT(){}; //Destructor.
 
@@ -29,6 +30,7 @@ private:
     sf::Texture texture{}; //texture of door
     bool Power_status{}; //Boolian that contain information if door is closed.
     bool Light_status{}; //Boolian that contain information if door is light up.
+    int Texture_status{};
 };
 
 #endif // DOORT_H

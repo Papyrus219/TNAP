@@ -6,8 +6,8 @@
 class Brush: public AnimatronT
 {
 public:
-    Brush(int dif, int way_len);
-    void Move(CamerasT &x, OfficeT &y) override{};
+    Brush(int dif, int way_len, std::vector<int> waya);
+    std::vector<int> Move(OfficeT &x) override;
 };
 
 #endif // BRUSH_H

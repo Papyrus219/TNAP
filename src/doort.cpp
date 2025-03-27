@@ -37,26 +37,39 @@ DoorT::DoorT(const DoorT & other) //Copy constructor.
 void DoorT::Close() //Function to call when door is close.
 {
     sprite.setTextureRect(Used_variants[1]); //We set to door texture of closed door.
+    Texture_status = 1;
     Power_status = true; //And we set door close status to true.
 }
 void DoorT::Open() //Fuction to call when door is open.
 {
     if(!Light_status) //If door is light up:
+    {
         sprite.setTextureRect(Used_variants[0]); //If yes, we set door texture to light up one.
+        Texture_status = 0;
+    }
     else
+    {
         sprite.setTextureRect(Used_variants[2]); //If no, we set door texture to light down one.
+        Texture_status = 2;
+    }
     Power_status = false; //And we set door close status to false.
 }
 void DoorT::Light_up() //Function to call when door is light up.
 {
     if(!Power_status) //If door is open:
+    {
         sprite.setTextureRect(Used_variants[2]); //We set door texture to light up one.
+        Texture_status = 2;
+    }
     Light_status = true; //And we set door light status to true.
 }
 void DoorT::Light_down() //Function to call when door is light down.
 {
     if(!Power_status) //If door is open:
+    {
         sprite.setTextureRect(Used_variants[0]); //We set door texture to light down one.
+        Texture_status = 0;
+    }
     Light_status = false; //And we set door light status to false.
 }
 void DoorT::Animatron_ahead()

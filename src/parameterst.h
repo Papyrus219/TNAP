@@ -2,6 +2,7 @@
 #define PARAMETERST_H
 
 #include<SFML/System.hpp>
+#include<vector>
 
 /*
  * So this class is for managment of basic varebles.
@@ -22,7 +23,7 @@ public:
     int Send_Energy()
     {return energy;}
 
-    void Update_Power_Ussage(int x); //This function update energy used when for example door closed.
+    void Update_Power_Ussage(std::vector<int> x); //This function update energy used when for example door closed.
     void Update_Energy() //This function change the energy every tic.
     {energy-=power_ussage;}
 

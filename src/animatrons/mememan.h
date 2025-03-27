@@ -1,8 +1,9 @@
 #ifndef MEMEMAN_H
 #define MEMEMAN_H
 
-#include"../header.h"
 #include"SFML/Graphics.hpp"
+#include "animatront.h"
+#include "../buttons/mememanbuttont.h"
 
 /*
  * Warning! Define only one object of this class!
@@ -12,10 +13,12 @@
 class Mememan: public AnimatronT
 {
 public:
-    void Move(CamerasT &x, OfficeT &y) override {};
+    Mememan(std::string path, sf::Vector2f pos, std::pair<int,int> se, int dif, int path_len, std::vector<int> waya);
+    std::vector<int> Move(OfficeT &x) override;
 
 private:
     MememanButtonT button;
+    friend class CamerasT;
 };
 
 #endif // MEMEMAN_H

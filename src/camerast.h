@@ -4,6 +4,8 @@
 #include<SFML/Graphics.hpp>
 #include"buttons/camerapanelt.h"
 
+class Mememan;
+
 class CamerasT
 {
 public:
@@ -11,11 +13,12 @@ public:
 
      sf::RenderWindow *camera_window{}; //Pointer to our window. (Its pointer to we can dinamic allocate it.
 
-    void Render(); //We draw actual camera on screen.
+    void Render(Mememan &x); //We draw actual camera on screen.
     void Open(); //Alocate new window.
     void Close(); //We close window and free memory.
     void Animatron_Update(){}; //Chancge used textures to one with animatron.
-    void Camera_change(); //We change camera to one player choose.
+    void Camera_change(Mememan &x); //We change camera to one player choose.
+    void Animatron_Move(std::vector<int> x);
 
     ~CamerasT(){}; //Destructor. (We need to free memory)
 
@@ -27,6 +30,8 @@ private:
     std::vector<sf::IntRect> used_Variants{}; //Pointer to pointer to Sprites. We will in future alocate with it array of pointer to Sprites. (only used ones)
     std::vector<std::vector<sf::IntRect>> Variants{}; //Pointer to actual used sprite.
     CameraPanelT camera_panel; //Camera panel to change camera.
+
+    friend class OfficeT;
 };
 
 #endif // CAMERAST_H
