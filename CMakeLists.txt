@@ -11,11 +11,15 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
+<<<<<<< HEAD
 add_executable(
 TNAP ${SOURCES}
 src/buttons/menu_buttont.cpp
 src/telephone.cpp
 
 )
+=======
+add_executable(TNAP ${SOURCES})
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c
 target_compile_features(TNAP PRIVATE cxx_std_17)
 target_link_libraries(TNAP PRIVATE SFML::Graphics SFML::Audio)

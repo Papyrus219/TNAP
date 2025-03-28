@@ -1,7 +1,11 @@
 #include "parameterst.h"
 #include<iostream>
 
+<<<<<<< HEAD
 ParametersT::ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::vector<AnimatronT*> x): phone{path,phones,strikes} ,energy{ene}, actual_hour{act_night}
+=======
+ParametersT::ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::vector<AnimatronT> &x): phone{path,phones,strikes} ,energy{ene}, actual_hour{act_night}
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c
 {
     New_Night(x);
     //We start both clocks.
@@ -9,7 +13,11 @@ ParametersT::ParametersT(int ene, int act_night, std::string path, int phones, i
     time_clock.start();
 }
 
+<<<<<<< HEAD
 bool ParametersT::Tic(std::vector<AnimatronT*> x)
+=======
+bool ParametersT::Tic(std::vector<AnimatronT> &x)
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c
 {
     tic = tic_clock.getElapsedTime();
     hour = time_clock.getElapsedTime();
@@ -50,11 +58,16 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
         power_ussage+=el;
 }
 
+<<<<<<< HEAD
 void ParametersT::New_Night(std::vector<AnimatronT*> x)
+=======
+void ParametersT::New_Night(std::vector<AnimatronT> &x)
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c
 {
     switch(actual_night)
     {
         case 0:
+<<<<<<< HEAD
             x[0]->dificulty = 5;
             x[1]->dificulty = 3;
             x[2]->dificulty = 0;
@@ -110,3 +123,12 @@ void ParametersT::Half_Time(std::vector<AnimatronT*> x)
                 el->dificulty*=2;
     }
 }
+=======
+            x[0].dificulty = //To do!
+            break;
+    }
+
+    phone.PhoneCalls[actual_night];
+}
+
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c

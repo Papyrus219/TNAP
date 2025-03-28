@@ -2,7 +2,11 @@
 #define PARAMETERST_H
 
 #include<SFML/System.hpp>
+<<<<<<< HEAD
 #include"animatrons/animatront.h"
+=======
+#include "animatrons/animatront.h"
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c
 #include"telephone.h"
 #include<vector>
 
@@ -16,7 +20,11 @@
 class ParametersT
 {
 public:
+<<<<<<< HEAD
     ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::vector<AnimatronT*> x); //This function constructor.
+=======
+    ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::vector<AnimatronT> &x); //This function constructor.
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c
 
     TelephoneT phone;
 
@@ -35,11 +43,18 @@ public:
     {actual_hour++;}
 
     void Load_Night(); //This function load night from file.
+<<<<<<< HEAD
     void New_Night(std::vector<AnimatronT*> x);
     //This function set all animatrons agressy, and reset power every time new night started.
     void Half_Time(std::vector<AnimatronT*> x);
 
     bool Tic(std::vector<AnimatronT*> x);
+=======
+    void New_Night(std::vector<AnimatronT> &x);
+    //This function set all animatrons agressy, and reset power every time new night started.
+
+    bool Tic(std::vector<AnimatronT> &x);
+>>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c
 
 private:
     int power_ussage{1};
