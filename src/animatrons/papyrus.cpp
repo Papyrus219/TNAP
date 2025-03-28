@@ -25,9 +25,9 @@ std::vector<int> Papyrus::Move(OfficeT &x)
         }
         else if(rage == 3)
         {
+            std::cerr << "Papyrus Jumpscare\n";
             error a;
             throw(a);
-            std::cerr << "Papyrus Jumpscare\n";
             actual_possition = 1;
             x.Change_Door_Textures(2,2,0);
             under_door = false;
@@ -44,7 +44,7 @@ std::vector<int> Papyrus::Move(OfficeT &x)
 
             if(actual_possition == 0)
             {
-                switch(Possitions[actual_possition])
+                switch(Possitions[way[actual_possition]])
                 {
                     case 1:
                         tmp.push_back(7);
@@ -62,13 +62,13 @@ std::vector<int> Papyrus::Move(OfficeT &x)
             }
             else
             {
-                if(Possitions[actual_possition] != 1 && actual_possition == 4)
+                if(Possitions[way[actual_possition]] != 1 && actual_possition == 4)
                     tmp.push_back(2);
                 else
                     tmp.push_back(0);
             }
 
-            Possitions[actual_possition]-=1;
+            Possitions[way[actual_possition]]-=1;
             actual_possition++;
             if(actual_possition == 5)
             {
@@ -79,10 +79,11 @@ std::vector<int> Papyrus::Move(OfficeT &x)
                 return tmp;
             }
 
-            Possitions[actual_possition]+=1;
+            Possitions[way[actual_possition]]+=1;
 
             tmp.push_back(way[actual_possition]);
-            if(Possitions[actual_possition] != 1 && actual_possition == 4)
+
+            if(Possitions[way[actual_possition]] != 1 && actual_possition == 4)
                 tmp.push_back(3);
             else
                 tmp.push_back(1);

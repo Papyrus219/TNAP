@@ -16,7 +16,7 @@ std::vector<int> Brush::Move(OfficeT &x)
 
         if(actual_possition == 0)
         {
-            switch(Possitions[actual_possition])
+            switch(Possitions[way[actual_possition]])
             {
                 case 3:
                     tmp.push_back(7);
@@ -34,58 +34,53 @@ std::vector<int> Brush::Move(OfficeT &x)
         }
         else
         {
-            if(actual_possition == 3 || actual_possition == 5)
+            if(actual_possition == 3 || actual_possition == 4)
             {
-                if(Possitions[actual_possition] != 3)
-                    tmp.push_back(1);
-                else
+                if(Possitions[way[actual_possition]] == 3)
                     tmp.push_back(0);
+                else
+                    tmp.push_back(1);
             }
             else
                 tmp.push_back(-1);
         }
 
-        Possitions[actual_possition]-=3;
+        Possitions[way[actual_possition]]-=3;
         actual_possition++;
+        Possitions[way[actual_possition]]+=3;
 
-        if(actual_possition == 4 || actual_possition == 6)
+        tmp.push_back(way[actual_possition]);
+
+        if(actual_possition == 4 || actual_possition == 5)
         {
-            tmp.push_back(-1);
-            tmp.push_back(-1);
-
             if(actual_possition == 4)
             {
                 if(!x.Door_status_check(1))
                 {
+                    std::cerr << "Brush jumpscare!\n";
                     error a;
-                    throw(a);
-                    std::cerr << "Brush Jumpscare!\n";
+                    throw a;
                 }
             }
             else
             {
                 if(!x.Door_status_check(0))
                 {
+                    std::cerr << "Brush jumpscare!\n";
                     error a;
-                    throw(a);
-                    std::cerr << "Brush Jumpscare!\n";
-                    actual_possition = 2;
+                    throw a;
                 }
-            }
 
-            return tmp;
+                actual_possition = 2;
+            }
         }
 
-        Possitions[actual_possition]+=3;
-
-        tmp.push_back(way[actual_possition]);
-
-        if(actual_possition == 3 || actual_possition == 5)
+        if(actual_possition == 3 || actual_possition == 4)
         {
-            if(Possitions[actual_possition] != 3)
-                tmp.push_back(3);
-            else
+            if(Possitions[way[actual_possition]] == 3)
                 tmp.push_back(2);
+            else
+                tmp.push_back(3);
         }
         else
             tmp.push_back(-1);

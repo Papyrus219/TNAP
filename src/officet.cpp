@@ -1,4 +1,5 @@
 #include "officet.h"
+#include"parameterst.h"
 #include<iostream>
 
 OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
@@ -8,24 +9,24 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
 
     for(int i=0;i<doors_amount;i++) //For value of argument we push to vector coresponding amount of doors.
         Doors.push_back(DoorT {door_path, Door_possition[i], 5}); //We push back to vector.
-    for(int i=0;i<buttons_amount;i++) //For value of buttons amount we also make door_button and light_button.
-    {
-        Door_Buttons.push_back(Door_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y},&Doors[i]});
-        Light_Buttons.push_back(Light_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y+100},&Doors[i]});
-    }
+        for(int i=0;i<buttons_amount;i++) //For value of buttons amount we also make door_button and light_button.
+        {
+            Door_Buttons.push_back(Door_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y},&Doors[i]});
+            Light_Buttons.push_back(Light_ButtonT {button_path, {Buttons_possition[i].x,Buttons_possition[i].y+100},&Doors[i]});
+        }
 
-    float x{static_cast<float>((40.0/100.0)*window_size.x)}; //We calculate 40% od screen x size and convert it to float.
-    float y{static_cast<float>(window_size.y)}; //We convert screen y size to float.
+        float x{static_cast<float>((40.0/100.0)*window_size.x)}; //We calculate 40% od screen x size and convert it to float.
+        float y{static_cast<float>(window_size.y)}; //We convert screen y size to float.
 
-    Scroll_Hitbox[0] = sf::RectangleShape({x,y}); //We make 2 hitboxes, which our calculated values.
-    Scroll_Hitbox[0].setFillColor(sf::Color::Transparent); //We make them Transparent.
-    Scroll_Hitbox[0].setPosition({0,0}); //And position in coresponding place.
-    Scroll_Hitbox[1] = sf::RectangleShape({x,y});
-    Scroll_Hitbox[1].setFillColor(sf::Color::Transparent);
-    Scroll_Hitbox[1].setPosition({static_cast<int>(window_size.x)-x,0});
+        Scroll_Hitbox[0] = sf::RectangleShape({x,y}); //We make 2 hitboxes, which our calculated values.
+        Scroll_Hitbox[0].setFillColor(sf::Color::Transparent); //We make them Transparent.
+        Scroll_Hitbox[0].setPosition({0,0}); //And position in coresponding place.
+        Scroll_Hitbox[1] = sf::RectangleShape({x,y});
+        Scroll_Hitbox[1].setFillColor(sf::Color::Transparent);
+        Scroll_Hitbox[1].setPosition({static_cast<int>(window_size.x)-x,0});
 
-    if(!texture.loadFromFile(office_path)) //We load texture of office.
-        std::cout << "Failed to load texture of office.\n";
+        if(!texture.loadFromFile(office_path)) //We load texture of office.
+            std::cout << "Failed to load texture of office.\n";
 
     sprite.setTexture(texture,true); //We set texture to office sprite (We gonna draw on screen this one.
 
@@ -128,12 +129,12 @@ void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everythin
     for(int i=0;i<2;i++)
         window->draw(Scroll_Hitbox[i]); //We draw each scroll hitbox.
 
-    if(y.camera_window==nullptr) //If camera is close:
-        window->draw(cam_button.sprite); //We draw camera button.
+        if(y.camera_window==nullptr) //If camera is close:
+            window->draw(cam_button.sprite); //We draw camera button.
 
-    Render_Stats(x); //We call function that draw all stats (energy, hour, etc...).
+            Render_Stats(x); //We call function that draw all stats (energy, hour, etc...).
 
-    window->display(); //We display everything we draw.
+            window->display(); //We display everything we draw.
 }
 
 void OfficeT::Render_Stats(ParametersT &x) //Funtion that draw all stats on screen (energy, hour, etc...).
@@ -151,7 +152,7 @@ void OfficeT::Render_Stats(ParametersT &x) //Funtion that draw all stats on scre
     Battery_txt.setPosition({1000,10}); //We set possition of it.
     Battery_txt.setFillColor(sf::Color::Blue); //And color.
 
-    Hour_txt.setString(std::to_string(x.Send_Hour()) + " AM"); //We set string to Hour text. (We take value from parametersT.
+    Hour_txt.setString(std::to_string((x.Send_Hour())? x.Send_Hour() : 12) + " AM"); //We set string to Hour text. (We take value from parametersT.
     Hour_txt.setPosition({20,10}); //We set possition of it.
     Hour_txt.setFillColor(sf::Color::Blue); //And color.
 

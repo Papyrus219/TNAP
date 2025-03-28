@@ -18,9 +18,9 @@ std::vector<int> Bot::Move(OfficeT &x)
         {
             if(!x.Door_status_check(0))
             {
+                std::cerr << "Bot jumpscare!\n";
                 error a;
                 throw(a);
-                std::cerr << "Bot jumpscare!\n";
             }
 
             actual_possition = 1;

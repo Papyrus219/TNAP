@@ -10,7 +10,12 @@ FetchContent_Declare(SFML
     GIT_SHALLOW ON)
 FetchContent_MakeAvailable(SFML)
 
-file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
-add_executable(TNAP ${SOURCES})
+file(GLOB_RECURSE SOURCES src/*.cpp)
+add_executable(
+TNAP ${SOURCES}
+src/buttons/menu_buttont.cpp
+src/telephone.cpp
+
+)
 target_compile_features(TNAP PRIVATE cxx_std_17)
-target_link_libraries(TNAP PRIVATE SFML::Graphics)
+target_link_libraries(TNAP PRIVATE SFML::Graphics SFML::Audio)

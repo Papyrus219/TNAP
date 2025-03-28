@@ -27,6 +27,8 @@ protected:
     const int way_length;
     int actual_possition{};
     bool underdoor{};
+
+    friend class ParametersT;
 };
 
 #endif // ANIMATRONT_H

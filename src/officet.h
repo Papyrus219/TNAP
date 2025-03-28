@@ -5,7 +5,6 @@
 #include"doort.h"
 #include"buttons/light_buttont.h"
 #include"buttons/door_buttont.h"
-#include"parameterst.h"
 #include"buttons/camera_buttont.h"
 #include"camerast.h"
 
@@ -13,6 +12,8 @@
  * This class is managment for main window of game. Its open it, storage,
  * Its also have all obejcts of things that are render in window.
  */
+
+class ParametersT;
 
 class OfficeT
 {

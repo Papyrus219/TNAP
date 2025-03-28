@@ -78,20 +78,21 @@ void CamerasT::Camera_change(Mememan &x) //Fuction that check if player click ca
         if(x.button.sprite.getGlobalBounds().contains(MousePos))
         {
             x.actual_possition--;
+            x.rage = 0;
             used_Variants[4] = Variants[4][0];
             return;
         }
 
-    for(int i=0;i<camera_panel.Hit_box.size();i++) //We check if any hitbox was clicked:
-    {
-        if(camera_panel.Hit_box[i].getGlobalBounds().contains(MousePos))
+        for(int i=0;i<camera_panel.Hit_box.size();i++) //We check if any hitbox was clicked:
         {
-            sprite.setTextureRect(used_Variants[i]); //If yes we change camera tp coresponding one variant.
-            act_camera = i; //We update number of actual camera.
+            if(camera_panel.Hit_box[i].getGlobalBounds().contains(MousePos))
+            {
+                sprite.setTextureRect(used_Variants[i]); //If yes we change camera tp coresponding one variant.
+                act_camera = i; //We update number of actual camera.
 
-            return;
+                return;
+            }
         }
-    }
 }
 
 void CamerasT::Animatron_Move(std::vector<int> x)
@@ -102,5 +103,4 @@ void CamerasT::Animatron_Move(std::vector<int> x)
         if(x[3] != -1) used_Variants[x[2]] = Variants[x[2]][x[3]];
     }
 }
-
 

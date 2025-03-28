@@ -12,6 +12,7 @@ class ButtonT
 {
 public:
     ButtonT(std::string path, sf::Vector2f poss, std::pair<int,int> se); //Standart constructor for button.
+    ButtonT() = default;
     ButtonT(ButtonT &); //Copy constructor
     ButtonT(ButtonT &&); //Copy constructor
 

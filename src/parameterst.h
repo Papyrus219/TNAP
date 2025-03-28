@@ -2,6 +2,8 @@
 #define PARAMETERST_H
 
 #include<SFML/System.hpp>
+#include"animatrons/animatront.h"
+#include"telephone.h"
 #include<vector>
 
 /*
@@ -14,7 +16,9 @@
 class ParametersT
 {
 public:
-    ParametersT(int ene, int act_night); //This function constructor.
+    ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::vector<AnimatronT*> x); //This function constructor.
+
+    TelephoneT phone;
 
     int Send_Hour()
     {return actual_hour;}
@@ -31,9 +35,11 @@ public:
     {actual_hour++;}
 
     void Load_Night(); //This function load night from file.
-    void New_Night(); //This function set all animatrons agressy, and reset power every time new night started.
+    void New_Night(std::vector<AnimatronT*> x);
+    //This function set all animatrons agressy, and reset power every time new night started.
+    void Half_Time(std::vector<AnimatronT*> x);
 
-    bool Tic();
+    bool Tic(std::vector<AnimatronT*> x);
 
 private:
     int power_ussage{1};

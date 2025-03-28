@@ -28,10 +28,14 @@ std::vector<int> Mememan::Move(OfficeT &x)
             tmp.push_back(1);
             break;
         case 2:
-            std::cerr << "Mememan jumpscare!\n";
-            error a;
-            throw a;
-            tmp.push_back(0);
+            rage++;
+            if(rage == 3)
+            {
+                std::cerr << "Mememan jumpscare!\n";
+                error a;
+                throw a;
+                tmp.push_back(0);
+            }
             break;
     }
 
