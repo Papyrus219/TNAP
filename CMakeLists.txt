@@ -19,7 +19,5 @@ src/telephone.cpp
 
 )
 
-add_executable(TNAP ${SOURCES})
-
 target_compile_features(TNAP PRIVATE cxx_std_17)
 target_link_libraries(TNAP PRIVATE SFML::Graphics SFML::Audio)

@@ -9,7 +9,7 @@ class Mememan;
 class CamerasT
 {
 public:
-    CamerasT(std::string path, std::string panel_path, std::pair<int,int> se, sf::Vector2f hit_box_size, int camera_acount, int textures_acount, std::vector<int> separation, std::vector<sf::Vector2f> hit_box_possitions); //Standart constructor.
+    CamerasT(std::string path, std::string panel_path, std::pair<int,int> se, sf::Vector2f hit_box_size, int camera_acount, int textures_acount, std::vector<int> separator, std::vector<sf::Vector2f> hit_box_possitions); //Standart constructor.
 
      sf::RenderWindow *camera_window{}; //Pointer to our window. (Its pointer to we can dinamic allocate it.
 

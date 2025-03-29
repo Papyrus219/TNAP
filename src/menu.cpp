@@ -75,6 +75,8 @@ void MenuT::Click()
 
 void MenuT::gameplay()
 {
+    AnimatronT::Possitions = {0,0,0,0,0,0,0,0,0,0,0};
+
     Papyrus pap{1, 5, {0,1,2,7,9}};
     Light light{1, 7, {0,5,8,6,8,10}};
     Brush brush{20, 6, {0,5,8,10,9}};

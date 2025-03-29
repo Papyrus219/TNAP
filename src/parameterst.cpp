@@ -56,7 +56,6 @@ void ParametersT::New_Night(std::vector<AnimatronT*> x)
     switch(actual_night)
     {
         case 0:
-<<<<<<< HEAD
             x[0]->dificulty = 5;
             x[1]->dificulty = 3;
             x[2]->dificulty = 0;
@@ -111,12 +110,7 @@ void ParametersT::Half_Time(std::vector<AnimatronT*> x)
             for(auto el : x)
                 el->dificulty*=2;
     }
-}
-            x[0].dificulty = //To do!
-            break;
-    }
-
+    
     phone.PhoneCalls[actual_night];
 }
 
->>>>>>> 8fca2d67e76a609a4a68357eef7f2ec93000d72c

@@ -2,7 +2,7 @@
 
 Mememan::Mememan(std::string path, sf::Vector2f pos, std::pair<int,int> se, int dif, int path_len, std::vector<int> waya): AnimatronT{dif, path_len, waya}, button{path, pos, se}
 {
-    AnimatronT::Possitions[waya[4]] += 7;
+    AnimatronT::Possitions[8] += 7;
 
     //button.sprite.setTextureRect(button.);
 }

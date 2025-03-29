@@ -2,7 +2,7 @@
 
 Bot::Bot(int dif, int way_len, std::vector<int> waya): AnimatronT{dif, way_len, waya}
 {
-    AnimatronT::Possitions[waya[4]]+=5;
+    AnimatronT::Possitions[8]+=5;
 }
 
 std::vector<int> Bot::Move(OfficeT &x)
