@@ -53,7 +53,7 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
 
 void ParametersT::New_Night(std::vector<AnimatronT*> x)
 {
-    AnimatronT::Possitions = {0,0,0,0,0,0,0,0,0,0,0};
+    AnimatronT::Possitions = {6,0,0,0,0,0,0,0,0,0,0};
 
     for(auto el : x)
         el->actual_possition = 0;

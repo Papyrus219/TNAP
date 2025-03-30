@@ -1,6 +1,6 @@
 build
 out
-audio
+audio/
 .cache
 .idea
 .vs
