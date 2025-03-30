@@ -12,12 +12,8 @@ FetchContent_MakeAvailable(SFML)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
-add_executable(
-TNAP ${SOURCES}
-src/buttons/menu_buttont.cpp
-src/telephone.cpp
-
-)
+add_executable(TNAP ${SOURCES})
 
 target_compile_features(TNAP PRIVATE cxx_std_17)
+
 target_link_libraries(TNAP PRIVATE SFML::Graphics SFML::Audio)
