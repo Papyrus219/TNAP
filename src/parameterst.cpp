@@ -53,21 +53,26 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
 
 void ParametersT::New_Night(std::vector<AnimatronT*> x)
 {
+    AnimatronT::Possitions = {0,0,0,0,0,0,0,0,0,0,0};
+
+    for(auto el : x)
+        el->actual_possition = 0;
+
     switch(actual_night)
     {
         case 0:
             x[0]->dificulty = 5;
             x[1]->dificulty = 3;
-            x[2]->dificulty = 0;
-            x[3]->dificulty = 0;
-            x[4]->dificulty = 0;
+            x[2]->dificulty = -1;
+            x[3]->dificulty = -1;
+            x[4]->dificulty = -1;
             break;
         case 1:
-            x[0]->dificulty = 7;
-            x[1]->dificulty = 4;
-            x[2]->dificulty = 7;
-            x[3]->dificulty = 6;
-            x[4]->dificulty = 0;
+            x[0]->dificulty = -1;
+            x[1]->dificulty = -1;
+            x[2]->dificulty = -1;
+            x[3]->dificulty = -1;
+            x[4]->dificulty = -1;
             break;
         case 2:
             x[0]->dificulty = 7;
@@ -88,16 +93,16 @@ void ParametersT::Half_Time(std::vector<AnimatronT*> x)
         case 0:
             x[0]->dificulty = 7;
             x[1]->dificulty = 6;
-            x[2]->dificulty = 0;
-            x[3]->dificulty = 0;
-            x[4]->dificulty = 0;
+            x[2]->dificulty = -1;
+            x[3]->dificulty = -1;
+            x[4]->dificulty = -1;
             break;
         case 1:
             x[0]->dificulty = 11;
             x[1]->dificulty = 10;
             x[2]->dificulty = 12;
             x[3]->dificulty = 9;
-            x[4]->dificulty = 0;
+            x[4]->dificulty = -1;
             break;
         case 2:
             x[0]->dificulty = 15;

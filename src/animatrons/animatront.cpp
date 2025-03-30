@@ -7,3 +7,11 @@ AnimatronT::AnimatronT(int dif, int way_leng, std::vector<int> waya): dificulty{
 {
 
 }
+
+bool AnimatronT::Move_check ( int x )
+{
+    if(x <= dificulty)
+        return true;
+    else
+        return false;
+}

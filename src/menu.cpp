@@ -77,11 +77,11 @@ void MenuT::gameplay()
 {
     AnimatronT::Possitions = {0,0,0,0,0,0,0,0,0,0,0};
 
-    Papyrus pap{1, 5, {0,1,2,7,9}};
-    Light light{1, 7, {0,5,8,6,8,10}};
-    Brush brush{20, 6, {0,5,8,10,9}};
-    Bot bot{1, 5, {0,1,2,3,4,5}};
-    Mememan meme{"../../img/cameras/meme_man_button.png", {750,510}, {300,150}, 1, 2, {0}};
+    Papyrus pap{-1, 5, {0,1,2,7,9}};
+    Light light{-1, 7, {0,5,8,6,8,10}};
+    Brush brush{-1, 6, {0,5,8,10,9}};
+    Bot bot{-1, 6, {0,1,2,3,4,5}};
+    Mememan meme{"../../img/cameras/meme_man_button.png", {750,510}, {300,150}, -1, 2, {0}};
 
     std::vector<AnimatronT*> ani{&pap, &light, &brush, &bot, &meme};
 
@@ -89,6 +89,8 @@ void MenuT::gameplay()
         ParametersT par{700,0,"../../audio/",3,3,ani}; //We define obejct of ParametersT.
         CamerasT cameras{"../../img/cameras/cameras.png", "../../img/cameras/camera_panel.png",{1000,667}, {47,33}, 11, 35, {8,2,2,5,2,2,2,2,2,4,4}, {{99,30},{59,71},{139,70},{28,135},{14,28},
         {233,33},{193,141},{104,170},{250,138},{114,250},{233,251}}}; //We define object of CamerasT.
+
+        par.New_Night(ani);
 
         while(office.window->isOpen())
         {

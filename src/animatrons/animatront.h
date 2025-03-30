@@ -15,8 +15,7 @@ public:
     AnimatronT(int dif, int way_leng, std::vector<int> waya);
 
     static std::vector<int> Possitions;
-    bool Move_check(int x) //We check if we can move.
-    {return x <= dificulty;}
+    bool Move_check(int x); //We check if we can move.
     virtual std::vector<int> Move(OfficeT &x) = 0;
 
 protected:
