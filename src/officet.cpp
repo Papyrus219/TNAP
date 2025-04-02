@@ -63,7 +63,7 @@ bool OfficeT::Camera_Open(CamerasT &x) //Function to open camera.
     return false; //If its not in camera button sprite we return false.
 }
 
-void OfficeT::Clicked(ParametersT x) //Function that check wich button (Or nose, was Clicked).
+void OfficeT::Clicked(ParametersT &x) //Function that check wich button (Or nose, was Clicked).
 {
     window->setView(view); //We set view, to hitboxes was check right.
     sf::Vector2f MousePos{window->mapPixelToCoords(sf::Mouse::getPosition(*window))}; //We get mouse possition, from office screen (including view change).

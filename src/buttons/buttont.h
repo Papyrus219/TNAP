@@ -20,8 +20,6 @@ public:
 
     virtual bool Clicked(sf::Vector2f x) = 0; //Standart virtual fuction. This is abstract class so its empty;
 
-    virtual ~ButtonT(){};
-
 protected:
     sf::Vector2f possition {}; //Actual possition.
     std::pair<int,int> size {}; //Actual size;

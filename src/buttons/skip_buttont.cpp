@@ -14,8 +14,3 @@ bool Skip_ButtonT::Clicked(sf::Vector2f x)
     return false;
 }
 
-Skip_ButtonT::~Skip_ButtonT()
-{
-
-}
-

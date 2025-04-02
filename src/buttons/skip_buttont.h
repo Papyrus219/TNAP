@@ -13,7 +13,7 @@ public:
     void Set_sprite_variant(int x)
     {sprite.setTextureRect(Sprites_Variants[x]);}
 
-    ~Skip_ButtonT() override;
+    ~Skip_ButtonT() = default;
 };
 
 #endif // SKIP_BUTTONT_H

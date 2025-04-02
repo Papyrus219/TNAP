@@ -14,7 +14,6 @@ public:
 
     virtual bool Clicked(sf::Vector2f x) override {return true;}; //We need to override function to dont make class abstract.
 
-    ~CameraPanelT(){}; //Destructor.
 };
 
 #endif // CAMERAPANELT_H
