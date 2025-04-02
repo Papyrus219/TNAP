@@ -2,9 +2,8 @@
 #include<iostream>
 
 
-ParametersT::ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::vector<AnimatronT*> x): phone{path,phones,strikes} ,energy{ene}, actual_hour{act_night}
+ParametersT::ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se): phone{path,phones,strikes, button_path, button_poss, se} ,energy{ene} ,actual_hour{0}, actual_night(act_night)
 {
-    New_Night(x);
     //We start both clocks.
     tic_clock.start();
     time_clock.start();
@@ -27,7 +26,7 @@ bool ParametersT::Tic(std::vector<AnimatronT*> x)
 
             if(actual_hour == 3)
                 Half_Time(x);
-            else if(actual_hour==7) //Night end.
+            else if(actual_hour==1) //Night end.
             {
                 std::cerr << "You finish night!\n";
                 actual_hour = 0;
@@ -53,6 +52,7 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
 
 void ParametersT::New_Night(std::vector<AnimatronT*> x)
 {
+    phone.button.Set_sprite_variant(1);
     AnimatronT::Possitions = {6,0,0,0,0,0,0,0,0,0,0};
 
     for(auto el : x)
@@ -116,6 +116,6 @@ void ParametersT::Half_Time(std::vector<AnimatronT*> x)
                 el->dificulty*=2;
     }
     
-    phone.PhoneCalls[actual_night];
+    phone.PhoneCalls[actual_night].play();
 }
 

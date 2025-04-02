@@ -16,7 +16,7 @@
 class ParametersT
 {
 public:
-    ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::vector<AnimatronT*> x); //This function constructor.
+    ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se); //This function constructor.
 
     TelephoneT phone;
 

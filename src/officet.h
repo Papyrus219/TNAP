@@ -25,7 +25,7 @@ public:
     int actual_camera_on{};
 
     void Show_Tittle_Board(); //To show on begining of each night.
-    void Clicked(); //When screen is clicked we will check some options.
+    void Clicked(ParametersT x); //When screen is clicked we will check some options.
     void Scroll(); //Function that check if cursor is in scroll area.
     void Update_Energy_Usage(int x)
     {power_usage += x;}

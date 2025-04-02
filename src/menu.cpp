@@ -3,7 +3,6 @@
 #include  <fstream>
 
 #include "officet.h"
-#include "parameterst.h"
 #include "camerast.h"
 #include "animatrons/animatront.h"
 #include "animatrons/papyrus.h"
@@ -12,7 +11,7 @@
 #include "animatrons/brush.h"
 #include "animatrons/mememan.h"
 
-MenuT::MenuT(std::string menu_path, std::string button_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se)
+MenuT::MenuT(std::string menu_path, std::string button_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se): par{700,0,"../../audio/",3,3, skip_button_path, skip_button_possition, skip_button_se}
 {
     open();
 
@@ -83,10 +82,9 @@ void MenuT::gameplay()
     Bot bot{-1, 6, {0,1,2,3,4,5}};
     Mememan meme{"../../img/cameras/meme_man_button.png", {750,510}, {300,150}, -1, 2, {0}};
 
-    std::vector<AnimatronT*> ani{&pap, &light, &brush, &bot, &meme};
+    std::vector<AnimatronT*> ani{&pap, &meme, &light, &bot, &brush};
 
         OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 2, 2, {{30,250}, {1020,250}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
-        ParametersT par{700,0,"../../audio/",3,3,ani}; //We define obejct of ParametersT.
         CamerasT cameras{"../../img/cameras/cameras.png", "../../img/cameras/camera_panel.png",{1000,667}, {47,33}, 11, 35, {8,2,2,5,2,2,2,2,2,4,4}, {{99,30},{59,71},{139,70},{28,135},{14,28},
         {233,33},{193,141},{104,170},{250,138},{114,250},{233,251}}}; //We define object of CamerasT.
 
@@ -109,7 +107,7 @@ void MenuT::gameplay()
                 }
                 else if(event->is<sf::Event::MouseButtonPressed>()) //We check if window was clicked and then...
                 {
-                    office.Clicked(); //...we start function wich check all elements that can be clicked.
+                    office.Clicked(par); //...we start function wich check all elements that can be clicked.
                 }
             }
 

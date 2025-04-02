@@ -5,7 +5,7 @@
 
 #include "officet.h"
 #include "camerast.h"
-#include "parameterst.h"
+
 #include "animatrons/animatront.h"
 #include "animatrons/papyrus.h"
 #include "animatrons/light.h"
@@ -24,7 +24,7 @@ std::vector<AnimatronT*> ani{&pap, &light, &brush, &bot, &meme};
 
 int main()
 {
-    MenuT menu{"../../img/menu/menu.png","../../img/menu/menu_button", 4, {{10,180}, {10,310}, {10,440}, {10,570}} ,{375,125}};
+    MenuT menu{"../../img/menu/menu.png","../../img/menu/menu_button", 4, {{10,180}, {10,310}, {10,440}, {10,570}} ,{375,125}, "../../img/button/skip_button.png", {800,600}, {300,150}};
 
     while(menu.window->isOpen())
     {

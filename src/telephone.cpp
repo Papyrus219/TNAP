@@ -1,7 +1,7 @@
 #include "telephone.h"
 #include <iostream>
 
-TelephoneT::TelephoneT(std::string path, int numPhoneCalls, int numStrikes)
+TelephoneT::TelephoneT(std::string path, int numPhoneCalls, int numStrikes, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se): button(button_path, button_poss, se)
 {
 	for (int i = 0; i < numPhoneCalls; i++)
 	{
@@ -21,3 +21,15 @@ TelephoneT::TelephoneT(std::string path, int numPhoneCalls, int numStrikes)
 		}
 	}
 }
+
+bool TelephoneT::Clicked(sf::Vector2f x)
+{
+	if(button.Clicked(x))
+	{
+		Skiped++;
+		return true;
+	}
+
+	return false;
+}
+

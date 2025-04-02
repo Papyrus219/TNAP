@@ -63,7 +63,7 @@ bool OfficeT::Camera_Open(CamerasT &x) //Function to open camera.
     return false; //If its not in camera button sprite we return false.
 }
 
-void OfficeT::Clicked() //Function that check wich button (Or nose, was Clicked).
+void OfficeT::Clicked(ParametersT x) //Function that check wich button (Or nose, was Clicked).
 {
     window->setView(view); //We set view, to hitboxes was check right.
     sf::Vector2f MousePos{window->mapPixelToCoords(sf::Mouse::getPosition(*window))}; //We get mouse possition, from office screen (including view change).
@@ -98,6 +98,8 @@ void OfficeT::Clicked() //Function that check wich button (Or nose, was Clicked)
         }
     }
 
+    x.phone.Clicked(MousePos);
+
     window->setView(window->getDefaultView()); //We return to default view. (Just in case.)
 }
 
@@ -131,6 +133,8 @@ void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everythin
 
         if(y.camera_window==nullptr) //If camera is close:
             window->draw(cam_button.sprite); //We draw camera button.
+
+            window->draw(x.phone.button.sprite);
 
             Render_Stats(x); //We call function that draw all stats (energy, hour, etc...).
 

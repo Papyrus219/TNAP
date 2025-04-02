@@ -18,7 +18,7 @@ public:
 
     sf::Sprite sprite{texture}; //Sprite of button.
 
-    virtual bool Clicked(sf::Vector2f x) {return false;}; //Standart virtual fuction. This is abstract class so its empty;
+    virtual bool Clicked(sf::Vector2f x) = 0; //Standart virtual fuction. This is abstract class so its empty;
 
     virtual ~ButtonT(){};
 
