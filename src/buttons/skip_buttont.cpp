@@ -8,6 +8,7 @@ bool Skip_ButtonT::Clicked(sf::Vector2f x)
     if(sprite.getGlobalBounds().contains(x))
     {
         sprite.setTextureRect(Sprites_Variants[0]);
+        actual_variant = 0;
         return true;
     }
 

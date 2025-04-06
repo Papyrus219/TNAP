@@ -11,7 +11,10 @@ public:
     Skip_ButtonT(std::string path, sf::Vector2f poss, std::pair<int,int> se);
 
     void Set_sprite_variant(int x)
-    {sprite.setTextureRect(Sprites_Variants[x]);}
+    {
+        if(x<2) sprite.setTextureRect(Sprites_Variants[x]);
+        actual_variant = 1;
+    }
 
     ~Skip_ButtonT() = default;
 };

@@ -11,9 +11,17 @@
 #include "animatrons/brush.h"
 #include "animatrons/mememan.h"
 
-MenuT::MenuT(std::string menu_path, std::string button_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se): par{700,0,"../../audio/",3,3, skip_button_path, skip_button_possition, skip_button_se}
+MenuT::MenuT(std::string menu_path, std::string button_path, std::string background_path, std::string intro_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se): par{background_path, intro_path,700,0,"../../audio/phoneguy/",3,3,2, skip_button_path, skip_button_possition, skip_button_se}
 {
     open();
+
+    sf::Image icon;
+    if(!icon.loadFromFile("../../img/icon.png"))
+    {
+        std::cerr << "Error! Failed to load icon!";
+    }
+
+    window->setIcon(icon);
 
     if(!menu_texture.loadFromFile(menu_path))
         std::cerr << "Error! Failed to load menu texture.";
@@ -76,11 +84,11 @@ void MenuT::gameplay()
 {
     AnimatronT::Possitions = {0,0,0,0,0,0,0,0,0,0,0};
 
-    Papyrus pap{-1, 5, {0,1,2,7,9}};
-    Light light{-1, 7, {0,5,8,6,8,10}};
-    Brush brush{-1, 6, {0,5,8,10,9}};
-    Bot bot{-1, 6, {0,1,2,3,4,5}};
-    Mememan meme{"../../img/cameras/meme_man_button.png", {750,510}, {300,150}, -1, 2, {0}};
+    Papyrus pap{"../../audio/animatrons/papyrus.wav", -1, 5, {0,1,2,7,9}};
+    Light light{"../../audio/animatrons/light.wav", -1, 7, {0,5,8,6,8,10}};
+    Brush brush{"../../audio/animatrons/brush.wav", -1, 6, {0,5,8,10,9}};
+    Bot bot{"../../audio/animatrons/bot.wav", -1, 6, {0,1,2,3,4,5}};
+    Mememan meme{"../../audio/animatrons/meme.wav", "../../img/cameras/meme_man_button.png", {750,510}, {300,150}, -1, 2, {0}};
 
     std::vector<AnimatronT*> ani{&pap, &meme, &light, &bot, &brush};
 
@@ -88,7 +96,8 @@ void MenuT::gameplay()
         CamerasT cameras{"../../img/cameras/cameras.png", "../../img/cameras/camera_panel.png",{1000,667}, {47,33}, 11, 35, {8,2,2,5,2,2,2,2,2,4,4}, {{99,30},{59,71},{139,70},{28,135},{14,28},
         {233,33},{193,141},{104,170},{250,138},{114,250},{233,251}}}; //We define object of CamerasT.
 
-        par.New_Night(ani);
+        par.New_Night(ani,office);
+        std::cerr <<par.Send_Night() << '\n';
 
         while(office.window->isOpen())
         {
@@ -107,7 +116,7 @@ void MenuT::gameplay()
                 }
                 else if(event->is<sf::Event::MouseButtonPressed>()) //We check if window was clicked and then...
                 {
-                    office.Clicked(par); //...we start function wich check all elements that can be clicked.
+                    office.Clicked(par,ani); //...we start function wich check all elements that can be clicked.
                 }
             }
 
@@ -132,7 +141,7 @@ void MenuT::gameplay()
             }
 
             par.Update_Power_Ussage({office.Get_power_usage()});
-            if(par.Tic(ani)) //And check if tic happen.
+            if(par.Tic(*this,office,cameras,ani)) //And check if tic happen.
             {
                 office.Update_actual_camera(cameras);
                 for(auto el : ani)

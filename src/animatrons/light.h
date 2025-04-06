@@ -6,7 +6,7 @@
 class Light: public AnimatronT
 {
 public:
-    Light(int dif, int way_len, std::vector<int> waya);
+    Light(std::string path_audio, int dif, int way_len, std::vector<int> waya);
 
     bool under_door{};
 

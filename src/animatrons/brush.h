@@ -6,7 +6,7 @@
 class Brush: public AnimatronT
 {
 public:
-    Brush(int dif, int way_len, std::vector<int> waya);
+    Brush(std::string path_audio, int dif, int way_len, std::vector<int> waya);
     std::vector<int> Move(OfficeT &x) override;
 };
 

@@ -1,6 +1,6 @@
 #include "papyrus.h"
 
-Papyrus::Papyrus(int dif, int way_lenght, std::vector<int> waya): AnimatronT{dif, way_lenght, waya}
+Papyrus::Papyrus(std::string path_audio, int dif, int way_lenght, std::vector<int> waya): AnimatronT{path_audio,dif, way_lenght, waya}
 {
     AnimatronT::Possitions[waya[0]]+=1;
 }
@@ -72,6 +72,7 @@ std::vector<int> Papyrus::Move(OfficeT &x)
             actual_possition++;
             if(actual_possition == 5)
             {
+                audio.play();
                 tmp.push_back(-1);
                 tmp.push_back(-1);
                 under_door = true;

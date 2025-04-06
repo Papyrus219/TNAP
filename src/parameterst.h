@@ -13,10 +13,14 @@
  * This also send thouse informations by functions to other clasess.
  */
 
+class OfficeT;
+class CamerasT;
+class MenuT;
+
 class ParametersT
 {
 public:
-    ParametersT(int ene, int act_night, std::string path, int phones, int strikes, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se); //This function constructor.
+    ParametersT(std::string background_path, std::string start_night_path, int ene, int act_night, std::string path, int phones, int strikes, int stories, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se); //This function constructor.
 
     TelephoneT phone;
 
@@ -26,7 +30,6 @@ public:
     {return actual_night;}
     int Send_Energy()
     {return energy;}
-
     void Update_Power_Ussage(std::vector<int> x); //This function update energy used when for example door closed.
     void Update_Energy() //This function change the energy every tic.
     {energy-=power_ussage;}
@@ -36,11 +39,12 @@ public:
 
     void Load_Night(); //This function load night from file.
 
-    void New_Night(std::vector<AnimatronT*> x);
+    void New_Night(std::vector<AnimatronT*> x, OfficeT &y);
     //This function set all animatrons agressy, and reset power every time new night started.
     void Half_Time(std::vector<AnimatronT*> x);
+    void Hard_mode(std::vector<AnimatronT*> x);
 
-    bool Tic(std::vector<AnimatronT*> x);
+    bool Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT*> z);
 
 
 private:
@@ -52,6 +56,10 @@ private:
     sf::Clock time_clock{};
     sf::Time tic{};
     sf::Time hour{};
+
+    sf::SoundBuffer buffer;
+    sf::Sound start_night;
+    sf::Music background;
 };
 
 #endif // PARAMETERST_H

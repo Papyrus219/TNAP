@@ -17,6 +17,7 @@ public:
     ButtonT(ButtonT &&); //Copy constructor
 
     sf::Sprite sprite{texture}; //Sprite of button.
+    int actual_variant{};
 
     virtual bool Clicked(sf::Vector2f x) = 0; //Standart virtual fuction. This is abstract class so its empty;
 

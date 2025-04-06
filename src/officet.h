@@ -14,6 +14,7 @@
  */
 
 class ParametersT;
+class AnimatronT;
 
 class OfficeT
 {
@@ -24,8 +25,10 @@ public:
     sf::RenderWindow* window; //Office window.
     int actual_camera_on{};
 
+    void Open();
+    void Close();
     void Show_Tittle_Board(); //To show on begining of each night.
-    void Clicked(ParametersT &x); //When screen is clicked we will check some options.
+    void Clicked(ParametersT &x, std::vector<AnimatronT*> ani); //When screen is clicked we will check some options.
     void Scroll(); //Function that check if cursor is in scroll area.
     void Update_Energy_Usage(int x)
     {power_usage += x;}
@@ -43,6 +46,7 @@ public:
     void Render_Stats(ParametersT &x); //Render Statistic on screen.
     void Change_Door_Textures(int x, int y, int a)
     {Doors[a].Used_variants[x] = Doors[a].Sprites_variants[y];};
+    void start_night(ParametersT &x);
 
     ~OfficeT(); //Destructor.
 
@@ -56,6 +60,7 @@ private:
     int Door_texture_status[2]{};
     int power_usage; //Actual power_usage of office.
     sf::Texture texture; //Texture of office.
+    sf::IntRect Sprites_variants[2];
     sf::View view; //View. (For scroll effect.
     sf::Sprite sprite{texture}; //Sprite. This is what we will show on screen.
     Camera_ButtonT cam_button; //Button to open camera.

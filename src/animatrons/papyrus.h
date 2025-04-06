@@ -7,7 +7,7 @@ class AnimatronT;
 class Papyrus: public AnimatronT
 {
 public:
-    Papyrus(int dif, int way_lenght, std::vector<int> waya);
+    Papyrus(std::string path_audio, int dif, int way_lenght, std::vector<int> waya);
 
     bool under_door{};
 

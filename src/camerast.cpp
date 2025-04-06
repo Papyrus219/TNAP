@@ -41,6 +41,14 @@ void CamerasT::Open() //Function opening camera window.
 {
     camera_window = new sf::RenderWindow; //We alocate Render window.
     camera_window->create(sf::VideoMode({1000,667}), "Cameras"); //We name it and set its resolution.
+
+    sf::Image icon;
+    if(!icon.loadFromFile("../../img/icon.png"))
+    {
+        std::cerr << "Error! Failed to load icon!";
+    }
+
+    camera_window->setIcon(icon);
 }
 
 void CamerasT::Close() //Function closing camera window.

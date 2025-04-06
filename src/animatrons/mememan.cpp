@@ -1,6 +1,6 @@
 #include "mememan.h"
 
-Mememan::Mememan(std::string path, sf::Vector2f pos, std::pair<int,int> se, int dif, int path_len, std::vector<int> waya): AnimatronT{dif, path_len, waya}, button{path, pos, se}
+Mememan::Mememan(std::string path_audio, std::string path, sf::Vector2f pos, std::pair<int,int> se, int dif, int path_len, std::vector<int> waya): AnimatronT{path_audio,dif, path_len, waya}, button{path, pos, se}
 {
     AnimatronT::Possitions[8] += 7;
 
@@ -25,6 +25,7 @@ std::vector<int> Mememan::Move(OfficeT &x)
             tmp.push_back(0);
             break;
         case 1:
+            audio.play();
             tmp.push_back(1);
             break;
         case 2:

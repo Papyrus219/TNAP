@@ -1,6 +1,7 @@
 #ifndef ANIMATRONT_H
 #define ANIMATRONT_H
 
+#include<SFML/Audio.hpp>
 #include<iostream>
 #include<vector>
 #include"../camerast.h"
@@ -12,7 +13,7 @@ struct error
 class AnimatronT
 {
 public:
-    AnimatronT(int dif, int way_leng, std::vector<int> waya);
+    AnimatronT(std::string path_audio, int dif, int way_leng, std::vector<int> waya);
 
     static std::vector<int> Possitions;
     bool Move_check(int x); //We check if we can move.
@@ -22,10 +23,12 @@ protected:
     int dificulty{};
     int chill{};
     int rage{};
+    int actual_possition{};
     std::vector<int> way;
     const int way_length;
-    int actual_possition{};
     bool underdoor{};
+    sf::SoundBuffer buffer;
+    sf::Sound audio;
 
     friend class ParametersT;
 };

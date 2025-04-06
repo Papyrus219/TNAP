@@ -1,6 +1,6 @@
 #include "brush.h"
 
-Brush::Brush(int dif, int way_len, std::vector<int> waya): AnimatronT{dif,way_len,waya}
+Brush::Brush(std::string path_audio, int dif, int way_len, std::vector<int> waya): AnimatronT{path_audio,dif,way_len,waya}
 {
     AnimatronT::Possitions[waya[0]]+=3;
 }
@@ -53,6 +53,7 @@ std::vector<int> Brush::Move(OfficeT &x)
 
         if(actual_possition == 4 || actual_possition == 5)
         {
+            audio.play();
             if(actual_possition == 4)
             {
                 if(!x.Door_status_check(1))

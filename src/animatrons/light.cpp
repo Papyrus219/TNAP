@@ -1,6 +1,6 @@
 #include "light.h"
 
-Light::Light(int dif, int way_len, std::vector<int> waya): AnimatronT{dif, way_len, waya}
+Light::Light(std::string path_audio, int dif, int way_len, std::vector<int> waya): AnimatronT{path_audio,dif, way_len, waya}
 {
     AnimatronT::Possitions[waya[0]]+=2;
 }
@@ -78,6 +78,7 @@ std::vector<int> Light::Move(OfficeT &x)
 
             if(actual_possition == 6)
             {
+                audio.play();
                 tmp.push_back(-1);
                 tmp.push_back(-1);
                 under_door = true;

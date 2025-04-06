@@ -13,7 +13,7 @@
 class Mememan: public AnimatronT
 {
 public:
-    Mememan(std::string path, sf::Vector2f pos, std::pair<int,int> se, int dif, int path_len, std::vector<int> waya);
+    Mememan(std::string path_audio, std::string path, sf::Vector2f pos, std::pair<int,int> se, int dif, int path_len, std::vector<int> waya);
     std::vector<int> Move(OfficeT &x) override;
 
 private:
