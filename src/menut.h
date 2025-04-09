@@ -5,28 +5,30 @@
 #include "buttons/menu_buttont.h"
 #include "parameterst.h"
 
+class Custom_night_menuT;
+
 class MenuT
 {
 public:
     MenuT(std::string menu_path, std::string button_path, std::string background_path,std::string intro_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se);
+    MenuT() = default;
 
-    sf::Texture menu_texture{};
+    sf::Texture texture{};
     sf::Texture buttons_texture{};
-    sf::Sprite sprite{menu_texture};
-    int stars{};
-
+    sf::Sprite sprite{texture};
     sf::RenderWindow* window{};
     std::vector<Menu_ButtonT> butions{};
-    ParametersT par;
+    ParametersT par{};
+    bool custom_night{};
 
     void open();
     void Render();
-    void Click();
+    void Click(Custom_night_menuT &x);
     void Newgame();
     void Continue();
-    void Custom_night();
+    void Custom_night(Custom_night_menuT &x);
     void Exit();
-    void gameplay();
+    void gameplay(bool custom_night = false);
     void close();
 
     ~MenuT();

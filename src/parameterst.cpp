@@ -1,6 +1,7 @@
 #include "parameterst.h"
 #include "menut.h"
 #include<iostream>
+#include<fstream>
 
 
 ParametersT::ParametersT(std::string background_path, std::string start_night_path, int ene, int act_night, std::string path, int phones, int strikes, int stories, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se): phone{path,phones,strikes,stories, button_path, button_poss, se} ,energy{ene} ,actual_hour{0}, actual_night(act_night), start_night{buffer}
@@ -99,6 +100,8 @@ void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y)
             break;
     }
 
+    save();
+
     background.stop();
     start_night.play();
 
@@ -141,7 +144,17 @@ void ParametersT::Half_Time(std::vector<AnimatronT*> x)
     phone.PhoneCalls[actual_night].play();
 }
 
+void ParametersT::save()
+{
+    std::ofstream save_file{"../../data/save.txt", std::ios::trunc};
+
+    save_file << actual_night << ';' << stars << ';' << phone.Skiped << '~';
+
+    save_file.close();
+}
+
 void ParametersT::Hard_mode(std::vector<AnimatronT *> x)
 {
-
+    for(auto el : x)
+        el->dificulty=20;
 }

@@ -2,6 +2,7 @@
 #include "buttons/menu_buttont.h"
 #include  <fstream>
 
+#include"custom_night_menut.h"
 #include "officet.h"
 #include "camerast.h"
 #include "animatrons/animatront.h"
@@ -10,23 +11,14 @@
 #include "animatrons/bot.h"
 #include "animatrons/brush.h"
 #include "animatrons/mememan.h"
+#include "parameterst.h"
 
 MenuT::MenuT(std::string menu_path, std::string button_path, std::string background_path, std::string intro_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se): par{background_path, intro_path,700,0,"../../audio/phoneguy/",3,3,2, skip_button_path, skip_button_possition, skip_button_se}
 {
-    open();
-
-    sf::Image icon;
-    if(!icon.loadFromFile("../../img/icon.png"))
-    {
-        std::cerr << "Error! Failed to load icon!";
-    }
-
-    window->setIcon(icon);
-
-    if(!menu_texture.loadFromFile(menu_path))
+    if(!texture.loadFromFile(menu_path))
         std::cerr << "Error! Failed to load menu texture.";
 
-    sprite.setTexture(menu_texture, true);
+    sprite.setTexture(texture, true);
 
     for(int i=0;i<options_amount;i++)
         butions.push_back(Menu_ButtonT{button_path + std::to_string(i) + ".png", {pos[i].x,pos[i].y},{se.first,se.second}});
@@ -37,6 +29,15 @@ void MenuT::open()
 {
     window = new sf::RenderWindow{};
     window->create(sf::VideoMode({1200,1000}),"Menu");
+
+    sf::Image icon;
+    if(!icon.loadFromFile("../../img/icon.png"))
+    {
+        std::cerr << "Error! Failed to load icon!";
+    }
+
+    window->setIcon(icon);
+
 }
 
 void MenuT::Render()
@@ -45,13 +46,13 @@ void MenuT::Render()
 
     window->draw(sprite);
     for(int i=0;i<butions.size();i++)
-        if(i !=2 || stars >=1)
+        if(i !=2 || par.stars >=1)
             window->draw(butions[i].sprite);
 
     window->display();
 }
 
-void MenuT::Click()
+void MenuT::Click(Custom_night_menuT &x)
 {
     sf::Vector2f MousePos{sf::Mouse::getPosition(*window)};
 
@@ -68,7 +69,7 @@ void MenuT::Click()
                     Continue();
                     break;
                 case 2:
-                    Custom_night();
+                    Custom_night(x);
                     break;
                 case 3:
                     Exit();
@@ -79,8 +80,7 @@ void MenuT::Click()
     }
 }
 
-
-void MenuT::gameplay()
+void MenuT::gameplay(bool custom_night)
 {
     AnimatronT::Possitions = {0,0,0,0,0,0,0,0,0,0,0};
 
@@ -152,17 +152,47 @@ void MenuT::gameplay()
 
 void MenuT::Newgame()
 {
-    std::ofstream("../../data/save.txt", std::ios::trunc);
+    std::ofstream save_file{"../../data/save.txt", std::ios::trunc};
 
+    par.actual_night = 0;
+    par.phone.Skiped = 0;
 
+    save_file << par.actual_night << ';' << par.stars << ';' << par.phone.Skiped << '~';
+
+    save_file.close();
     window->close();
     gameplay();
 }
 
 void MenuT::Continue()
 {
-    std::ifstream save_file;
-    save_file.open("../../data/save.txt");
+    std::ifstream save_file{"../../data/save.txt"};
+    std::string t{};
+    int mode = 0;
+
+    std::getline(save_file,t);
+    for(int i=0;i<t.size();i++)
+    {
+        if(t[i] == ';' || t[i] == '~')
+        {
+            mode++;
+            i++;
+        }
+        else
+        {
+            switch(mode)
+            {
+                case 0:
+                    par.actual_night = t[i]-48;
+                    break;
+                case 1:
+                    par.stars = t[i]-48;
+                    break;
+                case 2:
+                    par.phone.Skiped = t[i]-48;
+            }
+        }
+    }
 
     if(!save_file.is_open())
         Newgame();
@@ -171,14 +201,16 @@ void MenuT::Continue()
     gameplay();
 }
 
-void MenuT::Custom_night()
+void MenuT::Custom_night(Custom_night_menuT &x)
 {
-    window->close();
-    gameplay();
+    x.open();
 }
 
 void MenuT::Exit()
 {
+    par.save();
+
+    close();
 }
 
 

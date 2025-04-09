@@ -21,8 +21,11 @@ class ParametersT
 {
 public:
     ParametersT(std::string background_path, std::string start_night_path, int ene, int act_night, std::string path, int phones, int strikes, int stories, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se); //This function constructor.
+    ParametersT() = default;
 
-    TelephoneT phone;
+    TelephoneT phone{};
+
+    int stars{2};
 
     int Send_Hour()
     {return actual_hour;}
@@ -44,22 +47,27 @@ public:
     void Half_Time(std::vector<AnimatronT*> x);
     void Hard_mode(std::vector<AnimatronT*> x);
 
+    void save();
+
     bool Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT*> z);
 
 
 private:
     int power_ussage{1};
-    int energy;
+    int energy{};
     int actual_hour{};
-    int actual_night;
+    int actual_night{};
     sf::Clock tic_clock{};
     sf::Clock time_clock{};
     sf::Time tic{};
     sf::Time hour{};
 
-    sf::SoundBuffer buffer;
-    sf::Sound start_night;
-    sf::Music background;
+    sf::SoundBuffer buffer{};
+    sf::Sound start_night{buffer};
+    sf::Music background{};
+
+    friend class MenuT;
+
 };
 
 #endif // PARAMETERST_H

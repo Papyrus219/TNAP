@@ -9,6 +9,7 @@ public:
     bool Clicked(sf::Vector2f x) override;
 
     Skip_ButtonT(std::string path, sf::Vector2f poss, std::pair<int,int> se);
+    Skip_ButtonT() = default;
 
     void Set_sprite_variant(int x)
     {
