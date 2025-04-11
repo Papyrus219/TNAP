@@ -46,7 +46,8 @@ void Custom_night_menuT::open()
         {
             if (event->is<sf::Event::Closed>()) //Standard, we check if window is closed.
             {
-                Close();
+                close();
+                return ;
             }
             if(event->is<sf::Event::MouseButtonPressed>())
             {
@@ -58,26 +59,22 @@ void Custom_night_menuT::open()
 
 void Custom_night_menuT::Render()
 {
-    window->clear();
-
-    window->draw(sprite);
-    for(auto el : Hitboxes)
+    if(window != nullptr)
     {
-        window->draw(el);
-    }
-    for(auto el : agros)
-    {
-        window->draw(el);
-    }
+        window->clear();
 
-    window->display();
-}
+        window->draw(sprite);
+        for(auto el : Hitboxes)
+        {
+            window->draw(el);
+        }
+        for(auto el : agros)
+        {
+            window->draw(el);
+        }
 
-void Custom_night_menuT::Close()
-{
-    window->close();
-    delete window;
-    window = nullptr;
+        window->display();
+    }
 }
 
 void Custom_night_menuT::Click()
@@ -90,7 +87,7 @@ void Custom_night_menuT::Click()
         {
             if(i == Hitboxes.size()-1)
             {
-                //Start();
+                Start();
                 return;
             }
 
@@ -109,4 +106,18 @@ void Custom_night_menuT::Click()
         }
     }
 }
+
+void Custom_night_menuT::Start()
+{
+
+}
+
+Custom_night_menuT::~Custom_night_menuT()
+{
+    close();
+}
+
+
+
+
 

@@ -15,6 +15,8 @@ public:
     void Click();
     void Start();
 
+    ~Custom_night_menuT();
+
 private:
     sf::Font comic_sans;
     int animatron_amount;

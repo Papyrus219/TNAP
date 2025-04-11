@@ -42,14 +42,17 @@ void MenuT::open()
 
 void MenuT::Render()
 {
-    window->clear();
+    if(window != nullptr)
+    {
+        window->clear();
 
-    window->draw(sprite);
-    for(int i=0;i<butions.size();i++)
-        if(i !=2 || par.stars >=1)
-            window->draw(butions[i].sprite);
+        window->draw(sprite);
+        for(int i=0;i<butions.size();i++)
+            if(i !=2 || par.stars >=1)
+                window->draw(butions[i].sprite);
 
-    window->display();
+        window->display();
+    }
 }
 
 void MenuT::Click(Custom_night_menuT &x)
@@ -203,6 +206,7 @@ void MenuT::Continue()
 
 void MenuT::Custom_night(Custom_night_menuT &x)
 {
+    close();
     x.open();
 }
 
@@ -216,7 +220,8 @@ void MenuT::Exit()
 
 void MenuT::close()
 {
-    window->close();
+    if(window != nullptr)
+        window->close();
     delete window;
     window = nullptr;
 }

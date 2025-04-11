@@ -37,6 +37,7 @@ int main()
             if (event->is<sf::Event::Closed>()) //Standard, we check if window is closed.
             {
                 menu.close();
+                return 0;
             }
             if(event->is<sf::Event::MouseButtonPressed>())
             {
