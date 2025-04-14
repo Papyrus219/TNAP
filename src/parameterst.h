@@ -33,6 +33,8 @@ public:
     {return actual_night;}
     int Send_Energy()
     {return energy;}
+    bool Send_Custom()
+    {return custom_night;}
     void Update_Power_Ussage(std::vector<int> x); //This function update energy used when for example door closed.
     void Update_Energy() //This function change the energy every tic.
     {energy-=power_ussage;}
@@ -42,7 +44,7 @@ public:
 
     void Load_Night(); //This function load night from file.
 
-    void New_Night(std::vector<AnimatronT*> x, OfficeT &y);
+    void New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<int> custom_dif = {-69});
     //This function set all animatrons agressy, and reset power every time new night started.
     void Half_Time(std::vector<AnimatronT*> x);
     void Hard_mode(std::vector<AnimatronT*> x);
@@ -57,6 +59,7 @@ private:
     int energy{};
     int actual_hour{};
     int actual_night{};
+    bool custom_night;
     sf::Clock tic_clock{};
     sf::Clock time_clock{};
     sf::Time tic{};

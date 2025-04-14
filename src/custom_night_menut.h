@@ -10,7 +10,6 @@ public:
     Custom_night_menuT(MenuT *ma, std::string custom_night_path, sf::Vector2f se, std::vector<sf::Vector2f> hitbox_positions, std::vector<sf::Vector2f> text_positions, int dif);
 
     void open();
-    void Close();
     void Render();
     void Click();
     void Start();

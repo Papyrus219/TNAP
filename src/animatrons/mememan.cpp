@@ -14,7 +14,7 @@ std::vector<int> Mememan::Move(OfficeT &x)
 
     if(Move_check(rand()%20))
     {
-        std::cerr << "Mememan move!\n";
+        std::cerr << "Mememan move! " << dificulty << "\n";
         actual_possition++;
     }
 

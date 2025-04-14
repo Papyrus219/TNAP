@@ -83,7 +83,7 @@ void MenuT::Click(Custom_night_menuT &x)
     }
 }
 
-void MenuT::gameplay(bool custom_night)
+void MenuT::gameplay(std::vector<int> custom_dif)
 {
     AnimatronT::Possitions = {0,0,0,0,0,0,0,0,0,0,0};
 
@@ -95,11 +95,11 @@ void MenuT::gameplay(bool custom_night)
 
     std::vector<AnimatronT*> ani{&pap, &meme, &light, &bot, &brush};
 
-        OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 2, 2, {{30,250}, {1020,250}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
+        OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 2, 2, {{175,350}, {1020,340}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
         CamerasT cameras{"../../img/cameras/cameras.png", "../../img/cameras/camera_panel.png",{1000,667}, {47,33}, 11, 35, {8,2,2,5,2,2,2,2,2,4,4}, {{99,30},{59,71},{139,70},{28,135},{14,28},
         {233,33},{193,141},{104,170},{250,138},{114,250},{233,251}}}; //We define object of CamerasT.
 
-        par.New_Night(ani,office);
+        par.New_Night(ani,office,custom_dif);
         std::cerr <<par.Send_Night() << '\n';
 
         while(office.window->isOpen())
@@ -206,7 +206,6 @@ void MenuT::Continue()
 
 void MenuT::Custom_night(Custom_night_menuT &x)
 {
-    close();
     x.open();
 }
 

@@ -16,7 +16,12 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
     window->setIcon(icon);
 
     for(int i=0;i<doors_amount;i++) //For value of argument we push to vector coresponding amount of doors.
-        Doors.push_back(DoorT {door_path, Door_possition[i], 5}); //We push back to vector.
+    {
+        if(i%2==0)
+            Doors.push_back(DoorT {door_path, Door_possition[i], 5, {150,700}, true}); //We push back to vector.
+        else
+            Doors.push_back(DoorT {door_path, Door_possition[i], 5}); //We push back to vector.
+    }
 
     for(int i=0;i<buttons_amount;i++) //For value of buttons amount we also make door_button and light_button.
     {
@@ -237,7 +242,14 @@ void OfficeT::start_night(ParametersT& x)
     }
 
     sf::Text Night_title(comic_sans);
-    Night_title.setString("NIGHT " + std::to_string(x.Send_Night()+1));
+    if(x.Send_Custom())
+    {
+        Night_title.setString("CUSTOM NIGHT");
+    }
+    else
+    {
+        Night_title.setString("NIGHT " + std::to_string(x.Send_Night()+1));
+    }
     Night_title.setPosition({592,500});
     Night_title.setFillColor(sf::Color::White);
 

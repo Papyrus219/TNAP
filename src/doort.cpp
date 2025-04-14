@@ -1,7 +1,7 @@
 #include "doort.h"
 #include<iostream>
 
-DoorT::DoorT(std::string path, sf::Vector2f poss, int sprite_amount, std::pair<int, int> se): size{se}, possition{poss} //Constructor of door.
+DoorT::DoorT(std::string path, sf::Vector2f poss, int sprite_amount, std::pair<int, int> se, bool mirror): size{se}, possition{poss} //Constructor of door.
 {
     if(!texture.loadFromFile(path)) //We load texture of door.
         std::cout << "Error!  Cant load texture of door\n";
@@ -16,6 +16,8 @@ DoorT::DoorT(std::string path, sf::Vector2f poss, int sprite_amount, std::pair<i
 
     sprite.setTexture(texture, true); //We load texture to sprite.
     sprite.setTextureRect(Used_variants[0]); //And set it to be first variants of it.
+    if(mirror)
+        sprite.setScale({-1.f,1.f});
 }
 
 DoorT::DoorT(const DoorT & other) //Copy constructor.
@@ -32,6 +34,7 @@ DoorT::DoorT(const DoorT & other) //Copy constructor.
     sprite.setTexture(texture,true);
     sprite.setTextureRect(Used_variants[0]);
     sprite.setPosition(possition);
+    sprite.setScale(other.sprite.getScale());
 }
 
 void DoorT::Close() //Function to call when door is close.

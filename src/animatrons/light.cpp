@@ -40,7 +40,7 @@ std::vector<int> Light::Move(OfficeT &x)
         if(Move_check(rand()%20))
         {
 
-            std::cerr << "Light Nate move!\n";
+            std::cerr << "Light Nate move! " << dificulty << "\n";
             tmp.push_back(way[actual_possition]);
 
             if(actual_possition == 0)

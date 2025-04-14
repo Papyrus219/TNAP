@@ -6,7 +6,7 @@
 class DoorT
 {
 public:
-    DoorT(std::string path, sf::Vector2f poss, int sprite_amount, std::pair<int,int> se = {150,700}); //Standart contructor.
+    DoorT(std::string path, sf::Vector2f poss, int sprite_amount, std::pair<int,int> se = {150,700},bool mirror = false); //Standart contructor.
     DoorT(const DoorT &); //Copy constructor.
 
     sf::Sprite sprite{texture}; //Sprite to show on screen.

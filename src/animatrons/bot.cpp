@@ -29,7 +29,7 @@ std::vector<int> Bot::Move(OfficeT &x)
 
         if(x.actual_camera_on != 3)
         {
-            std::cerr << "Bot moved!\n";
+            std::cerr << "Bot moved! " << dificulty << "\n";
 
             tmp.push_back(3);
             tmp.push_back(actual_possition);

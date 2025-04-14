@@ -28,7 +28,7 @@ public:
     void Continue();
     void Custom_night(Custom_night_menuT &x);
     void Exit();
-    void gameplay(bool custom_night = false);
+    void gameplay(std::vector<int> custom_dif = {});
     void close();
 
     ~MenuT();

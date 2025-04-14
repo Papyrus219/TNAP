@@ -67,48 +67,68 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
         power_ussage+=el;
 }
 
-void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y)
+void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<int> custom_dif)
 {
-    phone.button.Set_sprite_variant(1);
-    AnimatronT::Possitions = {6,0,0,0,0,0,0,0,0,0,0};
 
-    for(auto el : x)
-        el->actual_possition = 0;
-
-    switch(actual_night)
+    if(!(custom_dif == std::vector<int>{-69}))
     {
-        case 0:
-            x[0]->dificulty = 5;
-            x[1]->dificulty = 3;
-            x[2]->dificulty = -1;
-            x[3]->dificulty = -1;
-            x[4]->dificulty = -1;
-            break;
-        case 1:
-            x[0]->dificulty = 7;
-            x[1]->dificulty = 4;
-            x[2]->dificulty = 7;
-            x[3]->dificulty = 6;
-            x[4]->dificulty = -1;
-            break;
-        case 2:
-            x[0]->dificulty = 7;
-            x[1]->dificulty = 6;
-            x[2]->dificulty = 5;
-            x[3]->dificulty = 7;
-            x[4]->dificulty = 10;
-            break;
+        phone.button.Set_sprite_variant(1);
+        AnimatronT::Possitions = {6,0,0,0,0,0,0,0,0,0,0};
+
+        for(auto el : x)
+            el->actual_possition = 0;
+
+        switch(actual_night)
+        {
+            case 0:
+                x[0]->dificulty = 5;
+                x[1]->dificulty = 3;
+                x[2]->dificulty = -1;
+                x[3]->dificulty = -1;
+                x[4]->dificulty = -1;
+                break;
+            case 1:
+                x[0]->dificulty = 7;
+                x[1]->dificulty = 4;
+                x[2]->dificulty = 7;
+                x[3]->dificulty = 6;
+                x[4]->dificulty = -1;
+                break;
+            case 2:
+                x[0]->dificulty = 7;
+                x[1]->dificulty = 6;
+                x[2]->dificulty = 5;
+                x[3]->dificulty = 7;
+                x[4]->dificulty = 10;
+                break;
+        }
+
+        save();
+
+        background.stop();
+        start_night.play();
+
+        y.start_night(*this);
+
+        background.play();
+        phone.PhoneCalls[actual_night].play();
+    }
+    else
+    {
+        std::cerr << "Chicken jokey!\n";
+        custom_night = true;
+
+        for(int i=0;i<custom_dif.size();i++)
+        {
+            x[i]->dificulty = custom_dif[i];
+        }
+
+        background.stop();
+        start_night.play();
+        y.start_night(*this);
+        background.play();
     }
 
-    save();
-
-    background.stop();
-    start_night.play();
-
-    y.start_night(*this);
-
-    background.play();
-    phone.PhoneCalls[actual_night].play();
 }
 
 void ParametersT::Half_Time(std::vector<AnimatronT*> x)

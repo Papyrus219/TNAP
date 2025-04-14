@@ -7,6 +7,7 @@ Papyrus::Papyrus(std::string path_audio, int dif, int way_lenght, std::vector<in
 
 std::vector<int> Papyrus::Move(OfficeT &x)
 {
+
     std::srand(time(NULL));
     std::vector<int> tmp{};
 
@@ -39,7 +40,7 @@ std::vector<int> Papyrus::Move(OfficeT &x)
     {
         if(Move_check(rand()%20))
         {
-            std::cerr << "Papyrus move!\n";
+            std::cerr << "Papyrus move! " << dificulty << "\n";
             tmp.push_back(way[actual_possition]);
 
             if(actual_possition == 0)

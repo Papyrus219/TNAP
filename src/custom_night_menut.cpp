@@ -15,7 +15,7 @@ Custom_night_menuT::Custom_night_menuT(MenuT *ma , std::string custom_night_path
     for(int i=0;i<text_positions.size();i++)
     {
         sf::Text temp{comic_sans};
-        temp.setFillColor(sf::Color::Magenta);
+        temp.setFillColor(sf::Color::Red);
         temp.setPosition(text_positions[i]);
         temp.setString(std::to_string(Dificulties[i]));
 
@@ -28,7 +28,7 @@ Custom_night_menuT::Custom_night_menuT(MenuT *ma , std::string custom_night_path
     {
         sf::RectangleShape tmp{se};
         tmp.setPosition(hitbox_positions[i]);
-        tmp.setFillColor(sf::Color::Transparent);
+        tmp.setFillColor(sf::Color::Cyan);
 
         Hitboxes.push_back(tmp);
     }
@@ -83,7 +83,7 @@ void Custom_night_menuT::Click()
 
     for(int i=0;i<Hitboxes.size();i++)
     {
-        if(Hitboxes[i].getLocalBounds().contains(MousePos))
+        if(Hitboxes[i].getGlobalBounds().contains(MousePos))
         {
             if(i == Hitboxes.size()-1)
             {
@@ -91,7 +91,7 @@ void Custom_night_menuT::Click()
                 return;
             }
 
-            if(i%2)
+            if(!(i%2))
             {
                 if(Dificulties[i/2] < 8)
                     Dificulties[i/2]++;
@@ -109,7 +109,10 @@ void Custom_night_menuT::Click()
 
 void Custom_night_menuT::Start()
 {
+    close();
+    master->close();
 
+    master->gameplay(Dificulties);
 }
 
 Custom_night_menuT::~Custom_night_menuT()

@@ -25,7 +25,7 @@
 
 int main()
 {
-    MenuT menu{"../../img/menu/menu.png","../../img/menu/menu_button","../../audio/background.wav","../../audio/NightStart.wav", 4, {{10,180}, {10,310}, {10,440}, {10,570}} ,{375,125}, "../../img/button/skip_button.png", {800,600}, {300,150}};
+    MenuT menu{"../../img/menu/menu.png","../../img/menu/menu_button","../../audio/background.wav","../../audio/NightStart.wav", 4, {{10,180}, {10,310}, {10,440}, {10,570}} ,{375,125}, "../../img/button/skip_button.png", {800,720}, {300,150}};
     Custom_night_menuT cn_menu{&menu,"../../img/menu/custom.png",{193,82},{{10,166},{16,542},{293,168},{320,529},{579,153},{578,535},{793,152},{803,533},{1001,149},{1010,532},{509,783}},{{55,50},{327,54},{611,41},{820,40},{1041,49}},5};
 
     menu.open();
