@@ -53,9 +53,12 @@ void CamerasT::Open() //Function opening camera window.
 
 void CamerasT::Close() //Function closing camera window.
 {
-    camera_window->close(); //We close window.
-    delete camera_window; //For sure we free memory.
-    camera_window = nullptr; //We set window pointer to nullptr. (For safety)
+    if(camera_window!=nullptr)
+    {
+        camera_window->close(); //We close window.
+        delete camera_window; //For sure we free memory.
+        camera_window = nullptr; //We set window pointer to nullptr. (For safety)
+    }
 }
 
 void CamerasT::Render(Mememan &x) //Function that draw everything in camera window.
@@ -91,16 +94,16 @@ void CamerasT::Camera_change(Mememan &x) //Fuction that check if player click ca
             return;
         }
 
-        for(int i=0;i<camera_panel.Hit_box.size();i++) //We check if any hitbox was clicked:
+    for(int i=0;i<camera_panel.Hit_box.size();i++) //We check if any hitbox was clicked:
+    {
+        if(camera_panel.Hit_box[i].getGlobalBounds().contains(MousePos))
         {
-            if(camera_panel.Hit_box[i].getGlobalBounds().contains(MousePos))
-            {
-                sprite.setTextureRect(used_Variants[i]); //If yes we change camera tp coresponding one variant.
-                act_camera = i; //We update number of actual camera.
+            sprite.setTextureRect(used_Variants[i]); //If yes we change camera tp coresponding one variant.
+            act_camera = i; //We update number of actual camera.
 
-                return;
-            }
+            return;
         }
+    }
 }
 
 void CamerasT::Animatron_Move(std::vector<int> x)
@@ -111,4 +114,3 @@ void CamerasT::Animatron_Move(std::vector<int> x)
         if(x[3] != -1) used_Variants[x[2]] = Variants[x[2]][x[3]];
     }
 }
-

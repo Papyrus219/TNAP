@@ -19,7 +19,7 @@ class AnimatronT;
 class OfficeT
 {
 public:
-    OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path,std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount , std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition); //Constructor.
+    OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string end_path, std::string door_path, std::string button_path, std::string camera_button_path, int end_amount ,int doors_amount, int buttons_amount , std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition); //Constructor.
     OfficeT(OfficeT &); //Copy constructor
 
     sf::RenderWindow* window; //Office window.
@@ -60,6 +60,8 @@ private:
     int Door_texture_status[2]{};
     int power_usage; //Actual power_usage of office.
     sf::Texture texture; //Texture of office.
+    sf::Texture end_texture;
+    std::vector<sf::IntRect> End_variants{};
     sf::IntRect Sprites_variants[2];
     sf::View view; //View. (For scroll effect.
     sf::Sprite sprite{texture}; //Sprite. This is what we will show on screen.

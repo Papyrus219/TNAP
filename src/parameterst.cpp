@@ -24,7 +24,7 @@ ParametersT::ParametersT(std::string background_path, std::string start_night_pa
      background.setVolume(70);
 }
 
-bool ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT*> z)
+int ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT*> z)
 {
     tic = tic_clock.getElapsedTime();
     hour = time_clock.getElapsedTime();
@@ -34,7 +34,7 @@ bool ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<Animatron
         Update_Energy();
         std::cerr << "Energy ussage: " << power_ussage << '\n';
 
-        if(hour.asSeconds() >= 90) //We check if hour passed.
+        if(hour.asSeconds() >= 10) //We check if hour passed.
         {
             actual_hour++;
             time_clock.restart();
@@ -48,16 +48,23 @@ bool ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<Animatron
                 actual_night++;
                 x.Close();
                 y.Close();
+
+                if(actual_night>=3 || custom_night==true)
+                {
+                    return -2;
+                }
+
                 men.gameplay();
+                return -2;
             }
         }
 
         tic_clock.restart(); //We restart clock.
         std::cerr << "TIC!\n"; //Debug shit.
-        return true;
+        return 1;
     }
     else
-        return false;
+        return 0;
 }
 
 void ParametersT::Update_Power_Ussage(std::vector<int> x)
@@ -168,7 +175,13 @@ void ParametersT::save()
 {
     std::ofstream save_file{"../../data/save.txt", std::ios::trunc};
 
-    save_file << actual_night << ';' << stars << ';' << phone.Skiped << '~';
+    int Stars{};
+
+    for(int i=0;i<3;i++)
+        if(stars[i])
+            Stars++;
+
+    save_file << actual_night << ';' << Stars << ';' << phone.Skiped << '~';
 
     save_file.close();
 }

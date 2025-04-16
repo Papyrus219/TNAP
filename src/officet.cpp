@@ -2,7 +2,7 @@
 #include"parameterst.h"
 #include<iostream>
 
-OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string door_path, std::string button_path, std::string camera_button_path, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
+OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string end_path, std::string door_path, std::string button_path, std::string camera_button_path, int end_amount, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
 {
     window = new sf::RenderWindow; //We alocate memory to render window.
     window->create(sf::VideoMode(window_size), window_name); //We name window, and define its size.
@@ -40,7 +40,7 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
     Scroll_Hitbox[1].setPosition({static_cast<int>(window_size.x)-x,0});
 
     if(!texture.loadFromFile(office_path)) //We load texture of office.
-        std::cout << "Failed to load texture of office.\n";
+        std::cerr << "Error! Failed to load texture of office.\n";
 
     for(int i=0; i<2;i++)
     {
@@ -49,6 +49,10 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
 
     sprite.setTexture(texture,true); //We set texture to office sprite (We gonna draw on screen this one.
     sprite.setTextureRect(Sprites_variants[0]);
+
+    if(!end_texture.loadFromFile(end_path))
+        std::cerr << "Error! Failed to load texture of 6 am\n";
+
 
 
     view = sf::View{{static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)*0.5f} , {static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)}};
@@ -228,9 +232,12 @@ void OfficeT::Open()
 
 void OfficeT::Close()
 {
-    window->close();
-    delete window;
-    window = nullptr;
+    if(window != nullptr)
+    {
+        window->close();
+        delete window;
+        window = nullptr;
+    }
 }
 
 void OfficeT::start_night(ParametersT& x)

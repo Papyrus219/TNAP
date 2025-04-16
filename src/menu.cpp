@@ -38,6 +38,11 @@ void MenuT::open()
 
     window->setIcon(icon);
 
+
+    if(par.actual_night< 3)
+        par.phone.PhoneCalls[par.actual_night].stop();
+
+    par.background.stop();
 }
 
 void MenuT::Render()
@@ -48,7 +53,7 @@ void MenuT::Render()
 
         window->draw(sprite);
         for(int i=0;i<butions.size();i++)
-            if(i !=2 || par.stars >=1)
+            if(i !=2 || par.stars[0] == true)
                 window->draw(butions[i].sprite);
 
         window->display();
@@ -95,7 +100,7 @@ void MenuT::gameplay(std::vector<int> custom_dif)
 
     std::vector<AnimatronT*> ani{&pap, &meme, &light, &bot, &brush};
 
-        OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 2, 2, {{175,350}, {1020,340}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
+        OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/office/6am.png", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 12, 2, 2, {{175,350}, {1020,340}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
         CamerasT cameras{"../../img/cameras/cameras.png", "../../img/cameras/camera_panel.png",{1000,667}, {47,33}, 11, 35, {8,2,2,5,2,2,2,2,2,4,4}, {{99,30},{59,71},{139,70},{28,135},{14,28},
         {233,33},{193,141},{104,170},{250,138},{114,250},{233,251}}}; //We define object of CamerasT.
 
@@ -144,8 +149,13 @@ void MenuT::gameplay(std::vector<int> custom_dif)
             }
 
             par.Update_Power_Ussage({office.Get_power_usage()});
-            if(par.Tic(*this,office,cameras,ani)) //And check if tic happen.
+            if(int x=par.Tic(*this,office,cameras,ani)) //And check if tic happen.
             {
+                if(x==-2)
+                {
+                    return;
+                }
+
                 office.Update_actual_camera(cameras);
                 for(auto el : ani)
                     cameras.Animatron_Move(el->Move(office));
@@ -159,12 +169,14 @@ void MenuT::Newgame()
 
     par.actual_night = 0;
     par.phone.Skiped = 0;
+    int stars = 0;
 
-    save_file << par.actual_night << ';' << par.stars << ';' << par.phone.Skiped << '~';
+    save_file << par.actual_night << ';' << stars << ';' << par.phone.Skiped << '~';
 
     save_file.close();
-    window->close();
+    close();
     gameplay();
+    open();
 }
 
 void MenuT::Continue()
@@ -186,13 +198,22 @@ void MenuT::Continue()
             switch(mode)
             {
                 case 0:
+                {
                     par.actual_night = t[i]-48;
                     break;
+                }
                 case 1:
-                    par.stars = t[i]-48;
+                {
+                    int amout = t[i]-48;
+                    for(int i=0;i<amout;i++)
+                        par.stars[i] = true;
                     break;
+                }
                 case 2:
+                {
                     par.phone.Skiped = t[i]-48;
+                }
+
             }
         }
     }
@@ -211,8 +232,6 @@ void MenuT::Custom_night(Custom_night_menuT &x)
 
 void MenuT::Exit()
 {
-    par.save();
-
     close();
 }
 

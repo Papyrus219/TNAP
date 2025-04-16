@@ -51,7 +51,8 @@ void Custom_night_menuT::open()
             }
             if(event->is<sf::Event::MouseButtonPressed>())
             {
-                Click();
+                if(Click())
+                    return;
             }
         }
     }
@@ -77,7 +78,7 @@ void Custom_night_menuT::Render()
     }
 }
 
-void Custom_night_menuT::Click()
+bool Custom_night_menuT::Click()
 {
     sf::Vector2f MousePos{sf::Mouse::getPosition(*window)};
 
@@ -88,7 +89,7 @@ void Custom_night_menuT::Click()
             if(i == Hitboxes.size()-1)
             {
                 Start();
-                return;
+                return true;
             }
 
             if(!(i%2))
@@ -105,6 +106,8 @@ void Custom_night_menuT::Click()
             agros[i/2].setString(std::to_string(Dificulties[i/2]));
         }
     }
+
+    return false;
 }
 
 void Custom_night_menuT::Start()
@@ -113,6 +116,8 @@ void Custom_night_menuT::Start()
     master->close();
 
     master->gameplay(Dificulties);
+
+    master->open();
 }
 
 Custom_night_menuT::~Custom_night_menuT()

@@ -25,7 +25,7 @@ public:
 
     TelephoneT phone{};
 
-    int stars{2};
+    bool stars[3]{true};
 
     int Send_Hour()
     {return actual_hour;}
@@ -51,7 +51,7 @@ public:
 
     void save();
 
-    bool Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT*> z);
+    int Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT*> z);
 
 
 private:

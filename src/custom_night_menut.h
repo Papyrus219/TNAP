@@ -11,7 +11,7 @@ public:
 
     void open();
     void Render();
-    void Click();
+    bool Click();
     void Start();
 
     ~Custom_night_menuT();
