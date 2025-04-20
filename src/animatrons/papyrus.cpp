@@ -27,7 +27,7 @@ std::vector<int> Papyrus::Move(OfficeT &x)
         else if(rage == 3)
         {
             std::cerr << "Papyrus Jumpscare\n";
-            error a;
+            jumpscare a{2};
             throw(a);
             actual_possition = 1;
             x.Change_Door_Textures(2,2,0);

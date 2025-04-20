@@ -12,6 +12,7 @@ public:
     Light_ButtonT(Light_ButtonT&&); //Move constructor.
 
     bool Clicked(sf::Vector2f x) override; //Overdrive function wich will be called when button was clicked.
+    void Power_off();
 
 private:
     DoorT *conection{}; //Pointer to door wich button suposse to light up/down.

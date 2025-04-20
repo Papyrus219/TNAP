@@ -35,7 +35,7 @@ bool TelephoneT::Clicked(sf::Vector2f x)
 {
 	if(button.Clicked(x))
 	{
-		Skiped++;
+		temp_Skiped++;
 		std::cerr << "Skiped! " << Skiped << "\n";
 		return true;
 	}

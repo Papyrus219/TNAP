@@ -2,7 +2,7 @@
 #include"parameterst.h"
 #include<iostream>
 
-OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string end_path, std::string door_path, std::string button_path, std::string camera_button_path, int end_amount, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
+OfficeT::OfficeT(sf::Vector2u window_size, sf::Vector2i end_size, std::string window_name,std::string office_path, std::string end_path, std::string end_sound_path, std::string door_path, std::string button_path, std::string camera_button_path, int end_amount, int doors_amount, int buttons_amount, std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition) : power_usage{1}, cam_button{camera_button_path,camera_button_possition,{1000,75}} //Constructor of OfficeT.
 {
     window = new sf::RenderWindow; //We alocate memory to render window.
     window->create(sf::VideoMode(window_size), window_name); //We name window, and define its size.
@@ -14,6 +14,11 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
     }
 
     window->setIcon(icon);
+
+    if(!buffer.loadFromFile(end_sound_path))
+        std::cerr << "Error! Fail to load 6 am sound.";
+
+    end_sound.setBuffer(buffer);
 
     for(int i=0;i<doors_amount;i++) //For value of argument we push to vector coresponding amount of doors.
     {
@@ -42,7 +47,7 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
     if(!texture.loadFromFile(office_path)) //We load texture of office.
         std::cerr << "Error! Failed to load texture of office.\n";
 
-    for(int i=0; i<2;i++)
+    for(int i=0; i<3;i++)
     {
         Sprites_variants[i] = sf::IntRect{{i*static_cast<int>(window_size.x),0},{static_cast<int>(window_size.x),static_cast<int>(window_size.y)}};
     }
@@ -53,7 +58,18 @@ OfficeT::OfficeT(sf::Vector2u window_size, std::string window_name,std::string o
     if(!end_texture.loadFromFile(end_path))
         std::cerr << "Error! Failed to load texture of 6 am\n";
 
+    int i{},m{};
+    while(m<end_amount)
+    {
+        for(int j=0;j<3;j++)
+        {
+            m++;
 
+            End_variants.push_back({{end_size.x*j,end_size.y*i},{end_size.x,end_size.y}});
+        }
+
+        i++;
+    }
 
     view = sf::View{{static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)*0.5f} , {static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)}};
     //We make view, to can do scroll effect.
@@ -126,13 +142,13 @@ void OfficeT::Clicked(ParametersT &x, std::vector<AnimatronT*> ani) //Function t
     if(x.phone.button.actual_variant && x.phone.Clicked(MousePos))
     {
         x.phone.PhoneCalls[x.Send_Night()].stop();
-        if(x.phone.Skiped >= 3 && x.phone.Skiped < 6)
+        if(x.phone.Skiped + x.phone.temp_Skiped >= 3 && x.phone.Skiped + x.phone.temp_Skiped < 6)
         {
-            if(x.phone.Skiped >= 4)
-                x.phone.Stories[x.phone.Skiped-4].stop();
-            x.phone.Strikes[x.phone.Skiped-3].play();
+            if(x.phone.Skiped + x.phone.temp_Skiped >= 4)
+                x.phone.Stories[x.phone.Skiped + x.phone.temp_Skiped-4].stop();
+            x.phone.Strikes[x.phone.Skiped + x.phone.temp_Skiped-3].play();
         }
-        else if(x.phone.Skiped == 6)
+        else if(x.phone.Skiped + x.phone.temp_Skiped == 6)
         {
             x.Hard_mode(ani);
         }
@@ -151,8 +167,6 @@ void OfficeT::Update_Door_texture()
 
 void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everything in office window.
 {
-
-
     window->clear(); //We clear window.
 
     window->setView(view); //We set view, to draw things that should scroll:
@@ -172,17 +186,17 @@ void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everythin
     for(int i=0;i<2;i++)
         window->draw(Scroll_Hitbox[i]); //We draw each scroll hitbox.
 
-    if(y.camera_window==nullptr) //If camera is close:
+    if(y.camera_window==nullptr && x.Send_Energy() > 0) //If camera is close:
         window->draw(cam_button.sprite); //We draw camera button.
 
     if(x.phone.PhoneCalls[x.Send_Night()].getStatus() == plaing || x.phone.Stories[ (x.phone.Skiped>=3 && x.phone.Skiped < 5)? x.phone.Skiped-3 : 0 ].getStatus() == plaing)
         window->draw(x.phone.button.sprite);
 
-    if(x.phone.Skiped >= 3 && x.phone.Skiped < 5)
+    if(x.phone.Skiped + x.phone.temp_Skiped >= 3 && x.phone.Skiped + x.phone.temp_Skiped < 5)
     {
-        if(x.phone.Stories[x.phone.Skiped-3].getStatus() == sf::SoundSource::Status::Stopped && x.phone.Strikes[x.phone.Skiped-3].getStatus() == sf::SoundSource::Status::Stopped)
+        if(x.phone.Stories[x.phone.Skiped + x.phone.temp_Skiped-3].getStatus() == sf::SoundSource::Status::Stopped && x.phone.Strikes[x.phone.Skiped + x.phone.temp_Skiped-3].getStatus() == sf::SoundSource::Status::Stopped)
         {
-            x.phone.Stories[x.phone.Skiped-3].play();
+            x.phone.Stories[x.phone.Skiped + x.phone.temp_Skiped-3].play();
             x.phone.button.Set_sprite_variant(1);
         }
     }
@@ -204,7 +218,7 @@ void OfficeT::Render_Stats(ParametersT &x) //Funtion that draw all stats on scre
     sf::Text Battery_txt{comic_sans}; //We set font to battery text.
     sf::Text Hour_txt{comic_sans}; //We set font to Hour text.
 
-    Battery_txt.setString("Power: " + std::to_string(x.Send_Energy()/7) + "%"); //We set string to Battery text. (We take value from parametersT.
+    Battery_txt.setString("Power: " + ((x.Send_Energy()>0)? std::to_string(x.Send_Energy()/7) : "0") + "%"); //We set string to Battery text. (We take value from parametersT.
     Battery_txt.setPosition({1000,10}); //We set possition of it.
     Battery_txt.setFillColor(sf::Color::Blue); //And color.
 
@@ -278,6 +292,47 @@ void OfficeT::start_night(ParametersT& x)
 
     sprite.setTextureRect(Sprites_variants[0]);
 }
+
+void OfficeT::end_night()
+{
+    sf::Sprite hour{end_texture};
+    hour.setTextureRect(End_variants[0]);
+    hour.setPosition({400,375});
+
+    sprite.setTextureRect(Sprites_variants[1]);
+
+    sf::Clock end_clock;
+    end_sound.play();
+    end_clock.start();
+
+    while(end_clock.getElapsedTime().asSeconds() <= 12)
+    {
+        int x = end_clock.getElapsedTime().asSeconds();
+
+        hour.setTextureRect(End_variants[x]);
+
+        window->clear();
+
+        window->draw(sprite);
+        window->draw(hour);
+
+        window->display();
+        if(const std::optional event = window->pollEvent()) //Hello
+        {}
+    }
+
+    end_clock.stop();
+    sprite.setTextureRect(Sprites_variants[0]);
+}
+
+void OfficeT::Power_off()
+{
+    for(auto &el : Light_Buttons)
+        el.Power_off();
+    for(auto &el : Door_Buttons)
+        el.Power_off();
+}
+
 
 OfficeT::~OfficeT()
 {

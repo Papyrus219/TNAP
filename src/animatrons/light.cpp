@@ -26,7 +26,7 @@ std::vector<int> Light::Move(OfficeT &x)
         else if(rage == 3)
         {
             std::cerr << "Light Nate Jumpscare\n";
-            error a;
+            jumpscare a{3};
             throw(a);
             actual_possition = 2;
             x.Change_Door_Textures(2,2,1);

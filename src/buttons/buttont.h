@@ -27,6 +27,8 @@ protected:
     sf::Texture texture {}; //Two textures:: of and on.
     sf::IntRect Sprites_Variants[2]{}; //Sprites wich we gonna show in screen.
     bool status{}; //Boolian that storage if button is cliced or not.
+
+    friend class ParametersT;
 };
 
 #endif // BUTTONT_H

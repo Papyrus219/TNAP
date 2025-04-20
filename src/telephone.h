@@ -9,6 +9,7 @@ class TelephoneT
 {
 public:
 	int Skiped{}; //My heart is broken, You don't answer my calls;
+	int temp_Skiped{};
 	std::vector<sf::Music> PhoneCalls{};
 	std::vector<sf::Music> Strikes{};
 	std::vector<sf::Music> Stories{};

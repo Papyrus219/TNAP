@@ -13,7 +13,7 @@
 #include "animatrons/mememan.h"
 #include "parameterst.h"
 
-MenuT::MenuT(std::string menu_path, std::string button_path, std::string background_path, std::string intro_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se): par{background_path, intro_path,700,0,"../../audio/phoneguy/",3,3,2, skip_button_path, skip_button_possition, skip_button_se}
+MenuT::MenuT(std::string menu_path, std::string button_path, std::string background_path, std::string intro_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se): par{background_path, intro_path,20,0,"../../audio/phoneguy/",3,3,2, skip_button_path, skip_button_possition, skip_button_se}
 {
     if(!texture.loadFromFile(menu_path))
         std::cerr << "Error! Failed to load menu texture.";
@@ -100,7 +100,7 @@ void MenuT::gameplay(std::vector<int> custom_dif)
 
     std::vector<AnimatronT*> ani{&pap, &meme, &light, &bot, &brush};
 
-        OfficeT office{{1200,1000}, "TNAP", "../../img/office/office.png", "../../img/office/6am.png", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 12, 2, 2, {{175,350}, {1020,340}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
+        OfficeT office{{1200,1000}, {400,250}, "TNAP", "../../img/office/office.png", "../../img/office/6am.png", "../../audio/6am.wav", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 12, 2, 2, {{175,350}, {1020,340}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
         CamerasT cameras{"../../img/cameras/cameras.png", "../../img/cameras/camera_panel.png",{1000,667}, {47,33}, 11, 35, {8,2,2,5,2,2,2,2,2,4,4}, {{99,30},{59,71},{139,70},{28,135},{14,28},
         {233,33},{193,141},{104,170},{250,138},{114,250},{233,251}}}; //We define object of CamerasT.
 
@@ -111,7 +111,7 @@ void MenuT::gameplay(std::vector<int> custom_dif)
         {
             office.Scroll(); //We check if player cursor is in ,,scroll zone".
 
-            if(cameras.camera_window==nullptr)
+            if(cameras.camera_window==nullptr && par.Send_Energy() > 0)
                 if(office.Camera_Open(cameras)) //We check if player open camera.
                     office.Update_Energy_Usage(3);
 
@@ -124,7 +124,8 @@ void MenuT::gameplay(std::vector<int> custom_dif)
                 }
                 else if(event->is<sf::Event::MouseButtonPressed>()) //We check if window was clicked and then...
                 {
-                    office.Clicked(par,ani); //...we start function wich check all elements that can be clicked.
+                    if(par.Send_Energy()>0)
+                        office.Clicked(par,ani); //...we start function wich check all elements that can be clicked.
                 }
             }
 
@@ -176,12 +177,18 @@ void MenuT::Newgame()
     save_file.close();
     close();
     gameplay();
+    par.tic_clock.reset();
+    par.time_clock.reset();
     open();
 }
 
 void MenuT::Continue()
 {
     std::ifstream save_file{"../../data/save.txt"};
+
+    if(!save_file.is_open())
+        Newgame();
+
     std::string t{};
     int mode = 0;
 
@@ -218,11 +225,18 @@ void MenuT::Continue()
         }
     }
 
-    if(!save_file.is_open())
-        Newgame();
+    if(par.actual_night > 2)
+    {
+        par.actual_night = 2;
+        if(par.phone.Skiped > 3)
+            par.phone.Skiped = 3;
+    }
 
     window->close();
     gameplay();
+    par.tic_clock.reset();
+    par.time_clock.reset();
+    open();
 }
 
 void MenuT::Custom_night(Custom_night_menuT &x)

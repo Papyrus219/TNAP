@@ -7,8 +7,13 @@
 #include"../camerast.h"
 #include"../officet.h"
 
-struct error
-{};
+struct jumpscare
+{
+    jumpscare(int ani)
+    {who = ani;}
+
+    int who{};
+};
 
 class AnimatronT
 {

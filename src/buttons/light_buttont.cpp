@@ -1,4 +1,5 @@
 #include "light_buttont.h"
+#include<iostream>
 
 Light_ButtonT::Light_ButtonT(std::string path, sf::Vector2f possition, DoorT* con, std::pair<int,int> se): ButtonT(path,possition,se) , conection{con} //Standart constructor.
 {}
@@ -35,3 +36,13 @@ bool Light_ButtonT::Clicked(sf::Vector2f x) //Function that check if button is c
     else
         return false;
 }
+
+void Light_ButtonT::Power_off()
+{
+    sprite.setTextureRect(Sprites_Variants[0]);
+    conection->Light_down();
+    status = false;
+
+    std::cerr << "Powe off!\n";
+}
+

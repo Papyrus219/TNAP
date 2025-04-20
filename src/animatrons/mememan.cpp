@@ -33,7 +33,7 @@ std::vector<int> Mememan::Move(OfficeT &x)
             if(rage == 3)
             {
                 std::cerr << "Mememan jumpscare!\n";
-                error a;
+                jumpscare a{1};
                 throw a;
                 tmp.push_back(0);
             }

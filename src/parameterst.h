@@ -70,7 +70,6 @@ private:
     sf::Music background{};
 
     friend class MenuT;
-
 };
 
 #endif // PARAMETERST_H

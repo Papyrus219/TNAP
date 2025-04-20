@@ -2,6 +2,7 @@
 #define OFFICET_H
 
 #include<SFML/Graphics.hpp>
+#include<SFML/Audio.hpp>
 #include"doort.h"
 #include"buttons/light_buttont.h"
 #include"buttons/door_buttont.h"
@@ -19,7 +20,7 @@ class AnimatronT;
 class OfficeT
 {
 public:
-    OfficeT(sf::Vector2u window_size, std::string window_name,std::string office_path, std::string end_path, std::string door_path, std::string button_path, std::string camera_button_path, int end_amount ,int doors_amount, int buttons_amount , std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition); //Constructor.
+    OfficeT(sf::Vector2u window_size, sf::Vector2i end_size, std::string window_name,std::string office_path, std::string end_path, std::string end_soud_path, std::string door_path, std::string button_path, std::string camera_button_path, int end_amount ,int doors_amount, int buttons_amount , std::vector<sf::Vector2f> Door_possition, std::vector<sf::Vector2f> Buttons_possition, sf::Vector2f camera_button_possition); //Constructor.
     OfficeT(OfficeT &); //Copy constructor
 
     sf::RenderWindow* window; //Office window.
@@ -30,6 +31,8 @@ public:
     void Show_Tittle_Board(); //To show on begining of each night.
     void Clicked(ParametersT &x, std::vector<AnimatronT*> ani); //When screen is clicked we will check some options.
     void Scroll(); //Function that check if cursor is in scroll area.
+    void Change_office_texuture(int x)
+    {sprite.setTextureRect(Sprites_variants[x]);}
     void Update_Energy_Usage(int x)
     {power_usage += x;}
     void Update_Door_texture();
@@ -45,8 +48,10 @@ public:
     void Render(ParametersT &x,CamerasT &y); //To show all office on screen.
     void Render_Stats(ParametersT &x); //Render Statistic on screen.
     void Change_Door_Textures(int x, int y, int a)
-    {Doors[a].Used_variants[x] = Doors[a].Sprites_variants[y];};
+    {Doors[a].Used_variants[x] = Doors[a].Sprites_variants[y];}
+    void Power_off();
     void start_night(ParametersT &x);
+    void end_night();
 
     ~OfficeT(); //Destructor.
 
@@ -62,10 +67,15 @@ private:
     sf::Texture texture; //Texture of office.
     sf::Texture end_texture;
     std::vector<sf::IntRect> End_variants{};
-    sf::IntRect Sprites_variants[2];
+    sf::IntRect Sprites_variants[3];
     sf::View view; //View. (For scroll effect.
     sf::Sprite sprite{texture}; //Sprite. This is what we will show on screen.
     Camera_ButtonT cam_button; //Button to open camera.
+
+    sf::SoundBuffer buffer;
+    sf::Sound end_sound{buffer};
+
+    //friend class ParametersT;
 };
 
 #endif // OFFICET_H

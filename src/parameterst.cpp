@@ -21,7 +21,7 @@ ParametersT::ParametersT(std::string background_path, std::string start_night_pa
     {
         std::cerr << "Error! Cant load background music!\n";
     }
-     background.setVolume(70);
+    background.setVolume(70);
 }
 
 int ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT*> z)
@@ -34,20 +34,40 @@ int ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT
         Update_Energy();
         std::cerr << "Energy ussage: " << power_ussage << '\n';
 
-        if(hour.asSeconds() >= 10) //We check if hour passed.
+        if(energy < 0)
+        {
+            x.Change_office_texuture(2);
+            y.Close();
+            x.Power_off();
+        }
+
+        if(hour.asSeconds() >= 90) //We check if hour passed.
         {
             actual_hour++;
             time_clock.restart();
 
             if(actual_hour == 3)
                 Half_Time(z);
-            else if(actual_hour==1) //Night end.
+            else if(actual_hour>=6) //Night end.
             {
                 std::cerr << "You finish night!\n";
                 actual_hour = 0;
-                actual_night++;
-                x.Close();
+                if(actual_night < 3) actual_night++;
+
+                if(custom_night == false)
+                {
+                    phone.Skiped+=phone.temp_Skiped;
+                    save();
+                }
+
                 y.Close();
+
+                x.end_night();
+
+                x.Close();
+
+                time_clock.reset();
+                tic_clock.reset();
 
                 if(actual_night>=3 || custom_night==true)
                 {
@@ -76,11 +96,15 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
 
 void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<int> custom_dif)
 {
+    energy = 700;
+    phone.temp_Skiped = 0;
 
-    if(!(custom_dif == std::vector<int>{-69}))
+    if((custom_dif.empty()))
     {
         phone.button.Set_sprite_variant(1);
         AnimatronT::Possitions = {6,0,0,0,0,0,0,0,0,0,0};
+
+        save();
 
         for(auto el : x)
             el->actual_possition = 0;
@@ -110,8 +134,6 @@ void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<
                 break;
         }
 
-        save();
-
         background.stop();
         start_night.play();
 
@@ -135,6 +157,9 @@ void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<
         y.start_night(*this);
         background.play();
     }
+
+    tic_clock.start();
+    time_clock.start();
 
 }
 
@@ -167,8 +192,6 @@ void ParametersT::Half_Time(std::vector<AnimatronT*> x)
             for(auto el : x)
                 el->dificulty*=2;
     }
-    
-    phone.PhoneCalls[actual_night].play();
 }
 
 void ParametersT::save()

@@ -35,3 +35,10 @@ bool Door_ButtonT::Clicked(sf::Vector2f x) //Function that check if button is cl
     else
         return false;
 }
+
+void Door_ButtonT::Power_off()
+{
+    sprite.setTextureRect(Sprites_Variants[0]);
+    connection->Open();
+    status = false;
+}
