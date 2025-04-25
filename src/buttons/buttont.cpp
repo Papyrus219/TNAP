@@ -1,8 +1,15 @@
 #include "buttont.h"
 #include<iostream>
+#include<string>
 
 ButtonT::ButtonT(std::string path, sf::Vector2f pos, std::pair<int,int> se = {28,50}): possition{pos}, size{se} //Standart constructor.
 {
+    if(!texture.loadFromFile("../../img/mememan.png"))
+    {
+        int GDZIEMEMEMAN{-69};
+        throw GDZIEMEMEMAN;
+    }
+
     if(!texture.loadFromFile(path)) //We load texture of button.
         std::cout << "Error! Fail to load texture of button.\n";
 

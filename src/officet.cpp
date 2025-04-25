@@ -15,10 +15,10 @@ OfficeT::OfficeT(sf::Vector2u window_size, sf::Vector2i end_size, std::string wi
 
     window->setIcon(icon);
 
-    if(!buffer.loadFromFile(end_sound_path))
+    if(!end_buffer.loadFromFile(end_sound_path))
         std::cerr << "Error! Fail to load 6 am sound.";
 
-    end_sound.setBuffer(buffer);
+    end_sound.setBuffer(end_buffer);
 
     for(int i=0;i<doors_amount;i++) //For value of argument we push to vector coresponding amount of doors.
     {
@@ -71,6 +71,10 @@ OfficeT::OfficeT(sf::Vector2u window_size, sf::Vector2i end_size, std::string wi
         i++;
     }
 
+    Nose_Hitbox.setSize({4,4});
+    Nose_Hitbox.setPosition({633,402});
+    Nose_Hitbox.setFillColor(sf::Color::Transparent);
+
     view = sf::View{{static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)*0.5f} , {static_cast<float>(window_size.x)*0.5f, static_cast<float>(window_size.y)}};
     //We make view, to can do scroll effect.
 }
@@ -108,6 +112,9 @@ void OfficeT::Clicked(ParametersT &x, std::vector<AnimatronT*> ani) //Function t
 {
     window->setView(view); //We set view, to hitboxes was check right.
     sf::Vector2f MousePos{window->mapPixelToCoords(sf::Mouse::getPosition(*window))}; //We get mouse possition, from office screen (including view change).
+
+    if(Nose_Hitbox.getGlobalBounds().contains(MousePos))
+        nose_sound.play();
 
     for(int i=0;i<Light_Buttons.size();i++) //We check each of light_button:
     {
@@ -182,6 +189,8 @@ void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everythin
     for(int i=0;i<Door_Buttons.size();i++) //We draw each door_button.
         window->draw(Door_Buttons[i].sprite);
 
+    window->draw(Nose_Hitbox);
+
     window->setView(window->getDefaultView()); //We set back default view to draw interface.
     for(int i=0;i<2;i++)
         window->draw(Scroll_Hitbox[i]); //We draw each scroll hitbox.
@@ -254,6 +263,128 @@ void OfficeT::Close()
     }
 }
 
+void OfficeT::Load_Nose_Beep(std::string path)
+{
+    if(!nose_buffer.loadFromFile(path))
+        std::cerr << "Error! Fail to load nose beep!\n";
+
+    nose_sound.setBuffer(nose_buffer);
+}
+
+
+void OfficeT::Load_Jumpscare(std::string img_path, std::string audio_path, int jump_amnt, int ani_amnt)
+{
+    if(!jumpscare_texture.loadFromFile(img_path))
+    {
+        std::cerr << "Error! Fail to load jumpscare texture.\n";
+    }
+
+    if(!jumpscare_buffer.loadFromFile(audio_path))
+    {
+        std::cerr << "Error! Fail to load jumpscare audio!\n";
+    }
+    jumpscare_audio.setBuffer(jumpscare_buffer);
+
+    for(int i=0;i<ani_amnt;i++)
+    {
+        std::vector<sf::IntRect> tmp{};
+
+        for(int j=0;j<jump_amnt;j++)
+        {
+            tmp.push_back(sf::IntRect{{1200*j,1000*i},{1200,1000}} );
+        }
+
+        Jumpscares_variants.push_back(tmp);
+    }
+
+    jumpscare_sprite.setTexture(jumpscare_texture, true);
+    jumpscare_sprite.setTextureRect(Jumpscares_variants[0][0]);
+}
+
+void OfficeT::Jumpscare(jumpscare x, CamerasT &y, ParametersT &z)
+{
+    y.Close();
+
+    std::vector<sf::IntRect> Jumpscaring = Jumpscares_variants[x.who];
+
+    sf::Clock jumpscare_clock{};
+    jumpscare_clock.start();
+    jumpscare_audio.play();
+
+    while(jumpscare_clock.getElapsedTime().asMilliseconds() < 1500)
+    {
+        int time = jumpscare_clock.getElapsedTime().asMilliseconds();
+
+        window->clear();
+        window->setView(view);
+
+        window->draw(sprite);
+        for(auto el : Door_Buttons)
+            window->draw(el.sprite);
+        for(auto el : Light_Buttons)
+            window->draw(el.sprite);
+        for(auto el : Doors)
+            window->draw(el.sprite);
+
+        window->setView(window->getDefaultView());
+        jumpscare_sprite.setTextureRect(Jumpscaring[time/300]);
+        window->draw(jumpscare_sprite);
+
+        window->display();
+    }
+
+    Ending(3);
+    Close();
+}
+
+void OfficeT::Load_Endings(std::string img_path, std::string audio_path, int endings_amnt)
+{
+    if(!ending_texture.loadFromFile(img_path))
+    {
+        std::cerr << "Error! Fail to load ending texture!\n";
+    }
+
+    for(int i=0;i<endings_amnt;i++)
+    {
+        Ending_variants.push_back({{i*1200,0},{1200,1000}});
+    }
+
+    if(!ending_buffer.loadFromFile(audio_path))
+    {
+        std::cerr << "Error! Fail to load ending audio!\n";
+    }
+
+    ending_audio.setBuffer(ending_buffer);
+}
+
+void OfficeT::Ending(int x)
+{
+    sprite.setTexture(ending_texture);
+    sprite.setTextureRect(Ending_variants[x]);
+
+    sf::Clock Ending_clock;
+    Ending_clock.start();
+
+    ending_audio.play();
+    while(Ending_clock.getElapsedTime().asSeconds() < 5)
+    {
+        window->clear();
+
+        window->draw(sprite);
+
+        window->display();
+
+        while(const std::optional event = window->pollEvent())
+        {
+            if(event->is<sf::Event::Closed>())
+            {
+                Close();
+            }
+        }
+    }
+}
+
+
 void OfficeT::start_night(ParametersT& x)
 {
     sf::Font comic_sans; //We define font.
@@ -286,8 +417,14 @@ void OfficeT::start_night(ParametersT& x)
         window->draw(Night_title);
 
         window->display();
-        if(const std::optional event = window->pollEvent()) //Hello
-        {}
+        while(const std::optional event = window->pollEvent()) //Hello
+        {
+            if(event->is<sf::Event::Closed>())
+            {
+                window->close();
+                return;
+            }
+        }
     }
 
     sprite.setTextureRect(Sprites_variants[0]);
@@ -317,7 +454,7 @@ void OfficeT::end_night()
         window->draw(hour);
 
         window->display();
-        if(const std::optional event = window->pollEvent()) //Hello
+        while(const std::optional event = window->pollEvent()) //Hello
         {}
     }
 
@@ -332,7 +469,6 @@ void OfficeT::Power_off()
     for(auto &el : Door_Buttons)
         el.Power_off();
 }
-
 
 OfficeT::~OfficeT()
 {

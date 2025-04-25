@@ -8,6 +8,7 @@
 #include"buttons/door_buttont.h"
 #include"buttons/camera_buttont.h"
 #include"camerast.h"
+#include"jumpscare.h"
 
 /*
  * This class is managment for main window of game. Its open it, storage,
@@ -52,6 +53,11 @@ public:
     void Power_off();
     void start_night(ParametersT &x);
     void end_night();
+    void Load_Jumpscare(std::string img_path, std::string audio_path, int jump_amnt, int ani_amnt);
+    void Jumpscare(jumpscare x, CamerasT &y, ParametersT &z);
+    void Load_Endings(std::string img_path, std::string audio_path, int endings_amnt);
+    void Ending(int x);
+    void Load_Nose_Beep(std::string path);
 
     ~OfficeT(); //Destructor.
 
@@ -60,20 +66,34 @@ private:
     std::vector<Door_ButtonT> Door_Buttons{}; //Vector of buttons.
     std::vector<Light_ButtonT> Light_Buttons{}; //Vector of buttons.
     sf::RectangleShape Scroll_Hitbox[2]; //Hitbox of scroll area.
+    sf::RectangleShape Nose_Hitbox;
     bool Door_close_status[2]{}; //Status of if doors are closed.
     bool Door_light_status[2]{}; //Status of if doors are lighted.
     int Door_texture_status[2]{};
     int power_usage; //Actual power_usage of office.
     sf::Texture texture; //Texture of office.
     sf::Texture end_texture;
+    sf::Texture jumpscare_texture;
+    sf::Texture ending_texture;
     std::vector<sf::IntRect> End_variants{};
+    std::vector<sf::IntRect> Ending_variants{};
     sf::IntRect Sprites_variants[3];
     sf::View view; //View. (For scroll effect.
     sf::Sprite sprite{texture}; //Sprite. This is what we will show on screen.
+    sf::Sprite jumpscare_sprite{jumpscare_texture};
+    int jumpscare_amount{};
+    int frames_amount{};
+    std::vector<std::vector<sf::IntRect>> Jumpscares_variants{};
     Camera_ButtonT cam_button; //Button to open camera.
 
-    sf::SoundBuffer buffer;
-    sf::Sound end_sound{buffer};
+    sf::SoundBuffer jumpscare_buffer;
+    sf::Sound jumpscare_audio{jumpscare_buffer};
+    sf::SoundBuffer end_buffer;
+    sf::Sound end_sound{end_buffer};
+    sf::SoundBuffer ending_buffer{};
+    sf::Sound ending_audio{ending_buffer};
+    sf::SoundBuffer nose_buffer;
+    sf::Sound nose_sound{nose_buffer};
 
     //friend class ParametersT;
 };

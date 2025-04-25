@@ -56,7 +56,7 @@ std::vector<int> Brush::Move(OfficeT &x)
             audio.play();
             if(actual_possition == 4)
             {
-                if(!x.Door_status_check(1))
+                if(!x.Door_light_check(1))
                 {
                     std::cerr << "Brush jumpscare!\n";
                     jumpscare a{5};
@@ -65,7 +65,7 @@ std::vector<int> Brush::Move(OfficeT &x)
             }
             else
             {
-                if(!x.Door_status_check(0))
+                if(!x.Door_light_check(0))
                 {
                     std::cerr << "Brush jumpscare!\n";
                     jumpscare a{5};

@@ -6,14 +6,7 @@
 #include<vector>
 #include"../camerast.h"
 #include"../officet.h"
-
-struct jumpscare
-{
-    jumpscare(int ani)
-    {who = ani;}
-
-    int who{};
-};
+#include"../jumpscare.h"
 
 class AnimatronT
 {

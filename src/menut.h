@@ -2,6 +2,7 @@
 #define MENUT_H
 
 #include<SFML/Graphics.hpp>
+#include<SFML/Audio.hpp>
 #include "buttons/menu_buttont.h"
 #include "parameterst.h"
 
@@ -10,16 +11,20 @@ class Custom_night_menuT;
 class MenuT
 {
 public:
-    MenuT(std::string menu_path, std::string button_path, std::string background_path,std::string intro_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se);
+    MenuT(std::string menu_path, std::string button_path, std::string star_path, std::string background_path, std::string intro_path, std::string audio_path, int options_amount, std::vector<sf::Vector2f> pos, std::pair<int,int> se, std::string skip_button_path, sf::Vector2f skip_button_possition, std::pair<int,int> skip_button_se);
     MenuT() = default;
 
     sf::Texture texture{};
     sf::Texture buttons_texture{};
+    sf::Texture star_texture{};
+    sf::Sprite star_sprite{star_texture};
     sf::Sprite sprite{texture};
     sf::RenderWindow* window{};
     std::vector<Menu_ButtonT> butions{};
     ParametersT par{};
     bool custom_night{};
+
+    sf::Music background_music;
 
     void open();
     void Render();

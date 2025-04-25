@@ -17,13 +17,13 @@ std::vector<int> Light::Move(OfficeT &x)
         else
             rage++;
 
-        if(chill == 3)
+        if(chill >= 3)
         {
             actual_possition = 2;
             x.Change_Door_Textures(2,2,1);
             under_door = false;
         }
-        else if(rage == 3)
+        else if(rage >= 3)
         {
             std::cerr << "Light Nate Jumpscare\n";
             jumpscare a{3};

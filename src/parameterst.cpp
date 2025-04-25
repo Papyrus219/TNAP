@@ -4,7 +4,7 @@
 #include<fstream>
 
 
-ParametersT::ParametersT(std::string background_path, std::string start_night_path, int ene, int act_night, std::string path, int phones, int strikes, int stories, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se): phone{path,phones,strikes,stories, button_path, button_poss, se} ,energy{ene} ,actual_hour{0}, actual_night(act_night), start_night{buffer}
+ParametersT::ParametersT(std::string background_path, std::string start_night_path, int ene, int act_night, std::string path, int phones, int strikes, int stories, std::string button_path, sf::Vector2f button_poss, std::pair<int,int> se): phone{path,phones,strikes,stories, button_path, button_poss, se} ,energy{ene} ,actual_hour{0}, actual_night(act_night), start_night{buffer}, stars_amount{0},stars{false,false,false}
 {
     //We start both clocks.
     tic_clock.start();
@@ -64,13 +64,41 @@ int ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT
 
                 x.end_night();
 
-                x.Close();
-
                 time_clock.reset();
                 tic_clock.reset();
 
                 if(actual_night>=3 || custom_night==true)
                 {
+                    if(actual_night >= 3)
+                    {
+                        if(stars[0]==false)
+                        {
+                            stars_amount++;
+                            stars[0] = true;
+                            x.Ending(0);
+                        }
+
+                    }
+                    if(custom_night)
+                    {
+                        if(stars[1]==false)
+                        {
+                            stars_amount++;
+                            stars[1] = true;
+                            x.Ending(1);
+                        }
+                    }
+                    if(hard_mode)
+                    {
+                        if(stars[2]==false)
+                        {
+                            stars_amount++;
+                            stars[2] = true;
+                            x.Ending(2);
+                        }
+                    }
+
+                     x.Close();
                     return -2;
                 }
 
@@ -96,6 +124,8 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
 
 void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<int> custom_dif)
 {
+    hard_mode = false;
+
     energy = 700;
     phone.temp_Skiped = 0;
 
@@ -198,19 +228,20 @@ void ParametersT::save()
 {
     std::ofstream save_file{"../../data/save.txt", std::ios::trunc};
 
-    int Stars{};
+    save_file << actual_night << ';' << phone.Skiped << ';';
 
     for(int i=0;i<3;i++)
-        if(stars[i])
-            Stars++;
+        save_file << ((stars[i])? '1' : '0' ) << ';';
 
-    save_file << actual_night << ';' << Stars << ';' << phone.Skiped << '~';
+    save_file << '~';
 
     save_file.close();
 }
 
 void ParametersT::Hard_mode(std::vector<AnimatronT *> x)
 {
+    hard_mode = true;
+
     for(auto el : x)
         el->dificulty=20;
 }

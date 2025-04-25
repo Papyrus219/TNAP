@@ -25,7 +25,9 @@ public:
 
     TelephoneT phone{};
 
-    bool stars[3]{true};
+    bool stars[3];
+    int stars_amount;
+    bool hard_mode{};
 
     int Send_Hour()
     {return actual_hour;}
@@ -59,7 +61,7 @@ private:
     int energy{};
     int actual_hour{};
     int actual_night{};
-    bool custom_night;
+    bool custom_night{};
     sf::Clock tic_clock{};
     sf::Clock time_clock{};
     sf::Time tic{};

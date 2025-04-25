@@ -65,7 +65,7 @@ void CamerasT::Render(Mememan &x) //Function that draw everything in camera wind
 {
     camera_window->clear(); //We clear camera window.
 
-    if(act_camera == 4 && x.actual_possition == 1)
+    if(act_camera == 4 && x.actual_possition > 0)
         x.button.sprite.setTextureRect(x.button.Sprites_Variants[1]);
     else
         x.button.sprite.setTextureRect(x.button.Sprites_Variants[0]);
@@ -85,10 +85,10 @@ void CamerasT::Camera_change(Mememan &x) //Fuction that check if player click ca
 {
     sf::Vector2f MousePos{sf::Mouse::getPosition(*camera_window)}; //We get mouse possition from camera window.
 
-    if(act_camera == 4 && x.actual_possition == 1)
+    if(act_camera == 4 && x.actual_possition > 0)
         if(x.button.sprite.getGlobalBounds().contains(MousePos))
         {
-            x.actual_possition--;
+            x.actual_possition = 0;
             x.rage = 0;
             used_Variants[4] = Variants[4][0];
             return;
