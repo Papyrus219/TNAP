@@ -67,9 +67,9 @@ int ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT
                 time_clock.reset();
                 tic_clock.reset();
 
-                if(actual_night>=3 || custom_night==true)
+                if(actual_night>=4 || custom_night==true)
                 {
-                    if(actual_night >= 3)
+                    if(actual_night >= 4)
                     {
                         if(stars[0]==false)
                         {
@@ -124,6 +124,7 @@ void ParametersT::Update_Power_Ussage(std::vector<int> x)
 
 void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<int> custom_dif)
 {
+    actual_hour = 0;
     hard_mode = false;
 
     energy = 700;
@@ -179,7 +180,7 @@ void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<
 
         for(int i=0;i<custom_dif.size();i++)
         {
-            x[i]->dificulty = custom_dif[i];
+            x[i]->dificulty = (custom_dif[i]==0)? -1 : custom_dif[i];
         }
 
         background.stop();
@@ -188,8 +189,8 @@ void ParametersT::New_Night(std::vector<AnimatronT*> x, OfficeT &y, std::vector<
         background.play();
     }
 
-    tic_clock.start();
-    time_clock.start();
+    tic_clock.restart();
+    time_clock.restart();
 
 }
 
@@ -228,7 +229,7 @@ void ParametersT::save()
 {
     std::ofstream save_file{"../../data/save.txt", std::ios::trunc};
 
-    save_file << actual_night << ';' << phone.Skiped << ';';
+    save_file << actual_night << ';' << phone.Skiped << ';' << stars_amount << ';';
 
     for(int i=0;i<3;i++)
         save_file << ((stars[i])? '1' : '0' ) << ';';
@@ -240,6 +241,7 @@ void ParametersT::save()
 
 void ParametersT::Hard_mode(std::vector<AnimatronT *> x)
 {
+    std::cerr << "HARD MODE!\n";
     hard_mode = true;
 
     for(auto el : x)

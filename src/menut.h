@@ -19,6 +19,8 @@ public:
     sf::Texture star_texture{};
     sf::Sprite star_sprite{star_texture};
     sf::Sprite sprite{texture};
+    sf::Font comic_sans{};
+    sf::Text continue_number{comic_sans};
     sf::RenderWindow* window{};
     std::vector<Menu_ButtonT> butions{};
     ParametersT par{};
@@ -35,6 +37,8 @@ public:
     void Exit();
     void gameplay(std::vector<int> custom_dif = {});
     void close();
+
+    void Load_Text(std::string font_path, sf::Vector2f possition, int size=14);
 
     ~MenuT();
 };

@@ -10,34 +10,41 @@ std::vector<int> Bot::Move(OfficeT &x)
     std::srand(time(NULL));
     std::vector<int> tmp{};
 
-    if(Move_check(rand()%20))
+    if(x.actual_camera_on != 3)
     {
-        audio.play();
-        actual_possition++;
-
-        if(actual_possition == 5)
+        if(Move_check(rand()%20))
         {
-            if(!x.Door_status_check(0))
+            audio.play();
+            actual_possition++;
+
+            if(actual_possition == 5)
             {
-                std::cerr << "Bot jumpscare!\n";
-                jumpscare a{4};
-                throw(a);
+                if(!x.Door_status_check(0))
+                {
+                    std::cerr << "Bot jumpscare!\n";
+                    jumpscare a{2};
+                    throw(a);
+                }
+
+                actual_possition = 1;
             }
-
-            actual_possition = 1;
-        }
-
-        if(x.actual_camera_on != 3)
-        {
             std::cerr << "Bot moved! " << dificulty << "\n";
-
-            tmp.push_back(3);
-            tmp.push_back(actual_possition);
-            tmp.push_back(-1);
-            tmp.push_back(-1);
         }
-
     }
+    else
+    {
+        chill++;
+        if(chill >= 3)
+        {
+            chill = 0;
+            if(actual_possition > 0) actual_possition--;
+        }
+    }
+    tmp.push_back(3);
+    tmp.push_back(actual_possition);
+    tmp.push_back(-1);
+    tmp.push_back(-1);
+
 
     return tmp;
 }

@@ -59,7 +59,7 @@ std::vector<int> Brush::Move(OfficeT &x)
                 if(!x.Door_light_check(1))
                 {
                     std::cerr << "Brush jumpscare!\n";
-                    jumpscare a{5};
+                    jumpscare a{4};
                     throw a;
                 }
             }
@@ -68,7 +68,7 @@ std::vector<int> Brush::Move(OfficeT &x)
                 if(!x.Door_light_check(0))
                 {
                     std::cerr << "Brush jumpscare!\n";
-                    jumpscare a{5};
+                    jumpscare a{4};
                     throw a;
                 }
 

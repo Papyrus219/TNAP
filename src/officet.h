@@ -53,7 +53,7 @@ public:
     void Power_off();
     void start_night(ParametersT &x);
     void end_night();
-    void Load_Jumpscare(std::string img_path, std::string audio_path, int jump_amnt, int ani_amnt);
+    void Load_Jumpscare(std::string img_path, std::string audio_path, int jump_amnt, int ani_amnt, int anim_size=1);
     void Jumpscare(jumpscare x, CamerasT &y, ParametersT &z);
     void Load_Endings(std::string img_path, std::string audio_path, int endings_amnt);
     void Ending(int x);

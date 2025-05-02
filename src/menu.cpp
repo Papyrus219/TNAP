@@ -34,6 +34,74 @@ MenuT::MenuT(std::string menu_path, std::string button_path, std::string star_pa
         std::cerr << "Error! Failed to load star texture.\n";
     }
     star_sprite.setTexture(star_texture,true);
+
+    std::ifstream save_file{"../../data/save.txt"};
+
+    std::string t{};
+    int mode = 0;
+
+    std::getline(save_file,t);
+    for(int i=0;i<t.size();i++)
+    {
+        if(t[i] == ';' || t[i] == '~')
+        {
+            mode++;
+        }
+        else
+        {
+            switch(mode)
+            {
+                case 0:
+                {
+                    par.actual_night = t[i]-48;
+                    break;
+                }
+                case 1:
+                {
+                    int skip = t[i]-48;
+
+                    par.phone.Skiped = skip;
+                }
+                case 2:
+                {
+                    int amout = t[i]-48;
+                    for(int i=0;i<amout;i++)
+                        par.stars[i] = true;
+                    par.stars_amount = amout;
+                    break;
+                }
+                default:
+                {
+                    if(t[i]-48 == '1')
+                        par.stars[mode-2] = true;
+                    else
+                        par.stars[mode-2] = false;
+                }
+
+            }
+        }
+    }
+
+    if(par.actual_night > 2)
+    {
+        par.actual_night = 2;
+        if(par.phone.Skiped > 3)
+            par.phone.Skiped = 3;
+    }
+}
+
+void MenuT::Load_Text(std::string font_path, sf::Vector2f possition, int size)
+{
+    if(!comic_sans.openFromFile(font_path))
+    {
+        std::cerr << "Error! Fail to load continue font!\n";
+    }
+
+    continue_number.setFont(comic_sans);
+
+    continue_number.setPosition(possition);
+    continue_number.setCharacterSize(size);
+    continue_number.setFillColor(sf::Color::Black);
 }
 
 
@@ -68,7 +136,7 @@ void MenuT::Render()
 
         window->draw(sprite);
         for(int i=0;i<butions.size();i++)
-            if(i !=2 || par.stars[0] == true)
+            if(i !=2 || par.stars_amount)
                 window->draw(butions[i].sprite);
 
         for(int i=0;i<par.stars_amount;i++)
@@ -76,6 +144,9 @@ void MenuT::Render()
             star_sprite.setPosition({static_cast<float>(i*218),793});
             window->draw(star_sprite);
         }
+
+        continue_number.setString("Night " + std::to_string(par.Send_Night()+1));
+        window->draw(continue_number);
 
         window->display();
     }
@@ -125,7 +196,7 @@ void MenuT::gameplay(std::vector<int> custom_dif)
     std::vector<AnimatronT*> ani{&pap, &meme, &light, &bot, &brush};
 
         OfficeT office{{1200,1000}, {400,250}, "TNAP", "../../img/office/office.png", "../../img/office/6am.png", "../../audio/6am.wav", "../../img/door/door.png", "../../img/button/button.png", "../../img/button/camera.png", 12, 2, 2, {{175,350}, {1020,340}}, {{200,400}, {960,400}}, {100,875}}; //We define object of OfficeT.
-        office.Load_Jumpscare("../../img/office/Jumpscares.png","../../audio/animatrons/jumpscare.wav",5,5);
+        office.Load_Jumpscare("../../img/office/Jumpscares.png","../../audio/animatrons/jumpscare.wav",11,5,2);
         office.Load_Endings("../../img/office/endings.png","../../audio/ending.wav",4);
         office.Load_Nose_Beep("../../audio/animatrons/nose.wav");
 
@@ -213,7 +284,7 @@ void MenuT::Newgame()
     par.actual_night = 0;
     par.phone.Skiped = 0;
 
-    save_file << par.actual_night << ';' << par.stars_amount << ';';
+    save_file << par.actual_night << ';' << par.phone.Skiped << ';' << par.stars_amount << ';';
 
     for(int i=0;i<3;i++)
         save_file << ((par.stars[i])? '1' : '0' ) << ';';
@@ -255,9 +326,6 @@ void MenuT::Continue()
 {
     std::ifstream save_file{"../../data/save.txt"};
 
-    if(!save_file.is_open())
-        Newgame();
-
     std::string t{};
     int mode = 0;
 
@@ -279,6 +347,12 @@ void MenuT::Continue()
                 }
                 case 1:
                 {
+                    int skip = t[i]-48;
+
+                    par.phone.Skiped = skip;
+                }
+                case 2:
+                {
                     int amout = t[i]-48;
                     for(int i=0;i<amout;i++)
                         par.stars[i] = true;
@@ -287,7 +361,7 @@ void MenuT::Continue()
                 }
                 default:
                 {
-                    if(t[i]-48)
+                    if(t[i]-48 == '1')
                         par.stars[mode-2] = true;
                     else
                         par.stars[mode-2] = false;

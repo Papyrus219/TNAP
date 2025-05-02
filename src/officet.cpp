@@ -149,14 +149,16 @@ void OfficeT::Clicked(ParametersT &x, std::vector<AnimatronT*> ani) //Function t
     if(x.phone.button.actual_variant && x.phone.Clicked(MousePos))
     {
         x.phone.PhoneCalls[x.Send_Night()].stop();
-        if(x.phone.Skiped + x.phone.temp_Skiped >= 3 && x.phone.Skiped + x.phone.temp_Skiped < 6)
+        if(x.phone.Skiped + x.phone.temp_Skiped >= 3 && x.phone.Skiped + x.phone.temp_Skiped < 5)
         {
             if(x.phone.Skiped + x.phone.temp_Skiped >= 4)
                 x.phone.Stories[x.phone.Skiped + x.phone.temp_Skiped-4].stop();
             x.phone.Strikes[x.phone.Skiped + x.phone.temp_Skiped-3].play();
         }
-        else if(x.phone.Skiped + x.phone.temp_Skiped == 6)
+        else if(x.phone.Skiped + x.phone.temp_Skiped == 5)
         {
+            x.phone.Stories[x.phone.Skiped + x.phone.temp_Skiped-4].stop();
+            x.phone.Strikes[x.phone.Skiped + x.phone.temp_Skiped-3].play();
             x.Hard_mode(ani);
         }
     }
@@ -198,7 +200,7 @@ void OfficeT::Render(ParametersT &x, CamerasT &y) //Function that draw everythin
     if(y.camera_window==nullptr && x.Send_Energy() > 0) //If camera is close:
         window->draw(cam_button.sprite); //We draw camera button.
 
-    if(x.phone.PhoneCalls[x.Send_Night()].getStatus() == plaing || x.phone.Stories[ (x.phone.Skiped>=3 && x.phone.Skiped < 5)? x.phone.Skiped-3 : 0 ].getStatus() == plaing)
+    if(x.phone.PhoneCalls[x.Send_Night()].getStatus() == plaing || x.phone.Stories[ (x.phone.Skiped+x.phone.temp_Skiped >= 3 && x.phone.Skiped+x.phone.temp_Skiped < 5)? x.phone.Skiped+x.phone.temp_Skiped-3 : 0 ].getStatus() == plaing)
         window->draw(x.phone.button.sprite);
 
     if(x.phone.Skiped + x.phone.temp_Skiped >= 3 && x.phone.Skiped + x.phone.temp_Skiped < 5)
@@ -272,7 +274,7 @@ void OfficeT::Load_Nose_Beep(std::string path)
 }
 
 
-void OfficeT::Load_Jumpscare(std::string img_path, std::string audio_path, int jump_amnt, int ani_amnt)
+void OfficeT::Load_Jumpscare(std::string img_path, std::string audio_path, int jump_amnt, int ani_amnt, int anim_size)
 {
     if(!jumpscare_texture.loadFromFile(img_path))
     {
@@ -285,15 +287,19 @@ void OfficeT::Load_Jumpscare(std::string img_path, std::string audio_path, int j
     }
     jumpscare_audio.setBuffer(jumpscare_buffer);
 
+    int l{};
     for(int i=0;i<ani_amnt;i++)
     {
         std::vector<sf::IntRect> tmp{};
 
-        for(int j=0;j<jump_amnt;j++)
+        for(int k=1;k<=anim_size;k++)
         {
-            tmp.push_back(sf::IntRect{{1200*j,1000*i},{1200,1000}} );
+            for(int j=0;j<jump_amnt;j++)
+            {
+                tmp.push_back(sf::IntRect{{1200*j,1000*l},{1200,1000}} );
+            }
+            l++;
         }
-
         Jumpscares_variants.push_back(tmp);
     }
 
@@ -311,7 +317,7 @@ void OfficeT::Jumpscare(jumpscare x, CamerasT &y, ParametersT &z)
     jumpscare_clock.start();
     jumpscare_audio.play();
 
-    while(jumpscare_clock.getElapsedTime().asMilliseconds() < 1500)
+    while(jumpscare_clock.getElapsedTime().asMilliseconds() < 2200)
     {
         int time = jumpscare_clock.getElapsedTime().asMilliseconds();
 
@@ -327,7 +333,7 @@ void OfficeT::Jumpscare(jumpscare x, CamerasT &y, ParametersT &z)
             window->draw(el.sprite);
 
         window->setView(window->getDefaultView());
-        jumpscare_sprite.setTextureRect(Jumpscaring[time/300]);
+        jumpscare_sprite.setTextureRect(Jumpscaring[time/100]);
         window->draw(jumpscare_sprite);
 
         window->display();
