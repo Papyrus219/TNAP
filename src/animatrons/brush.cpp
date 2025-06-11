@@ -8,84 +8,121 @@ Brush::Brush(std::string path_audio, int dif, int way_len, std::vector<int> waya
 std::vector<int> Brush::Move(OfficeT &x)
 {
     std::vector<int> tmp{};
+    std::srand(time(NULL));
 
-    if(Move_check(rand()%20))
+    if(underdoor)
     {
-        std::cerr << "Brush move! " << dificulty << "\n";
-        tmp.push_back(way[actual_possition]);
-
-        if(actual_possition == 0)
+        if(actual_possition == 3)
         {
-            switch(Possitions[way[actual_possition]])
+            if(x.Door_light_check(1))
             {
-                case 3:
-                    tmp.push_back(7);
-                    break;
-                case 4:
-                    tmp.push_back(4);
-                    break;
-                case 5:
-                    tmp.push_back(5);
-                    break;
-                case 6:
-                    tmp.push_back(2);
-                    break;
-            }
-        }
-        else
-        {
-            if(actual_possition == 3 || actual_possition == 4)
-            {
-                if(Possitions[way[actual_possition]] == 3)
-                    tmp.push_back(0);
-                else
-                    tmp.push_back(1);
-            }
-            else
-                tmp.push_back(-1);
-        }
-
-        Possitions[way[actual_possition]]-=3;
-        actual_possition++;
-        Possitions[way[actual_possition]]+=3;
-
-        tmp.push_back(way[actual_possition]);
-
-        if(actual_possition == 4 || actual_possition == 5)
-        {
-            audio.play();
-            if(actual_possition == 4)
-            {
-                if(!x.Door_light_check(1))
-                {
-                    std::cerr << "Brush jumpscare!\n";
-                    jumpscare a{4};
-                    throw a;
-                }
+                chill++;
+                std::cerr << "Chill\n";
             }
             else
             {
-                if(!x.Door_light_check(0))
-                {
-                    std::cerr << "Brush jumpscare!\n";
-                    jumpscare a{4};
-                    throw a;
-                }
+                rage++;
+                std::cerr << "No chill\n";
+            }
 
+            if(rage >= 3)
+            {
+                jumpscare a{4};
+                throw a;
+            }
+            if(chill >=3)
+            {
+                actual_possition++;
+                Possitions[10]-=3;
+                tmp.push_back(10);
+                tmp.push_back((Possitions[10] == 2)? 1 : 0);
+
+                Possitions[9]+=3;
+                tmp.push_back(9);
+                tmp.push_back((Possitions[9] == 4)? 3 : 2);
+                chill = 0;
+                rage = 0;
+            }
+        }
+        else if(actual_possition == 4)
+        {
+            if(x.Door_light_check(0))
+            {
+                std::cerr << "Chill\n";
+                chill++;
+            }
+            else
+            {
+                std::cerr << "No chill\n";
+                rage++;
+            }
+
+            if(rage >= 3)
+            {
+                jumpscare a{4};
+                throw a;
+            }
+            if(chill >=3)
+            {
                 actual_possition = 2;
+                Possitions[9]-=3;
+                tmp.push_back(9);
+                tmp.push_back((Possitions[9] == 1)? 1 : 0);
+
+                tmp.push_back(-1);
+                tmp.push_back(-1);
+                chill = 0;
+                rage = 0;
+                underdoor = false;
+            }
+        }
+    }
+    else
+    {
+        if(Move_check(rand()%20))
+        {
+            std::cerr << "BRUSH MOVED!\n";
+            actual_possition++;
+            if(actual_possition==1)
+            {
+                tmp.push_back(0);
+                switch(Possitions[0])
+                {
+                    case 3:
+                        tmp.push_back(7);
+                        break;
+                    case 4:
+                        tmp.push_back(4);
+                        break;
+                    case 5:
+                        tmp.push_back(5);
+                        break;
+                    case 6:
+                        tmp.push_back(2);
+                        break;
+                }
+
+                tmp.push_back(-1);
+                tmp.push_back(-1);
+            }
+            else
+            {
+                if(actual_possition == 3)
+                {
+                    tmp.push_back(-1);
+                    tmp.push_back(-1);
+
+                    Possitions[10]+=3;
+                    tmp.push_back(10);
+                    tmp.push_back((Possitions[10] == 5)? 3 : 2);
+
+                    underdoor = true;
+                }
             }
         }
 
-        if(actual_possition == 3 || actual_possition == 4)
-        {
-            if(Possitions[way[actual_possition]] == 3)
-                tmp.push_back(2);
-            else
-                tmp.push_back(3);
-        }
-        else
-            tmp.push_back(-1);
     }
+
 
     return tmp;
 }

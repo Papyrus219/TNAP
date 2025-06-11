@@ -86,12 +86,12 @@ void OfficeT::Scroll() //Scroll function.
     if(Scroll_Hitbox[0].getGlobalBounds().contains(x)) //We check if mouse is in first scroll hitbox:
     {
         if(view.getCenter().x > 300) //If yes and its not on border:
-            view.move({-0.4,0}); //We scroll.
+            view.move({-2.0,0}); //We scroll.
     }
     else if(Scroll_Hitbox[1].getGlobalBounds().contains(x)) //We check if mouse is in second scroll hitbox.
     {
         if(view.getCenter().x<900) //If yes and its not on border:
-            view.move({0.4,0}); //We scroll.
+            view.move({2.0,0}); //We scroll.
     }
 }
 

@@ -164,13 +164,16 @@ void MenuT::Click(Custom_night_menuT &x)
             {
                 case 0:
                     Newgame();
+                    par.phone.mute_all();
                     break;
                 case 1:
                     Continue();
+                    par.phone.mute_all();
                     break;
                 case 2:
                     if(par.stars_amount > 0)
                         Custom_night(x);
+                    par.phone.mute_all();
                     break;
                 case 3:
                     Exit();
@@ -317,6 +320,7 @@ void MenuT::Newgame()
     sprite.setTextureRect(sf::IntRect{{0,0},{1200,1000}});
     close();
     gameplay();
+    par.phone.mute_all();
     par.tic_clock.reset();
     par.time_clock.reset();
     open();
@@ -380,6 +384,7 @@ void MenuT::Continue()
 
     window->close();
     gameplay();
+    par.phone.mute_all();
     par.tic_clock.reset();
     par.time_clock.reset();
     open();

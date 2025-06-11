@@ -60,3 +60,12 @@ bool TelephoneT::Clicked(sf::Vector2f x)
 	return false;
 }
 
+void TelephoneT::mute_all()
+{
+	for(auto &el : PhoneCalls)
+		el.stop();
+	for(auto &el : Stories)
+		el.stop();
+	for(auto &el : Strikes)
+		el.stop();
+}

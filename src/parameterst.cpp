@@ -102,6 +102,8 @@ int ParametersT::Tic(MenuT &men, OfficeT &x, CamerasT &y, std::vector<AnimatronT
                     return -2;
                 }
 
+                x.Close();
+                y.Close();
                 men.gameplay();
                 return -2;
             }

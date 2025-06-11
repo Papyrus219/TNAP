@@ -8,6 +8,8 @@ class Brush: public AnimatronT
 public:
     Brush(std::string path_audio, int dif, int way_len, std::vector<int> waya);
     std::vector<int> Move(OfficeT &x) override;
+    bool chiled{};
+    bool underdoor{};
 };
 
 #endif // BRUSH_H

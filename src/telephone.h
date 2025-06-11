@@ -20,6 +20,8 @@ public:
 	TelephoneT() = default;
 	TelephoneT(const TelephoneT&) = delete;
 
+	void mute_all();
+
 	~TelephoneT() = default;
 };
 
